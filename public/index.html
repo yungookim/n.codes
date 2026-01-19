@@ -79,6 +79,7 @@
     }
 
     * {
+
       margin: 0;
       padding: 0;
       box-sizing: border-box;
@@ -210,6 +211,26 @@
       background: var(--bg-body);
       border-radius: 6px;
       min-width: 140px;
+    }
+
+    .diagram-section-wrapper {
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 20px;
+      margin: 24px 0;
+      background: rgba(15, 15, 15, 0.3);
+      position: relative;
+    }
+
+    .diagram-section-label {
+      position: absolute;
+      top: -12px;
+      left: 16px;
+      background: var(--bg-body);
+      padding: 0 8px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      font-weight: 500;
     }
 
     .diagram-box-title {
@@ -413,19 +434,28 @@
       color: var(--text-dim);
       font-weight: 500;
       padding: 12px 16px;
-      border-bottom: 1px solid var(--border-color);
       font-size: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
+      vertical-align: middle;
+    }
+
+    .app-table thead tr {
+      border-bottom: 1px solid var(--border-color);
     }
 
     .app-table td {
       padding: 16px;
-      border-bottom: 1px solid var(--border-color);
       color: var(--text-muted);
+      text-align: left;
+      vertical-align: top;
     }
 
-    .app-table tr:last-child td {
+    .app-table tbody tr {
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .app-table tbody tr:last-child {
       border-bottom: none;
     }
 
@@ -435,11 +465,14 @@
     }
 
     .app-table .status-pending {
+      display: inline-block;
       color: #fbbf24;
       background: rgba(251, 191, 36, 0.1);
-      padding: 2px 8px;
-      border-radius: 4px;
-      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.7rem;
+      font-weight: 500;
+      line-height: 1;
     }
 
     .app-actions {
@@ -576,24 +609,27 @@
 
 
       <div class="diagram">
-        <div class="diagram-row">
-          <div class="diagram-box">
-            <div class="diagram-box-title">Components</div>
-            <div class="diagram-box-sub">React, Vue, etc.</div>
+        <div class="diagram-section-wrapper">
+          <div class="diagram-section-label">Your app</div>
+          <div class="diagram-row">
+            <div class="diagram-box">
+              <div class="diagram-box-title">Components</div>
+              <div class="diagram-box-sub">React, Vue, etc.</div>
+            </div>
+            <div class="diagram-box">
+              <div class="diagram-box-title">Backend API</div>
+              <div class="diagram-box-sub">REST, GraphQL, etc.</div>
+            </div>
           </div>
-          <div class="diagram-box">
-            <div class="diagram-box-title">Backend API</div>
-            <div class="diagram-box-sub">REST, GraphQL, etc.</div>
+          <div class="diagram-connector-merge">
+            <div class="diagram-connector-merge-h"></div>
+            <div class="diagram-connector-merge-v"></div>
           </div>
-        </div>
-        <div class="diagram-connector-merge">
-          <div class="diagram-connector-merge-h"></div>
-          <div class="diagram-connector-merge-v"></div>
-        </div>
-        <div class="diagram-arrow">▼</div>
-        <div class="diagram-box">
-          <div class="diagram-box-title">Capability Map</div>
-          <div class="diagram-box-sub">entities · actions · queries</div>
+          <div class="diagram-arrow">▼</div>
+          <div class="diagram-box">
+            <div class="diagram-box-title">Capability Map</div>
+            <div class="diagram-box-sub">entities · actions · queries</div>
+          </div>
         </div>
         <div class="diagram-connector">
           <div class="diagram-connector-line"></div>
@@ -609,7 +645,7 @@
         </div>
         <div class="diagram-arrow">▼</div>
         <div class="diagram-box">
-          <div class="diagram-box-title">Generated UI</div>
+          <div class="diagram-box-title">Generated in your app</div>
           <div class="diagram-box-sub">sandboxed · styled</div>
 
           <div class="example-wrapper">
@@ -640,7 +676,7 @@
                       <td>sarah@acme.co</td>
                       <td class="amount">$892.00</td>
                       <td>Duplicate charge</td>
-                      <td class="status-pending">Pending</td>
+                      <td><span class="status-pending">Pending</span></td>
                       <td class="app-actions">
                         <button class="app-btn app-btn-approve">Approve</button>
                         <button class="app-btn app-btn-reject">Reject</button>
@@ -650,7 +686,7 @@
                       <td>mike@startup.io</td>
                       <td class="amount">$1,240.00</td>
                       <td>Service not rendered</td>
-                      <td class="status-pending">Pending</td>
+                      <td><span class="status-pending">Pending</span></td>
                       <td class="app-actions">
                         <button class="app-btn app-btn-approve">Approve</button>
                         <button class="app-btn app-btn-reject">Reject</button>
@@ -660,7 +696,7 @@
                       <td>jess@corp.com</td>
                       <td class="amount">$567.50</td>
                       <td>Product defect</td>
-                      <td class="status-pending">Pending</td>
+                      <td><span class="status-pending">Pending</span></td>
                       <td class="app-actions">
                         <button class="app-btn app-btn-approve">Approve</button>
                         <button class="app-btn app-btn-reject">Reject</button>
@@ -700,7 +736,9 @@
     <p>It's for the 80% of apps that are just different arrangements of the same building blocks.</p>
 
     <footer>
-      <a href="https://github.com/yungookim/n.codes">GitHub</a>
+      <a href="https://github.com/yungookim/n.codes" target="_blank">GitHub</a>
+      <br>
+      <a href="https://x.com/dygk_0x1" target="_blank">Interested? DM me on X</a>
     </footer>
   </div>
 </body>
