@@ -573,12 +573,39 @@
       color: #86efac;
       text-decoration: none;
     }
+
+    .top-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 24px;
+    }
+
+    .top-header h1 {
+      margin-bottom: 0;
+    }
+
+    .top-links {
+      display: flex;
+      gap: 16px;
+      padding-top: 8px;
+    }
+
+    .top-links a {
+      font-size: 0.85rem;
+    }
   </style>
 </head>
 
 <body>
   <div class="container">
-    <h1>n.codes</h1>
+    <div class="top-header">
+      <h1>n.codes</h1>
+      <div class="top-links">
+        <a href="https://github.com/yungookim/n.codes" target="_blank">GitHub</a>
+        <a href="https://x.com/dygk_0x1" target="_blank">X</a>
+      </div>
+    </div>
     <p class="tagline">Let users generate their own solution within your app without waiting for your backlog to be
       cleared. It's like having a forward-deployed engineer for every user. Users ask what they need, and they get it
       right there, right now.
