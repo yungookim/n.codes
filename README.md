@@ -1,6 +1,8 @@
 ## Demo
 
-[Try the interactive demo](https://n.codes/demo/) to see the prompt-to-UI experience in action.
+Let users generate their own solution within your app without waiting for your backlog to be cleared. It's like having a forward-deployed engineer for every user. Users ask what they need, and they get it right there, right now.
+
+[Try the interactive demo](https://n.codes/demo/)
 
 ## The Problem
 
