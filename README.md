@@ -1,3 +1,7 @@
+## Demo
+
+[Try the interactive demo](https://n.codes/demo/) to see the prompt-to-UI experience in action.
+
 ## The Problem
 
 Every SaaS company has the same bottleneck: feature requests. Customers want more all the time. They provide great feedback and ideas, but it's hard to keep up fast enough. Sometimes, they'd ask for something that'd solve their problem, but it's not a priority for the company. This leads to frustration and dissatisfaction.
