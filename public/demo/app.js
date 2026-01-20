@@ -324,4 +324,152 @@
     e.stopPropagation();
   });
 
+  // ==================== Walkthrough System ====================
+  const WALKTHROUGH_STORAGE_KEY = 'ncodes-demo-walkthrough-completed';
+
+  // Walkthrough DOM elements
+  const walkthroughOverlay = document.getElementById('walkthrough-overlay');
+  const tooltipWelcome = document.getElementById('tooltip-welcome');
+  const tooltipTrigger = document.getElementById('tooltip-trigger');
+  const tooltipPanel = document.getElementById('tooltip-panel');
+
+  // Walkthrough state
+  let currentStep = 0;
+  let walkthroughActive = false;
+
+  /**
+   * Check if walkthrough has been completed before
+   */
+  function hasCompletedWalkthrough() {
+    try {
+      return localStorage.getItem(WALKTHROUGH_STORAGE_KEY) === 'true';
+    } catch {
+      return false;
+    }
+  }
+
+  /**
+   * Mark walkthrough as completed
+   */
+  function markWalkthroughCompleted() {
+    try {
+      localStorage.setItem(WALKTHROUGH_STORAGE_KEY, 'true');
+    } catch {
+      // Ignore storage errors
+    }
+  }
+
+  /**
+   * Start the walkthrough
+   */
+  function startWalkthrough() {
+    walkthroughActive = true;
+    currentStep = 1;
+    walkthroughOverlay.classList.add('active');
+    showStep(1);
+  }
+
+  /**
+   * End the walkthrough
+   */
+  function endWalkthrough() {
+    walkthroughActive = false;
+    currentStep = 0;
+
+    // Hide all tooltips
+    tooltipWelcome.classList.remove('active');
+    tooltipTrigger.classList.remove('active');
+    tooltipPanel.classList.remove('active');
+
+    // Hide overlay
+    walkthroughOverlay.classList.remove('active');
+
+    // Remove highlight from trigger
+    trigger.classList.remove('walkthrough-highlight');
+
+    // Mark as completed
+    markWalkthroughCompleted();
+  }
+
+  /**
+   * Show a specific step
+   */
+  function showStep(step) {
+    currentStep = step;
+
+    // Hide all tooltips first
+    tooltipWelcome.classList.remove('active');
+    tooltipTrigger.classList.remove('active');
+    tooltipPanel.classList.remove('active');
+
+    // Remove highlight
+    trigger.classList.remove('walkthrough-highlight');
+
+    switch (step) {
+      case 1:
+        // Welcome - centered, no highlight
+        tooltipWelcome.classList.add('active');
+        break;
+
+      case 2:
+        // Trigger button - highlight the button
+        tooltipTrigger.classList.add('active');
+        trigger.classList.add('walkthrough-highlight');
+        break;
+
+      case 3:
+        // Panel tooltip - only if panel is open
+        tooltipPanel.classList.add('active');
+        break;
+    }
+  }
+
+  /**
+   * Go to next step
+   */
+  function nextStep() {
+    if (currentStep === 1) {
+      showStep(2);
+    } else if (currentStep === 2) {
+      // Step 2 → open panel and show step 3
+      openPanel();
+      // Small delay to let panel animate open
+      setTimeout(() => showStep(3), 300);
+    } else if (currentStep === 3) {
+      endWalkthrough();
+    }
+  }
+
+  /**
+   * Go to previous step
+   */
+  function prevStep() {
+    if (currentStep === 2) {
+      showStep(1);
+    } else if (currentStep === 3) {
+      closePanel();
+      showStep(2);
+    }
+  }
+
+  // Make walkthrough functions globally accessible (for onclick handlers)
+  window.startWalkthrough = startWalkthrough;
+  window.endWalkthrough = endWalkthrough;
+  window.nextStep = nextStep;
+  window.prevStep = prevStep;
+
+  // Handle trigger click during walkthrough step 2
+  const originalTriggerClick = trigger.onclick;
+  trigger.addEventListener('click', () => {
+    if (walkthroughActive && currentStep === 2) {
+      // Panel will open via existing handler, then show step 3
+      setTimeout(() => showStep(3), 300);
+    }
+  });
+
+  // Auto-start walkthrough on first visit (after small delay for page to settle)
+  if (!hasCompletedWalkthrough()) {
+    setTimeout(startWalkthrough, 500);
+  }
+
 })();

@@ -255,6 +255,22 @@ body {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   transition: all 0.2s ease;
   z-index: 1000;
+  animation: breathe 3s infinite ease-in-out;
+}
+
+@keyframes breathe {
+  0% {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    border-color: var(--border-color);
+  }
+  50% {
+    box-shadow: 0 0 25px var(--accent-dim), 0 0 10px var(--accent-dim);
+    border-color: var(--accent);
+  }
+  100% {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    border-color: var(--border-color);
+  }
 }
 
 .ncodes-trigger svg {
@@ -1020,5 +1036,238 @@ body {
 
   .stats-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* ==================== Walkthrough Overlay ==================== */
+.walkthrough-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.walkthrough-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.walkthrough-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+}
+
+/* Spotlight effect for highlighted elements */
+.walkthrough-spotlight {
+  position: relative;
+  z-index: 2001;
+  box-shadow: 0 0 0 4px var(--accent), 0 0 0 9999px rgba(0, 0, 0, 0.75);
+  border-radius: inherit;
+}
+
+/* ==================== Walkthrough Tooltips ==================== */
+.walkthrough-tooltip {
+  position: fixed;
+  z-index: 2002;
+  width: 340px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+}
+
+.walkthrough-tooltip.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* Welcome tooltip - centered */
+.walkthrough-tooltip[data-step="1"] {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.walkthrough-tooltip[data-step="1"].active {
+  transform: translate(-50%, -50%);
+}
+
+/* Trigger tooltip - above the button */
+.walkthrough-tooltip[data-step="2"] {
+  bottom: 70px;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+}
+
+.walkthrough-tooltip[data-step="2"].active {
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Panel tooltip - to the side of panel */
+.walkthrough-tooltip[data-step="3"] {
+  bottom: 120px;
+  left: calc(50% + 220px);
+  transform: translateY(10px);
+}
+
+.walkthrough-tooltip[data-step="3"].active {
+  transform: translateY(0);
+}
+
+/* Tooltip arrow */
+.tooltip-arrow {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-top: none;
+  border-left: none;
+  transform: rotate(45deg);
+}
+
+.walkthrough-tooltip[data-step="2"] .tooltip-arrow {
+  bottom: -7px;
+  left: 50%;
+  margin-left: -6px;
+}
+
+.walkthrough-tooltip[data-step="3"] .tooltip-arrow {
+  left: -7px;
+  top: 50%;
+  margin-top: -6px;
+  transform: rotate(135deg);
+}
+
+/* Tooltip content */
+.tooltip-content {
+  padding: 24px;
+}
+
+.tooltip-icon {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+.tooltip-content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 8px;
+}
+
+.tooltip-content p {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* Tooltip footer */
+.tooltip-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  border-top: 1px solid var(--border-color);
+  background: var(--bg-body);
+  border-radius: 0 0 16px 16px;
+}
+
+.tooltip-step {
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+.tooltip-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.tooltip-btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: all 0.15s ease;
+}
+
+.tooltip-btn.skip {
+  background: transparent;
+  color: var(--text-muted);
+}
+
+.tooltip-btn.skip:hover {
+  color: var(--text-main);
+}
+
+.tooltip-btn.secondary {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+}
+
+.tooltip-btn.secondary:hover {
+  color: var(--text-main);
+  background: var(--bg-panel);
+}
+
+.tooltip-btn.primary {
+  background: var(--accent);
+  color: #000;
+}
+
+.tooltip-btn.primary:hover {
+  background: var(--accent-hover);
+}
+
+/* Pulsing highlight for trigger button during walkthrough */
+.ncodes-trigger.walkthrough-highlight {
+  animation: pulse-highlight 1.5s infinite ease-in-out;
+  z-index: 2001;
+}
+
+@keyframes pulse-highlight {
+  0% {
+    box-shadow: 0 0 0 0 var(--accent), 0 0 0 0 rgba(74, 222, 128, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 4px var(--accent), 0 0 0 12px rgba(74, 222, 128, 0.2);
+  }
+  100% {
+    box-shadow: 0 0 0 0 var(--accent), 0 0 0 0 rgba(74, 222, 128, 0.4);
+  }
+}
+
+/* Responsive walkthrough */
+@media (max-width: 768px) {
+  .walkthrough-tooltip {
+    width: calc(100% - 32px);
+    left: 16px !important;
+    right: 16px !important;
+  }
+
+  .walkthrough-tooltip[data-step="3"] {
+    left: 16px;
+    bottom: auto;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .walkthrough-tooltip[data-step="3"].active {
+    transform: translateY(-50%);
+  }
+
+  .walkthrough-tooltip[data-step="3"] .tooltip-arrow {
+    display: none;
   }
 }

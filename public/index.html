@@ -594,6 +594,39 @@
     .top-links a {
       font-size: 0.85rem;
     }
+
+    .demo-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 24px;
+      background: var(--accent);
+      color: #000;
+      font-weight: 600;
+      font-size: 1rem;
+      border-radius: 10px;
+      transition: all 0.2s ease;
+      margin-bottom: 32px;
+    }
+
+    .demo-cta:hover {
+      background: #86efac;
+      color: #000;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(74, 222, 128, 0.3);
+    }
+
+    .demo-cta-icon {
+      font-size: 1.1rem;
+    }
+
+    .demo-cta-arrow {
+      transition: transform 0.2s ease;
+    }
+
+    .demo-cta:hover .demo-cta-arrow {
+      transform: translateX(4px);
+    }
   </style>
 </head>
 
@@ -607,9 +640,15 @@
         <a href="https://x.com/dygk_0x1" target="_blank">X</a>
       </div>
     </div>
-    <p class="tagline">Let users generate their own solution within your app without waiting for your backlog to be
-      cleared. It's like having a forward-deployed engineer for every user. Users ask what they need, and they get it
-      right there, right now.
+    <p class="tagline">Let users generate their own solutions within your app without waiting for your backlog to clear.
+      It's like having a forward-deployed engineer for every user. Users ask for what they need, agents build it
+      instantly.</p>
+
+    <a href="/demo/" class="demo-cta">
+      <span class="demo-cta-icon">&#10024;</span>
+      Try the interactive demo
+      <span class="demo-cta-arrow">&rarr;</span>
+    </a>
 
     <h2>The Problem</h2>
 
