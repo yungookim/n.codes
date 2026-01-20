@@ -22,6 +22,9 @@
   <meta property="og:description"
     content="Let customers build custom features with a prompt. Focus on core features while customers solve their problems instantly. Save thousands of engineering hours.">
   <meta property="og:site_name" content="n.codes">
+  <meta property="og:image" content="https://n.codes/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
@@ -29,6 +32,7 @@
   <meta name="twitter:title" content="n.codes - Remove Your Development Bottleneck">
   <meta name="twitter:description"
     content="Let customers build custom features with a prompt. Focus on core features while customers solve their problems instantly. Save thousands of engineering hours.">
+  <meta name="twitter:image" content="https://n.codes/og.png">
 
   <!-- Additional Meta -->
   <meta name="theme-color" content="#050505">
@@ -111,6 +115,13 @@
       color: #fff;
       margin-bottom: 24px;
       line-height: 1.1;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    h1 svg {
+      color: var(--accent);
     }
 
     .tagline {
@@ -633,20 +644,28 @@
 <body>
   <div class="container">
     <div class="top-header">
-      <h1>n.codes</h1>
+      <h1>
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M7 4h-3v16h3" stroke-linecap="round" stroke-linejoin="round"></path>
+          <path d="M17 4h3v16h-3" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+        n.codes
+      </h1>
       <div class="top-links">
         <a href="/demo/">Demo</a>
         <a href="https://github.com/yungookim/n.codes" target="_blank">GitHub</a>
         <a href="https://x.com/dygk_0x1" target="_blank">X</a>
       </div>
     </div>
-    <p class="tagline">Let users generate their own solutions within your app without waiting for your backlog to clear.
+    <p class="tagline">Let users generate their own solutions in your app without waiting for your backlog to clear.
+      <br>
+      <br>
       It's like having a forward-deployed engineer for every user. Users ask for what they need, agents build it
-      instantly.</p>
+      instantly.
+    </p>
 
     <a href="/demo/" class="demo-cta">
-      <span class="demo-cta-icon">&#10024;</span>
-      Try the interactive demo
+      Try it out
       <span class="demo-cta-arrow">&rarr;</span>
     </a>
 

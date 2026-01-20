@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>n.codes OG Image</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-body: #050505;
+            --text-main: #ededed;
+            --text-muted: #a1a1aa;
+            --accent: #4ade80;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg-body);
+            font-family: 'Inter', sans-serif;
+            width: 1200px;
+            height: 630px;
+            min-width: 1200px;
+            min-height: 630px;
+            max-width: 1200px;
+            max-height: 630px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Subtle background grid pattern */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+            -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+            z-index: -1;
+        }
+
+        .container {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .logo-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .logo-icon {
+            color: var(--accent);
+            width: 80px;
+            height: 80px;
+        }
+
+        h1 {
+            font-size: 80px;
+            font-weight: 600;
+            color: var(--text-main);
+            letter-spacing: -0.04em;
+            line-height: 1;
+        }
+
+        .tagline {
+            font-size: 42px;
+            color: var(--text-muted);
+            font-weight: 400;
+            letter-spacing: -0.02em;
+            max-width: 800px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="logo-wrapper">
+            <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M7 4h-3v16h3" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M17 4h3v16h-3" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+            <h1>n.codes</h1>
+        </div>
+        <p class="tagline">Let users generate features <br>with prompts in your app
+        </p>
+    </div>
+</body>
+
+</html>
