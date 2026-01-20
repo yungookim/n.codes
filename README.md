@@ -1,6 +1,6 @@
 ## Demo
 
-Let users generate their own solution within your app without waiting for your backlog to be cleared. It's like having a forward-deployed engineer for every user. Users ask what they need, and they get it right there, right now.
+Let users generate their own solutions within your app without waiting for your backlog to clear. It's like having a forward-deployed engineer for every user. Users ask for what they need, agents build it instantly.
 
 [Try the interactive demo](https://n.codes/demo/)
 
