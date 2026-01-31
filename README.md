@@ -1,3 +1,11 @@
+![CLI Tests](https://github.com/dgyk/n.codes/actions/workflows/coverage.yml/badge.svg)
+[![Coverage](https://codecov.io/gh/dgyk/n.codes/branch/main/graph/badge.svg)](https://codecov.io/gh/dgyk/n.codes)
+![License](https://img.shields.io/github/license/dgyk/n.codes)
+![Stars](https://img.shields.io/github/stars/dgyk/n.codes)
+![Issues](https://img.shields.io/github/issues/dgyk/n.codes)
+![Last Commit](https://img.shields.io/github/last-commit/dgyk/n.codes)
+![Top Language](https://img.shields.io/github/languages/top/dgyk/n.codes)
+
 ## Demo
 
 Let users generate their own solutions within your app without waiting for your backlog to clear. It's like having a forward-deployed engineer for every user. Users ask for what they need, agents build it instantly.

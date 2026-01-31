@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+set -e
+
+echo "Running tests with coverage..."
+npm run coverage

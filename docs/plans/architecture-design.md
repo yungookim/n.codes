@@ -95,6 +95,38 @@ components:
 4. Developer curates (hide internal APIs, add permissions)
 5. Committed as `n.codes.capabilities.yaml`
 
+## CLI Prototype for Capability Map Creation
+
+The CLI prototype is designed to generate, update, and validate the capability map locally. It is intentionally minimal so teams can experiment with workflows before wiring up production introspection.
+
+**Commands:**
+```bash
+npx n.codes init       # Interactive setup wizard (select provider + model)
+npx n.codes dev        # Incremental map updates based on file changes
+npx n.codes sync       # Full re-introspect of the codebase
+npx n.codes validate   # Validate capability map structure
+```
+
+**Initialization flow (`init`):**
+- Prompts for provider (OpenAI, Claude, Grok, Gemini)
+- Captures a default model name
+- Writes `n.codes.config.json` to the project root
+
+**Incremental updates (`dev`):**
+- Scans source files and builds a file index
+- Compares against `.n.codes.cache.json`
+- Updates the capability map with only changed files
+
+**Full sync (`sync`):**
+- Rebuilds the entire capability map from scratch
+- Overwrites `n.codes.capabilities.yaml`
+
+**Validation (`validate`):**
+- Reads `n.codes.capabilities.yaml`
+- Ensures required sections exist (`entities`, `actions`, `queries`, `components`)
+
+**Prototype note:** The CLI writes JSON content to `n.codes.capabilities.yaml` (JSON is valid YAML 1.2), keeping parsing simple in this prototype.
+
 ## DSL Format
 
 Generated apps are expressed as a Hybrid DSL - JSON for structure, JS for logic:
