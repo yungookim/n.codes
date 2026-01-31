@@ -80,6 +80,9 @@
       --text-dim: #52525b;
       --accent: #4ade80;
       --accent-dim: rgba(74, 222, 128, 0.1);
+      --warning: #fbbf24;
+      --warning-dim: rgba(251, 191, 36, 0.12);
+      --warning-border: rgba(251, 191, 36, 0.35);
     }
 
     * {
@@ -131,6 +134,21 @@
       font-weight: 400;
       letter-spacing: -0.01em;
       line-height: 1.5;
+    }
+
+    .early-access {
+      margin: 0 0 48px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--warning-border);
+      background: var(--warning-dim);
+      color: var(--text-main);
+      font-size: 1rem;
+      letter-spacing: 0.01em;
+    }
+
+    .early-access strong {
+      color: var(--warning);
     }
 
     h2 {
@@ -689,6 +707,9 @@
       <br>
       It's like having a forward-deployed engineer for every user. Users ask for what they need, agents build it
       instantly.
+    </p>
+
+    <p class="early-access">⚠️ <strong>Early Access</strong>: n.codes is in active development. Star ⭐️ to follow along!
     </p>
 
     <div class="cta-row">

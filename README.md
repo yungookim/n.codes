@@ -6,6 +6,8 @@
 ![Last Commit](https://img.shields.io/github/last-commit/yungookim/n.codes)
 ![Top Language](https://img.shields.io/github/languages/top/yungookim/n.codes)
 
+> ⚠️ **Early Access**: n.codes is in active development. Star ⭐️ to follow along!
+
 If you like n.codes, please star the repo: https://github.com/yungookim/n.codes
 
 ## Demo
