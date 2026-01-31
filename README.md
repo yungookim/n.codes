@@ -1,10 +1,10 @@
-![CLI Tests](https://github.com/dgyk/n.codes/actions/workflows/coverage.yml/badge.svg)
-[![Coverage](https://codecov.io/gh/dgyk/n.codes/branch/main/graph/badge.svg)](https://codecov.io/gh/dgyk/n.codes)
-![License](https://img.shields.io/github/license/dgyk/n.codes)
-![Stars](https://img.shields.io/github/stars/dgyk/n.codes)
-![Issues](https://img.shields.io/github/issues/dgyk/n.codes)
-![Last Commit](https://img.shields.io/github/last-commit/dgyk/n.codes)
-![Top Language](https://img.shields.io/github/languages/top/dgyk/n.codes)
+![CLI Tests](https://github.com/yungookim/n.codes/actions/workflows/coverage.yml/badge.svg)
+[![Coverage](https://codecov.io/gh/yungookim/n.codes/branch/main/graph/badge.svg)](https://codecov.io/gh/yungookim/n.codes)
+![License](https://img.shields.io/github/license/yungookim/n.codes)
+![Stars](https://img.shields.io/github/stars/yungookim/n.codes)
+![Issues](https://img.shields.io/github/issues/yungookim/n.codes)
+![Last Commit](https://img.shields.io/github/last-commit/yungookim/n.codes)
+![Top Language](https://img.shields.io/github/languages/top/yungookim/n.codes)
 
 ## Demo
 
