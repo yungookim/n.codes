@@ -1,8 +1,8 @@
 const { loadConfig } = require('./config');
 const { collectFiles, buildFileIndex, diffFileIndex, selectChangedFiles } = require('./introspect');
-const { inferCapabilitiesFromFiles, applyChangedFiles, summarizeCapabilityMap } = require('./capability-map');
-const { loadCache, saveCache } = require('./cache');
-const { resolveCapabilityMapPath, writeCapabilityMap } = require('./sync');
+const { inferCapabilitiesFromFiles, applyChangedFiles, summarizeCapabilityMap, enrichCapabilityWithAnalysis } = require('./capability-map');
+const { loadCache, saveCache, hashContent, getAnalysisCache, setAnalysisCache } = require('./cache');
+const { resolveCapabilityMapPath, writeCapabilityMap, analyzeRoutesWithLLM } = require('./sync');
 
 function buildIncrementalMap({ fileIndex, changedFiles, config, readFile }) {
   const base = inferCapabilitiesFromFiles(fileIndex, { readFile });
