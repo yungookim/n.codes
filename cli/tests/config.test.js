@@ -24,10 +24,12 @@ test('defaultConfig provides baseline values', () => {
 test('provider validation normalizes and checks supported list', () => {
   assert.equal(normalizeProvider(' OpenAI '), 'openai');
   assert.equal(isSupportedProvider('openai'), true);
+  assert.equal(isSupportedProvider('claude'), true);
+  assert.equal(isSupportedProvider('grok'), false);
   assert.equal(isSupportedProvider('unknown'), false);
-  const result = validateProvider('Gemini');
+  const result = validateProvider('Claude');
   assert.equal(result.valid, true);
-  assert.equal(result.provider, 'gemini');
+  assert.equal(result.provider, 'claude');
 });
 
 test('validateProvider requires a provider', () => {
@@ -46,11 +48,11 @@ test('loadConfig returns defaults when file is missing', () => {
 test('saveConfig writes config file that loadConfig can read', () => {
   const cwd = createTempDir();
   const configPath = resolveConfigPath({ cwd, path });
-  const config = { ...defaultConfig(), provider: 'grok' };
+  const config = { ...defaultConfig(), provider: 'claude' };
   const savedPath = saveConfig({ cwd, fs, path, config });
   assert.equal(savedPath, configPath);
   const loaded = loadConfig({ cwd, fs, path });
-  assert.equal(loaded.config.provider, 'grok');
+  assert.equal(loaded.config.provider, 'claude');
 });
 
 test('resolveConfigPath honors explicit config path', () => {

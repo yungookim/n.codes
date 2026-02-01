@@ -1,0 +1,6 @@
+{
+  "provider": "openai",
+  "model": "default",
+  "projectName": "medusa",
+  "capabilityMapPath": "n.codes.capabilities.yaml"
+}

@@ -1,0 +1,6 @@
+{
+  "provider": "openai",
+  "model": "default",
+  "projectName": "cal.com",
+  "capabilityMapPath": "n.codes.capabilities.yaml"
+}

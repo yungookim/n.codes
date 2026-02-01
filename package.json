@@ -5,7 +5,14 @@
   "type": "commonjs",
   "scripts": {
     "test": "node --test cli/tests/*.test.js",
-    "coverage": "c8 node --test cli/tests/*.test.js"
+    "coverage": "c8 node --test cli/tests/*.test.js",
+    "sample:capability-map": "node scripts/generate-samples.js",
+    "simulate:user": "node scripts/simulate-user.js"
+  },
+  "dependencies": {
+    "ai": "^3.0.0",
+    "@ai-sdk/openai": "^0.0.40",
+    "@ai-sdk/anthropic": "^0.0.30"
   },
   "devDependencies": {
     "c8": "^9.1.0"

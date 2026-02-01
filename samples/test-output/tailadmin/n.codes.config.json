@@ -1,0 +1,6 @@
+{
+  "provider": "openai",
+  "model": "default",
+  "projectName": "tailadmin",
+  "capabilityMapPath": "n.codes.capabilities.yaml"
+}

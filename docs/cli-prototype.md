@@ -6,6 +6,10 @@
 
 This prototype implements a minimal `npx n.codes` CLI that can initialize configuration, generate a capability map, update it incrementally, and validate the result. It is designed for rapid iteration and serves as scaffolding for future production tooling.
 
+## LLM Requirement
+
+Capability map generation is an LLM-based feature. In production, the CLI must require a configured provider/model and a valid API key before generating or updating the map. Any heuristic-only fallback should be explicitly labeled as a non-LLM prototype mode.
+
 ## Commands
 
 ```bash
@@ -18,7 +22,8 @@ npx n.codes validate   # Validate capability map structure
 ## File Outputs
 
 - `n.codes.config.json` — CLI configuration (provider, model, map path)
-- `n.codes.capabilities.yaml` — capability map (JSON content, valid YAML 1.2)
+- `.env.local` — local API key storage (provider-specific key like `OPENAI_API_KEY`)
+- `n.codes.capabilities.yaml` — capability map (YAML)
 - `.n.codes.cache.json` — file index cache for incremental updates
 
 ## How It Works
@@ -26,6 +31,7 @@ npx n.codes validate   # Validate capability map structure
 1. **Init**
    - Prompts for provider (OpenAI, Claude, Grok, Gemini)
    - Captures a default model and optional project name
+   - Prompts for an API key and stores it in `.env.local`
    - Writes `n.codes.config.json`
 
 2. **Sync**
@@ -43,7 +49,10 @@ npx n.codes validate   # Validate capability map structure
 
 ## Prototype Data Model
 
-The capability map is JSON serialized to `n.codes.capabilities.yaml` for simple parsing. JSON is valid YAML 1.2, so this stays interoperable while avoiding a YAML parser dependency in the prototype.
+The capability map is serialized as YAML using a small, deterministic serializer. The CLI reads the same YAML back when validating or updating the map.
+
+- `actions` represent mutating REST operations inferred from API routes. Each action is documented per HTTP method with `endpoint.method`, `endpoint.path`, and a 2–3 sentence `description`.
+- `queries` represent read-only REST endpoints (`GET`/`HEAD`). They include an `endpoint` plus a short `description` suitable for UI/data-fetching use cases.
 
 ## Code Map
 
@@ -77,7 +86,7 @@ The tests cover all CLI functions and exercise the commands in memory where poss
 
 ## Extension Ideas
 
-- Swap JSON-in-YAML for a real YAML parser when needed
+- Swap the lightweight YAML parser for a full YAML parser when needed
 - Add API spec readers (OpenAPI/GraphQL) to enrich `actions` + `queries`
 - Add file watchers for a true streaming `dev` mode
 - Pluggable inference rules to map company-specific conventions to capabilities

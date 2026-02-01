@@ -5,24 +5,44 @@ const {
   saveConfig,
 } = require('./config');
 
-function getInitQuestions() {
-  return [
-    {
-      key: 'provider',
-      prompt: 'Select LLM provider (openai, claude, grok, gemini)',
-      defaultValue: 'openai',
-    },
-    {
-      key: 'model',
-      prompt: 'Default model name',
-      defaultValue: 'default',
-    },
-    {
-      key: 'projectName',
-      prompt: 'Project name (optional)',
-      defaultValue: '',
-    },
-  ];
+const PROVIDER_MODELS = {
+  openai: ['gpt-5-mini', 'gpt-5.2'],
+  claude: ['claude-sonnet-4-5', 'claude-opus-4-5', 'claude-haiku-4-5'],
+};
+
+function getProviderQuestion() {
+  return {
+    key: 'provider',
+    prompt: 'Select LLM provider (openai, claude)',
+    defaultValue: 'openai',
+  };
+}
+
+function getProjectNameQuestion() {
+  return {
+    key: 'projectName',
+    prompt: 'Project name (optional)',
+    defaultValue: '',
+  };
+}
+
+function formatModelChoices(provider) {
+  const models = PROVIDER_MODELS[provider] || [];
+  return models.map((model, i) => `  ${i + 1}. ${model}`).join('\n');
+}
+
+function parseModelChoice(input, provider) {
+  const models = PROVIDER_MODELS[provider] || [];
+  const trimmed = String(input || '').trim();
+  if (!trimmed) return models[0] || 'default';
+  const num = parseInt(trimmed, 10);
+  if (!isNaN(num) && num >= 1 && num <= models.length) {
+    return models[num - 1];
+  }
+  if (models.includes(trimmed)) {
+    return trimmed;
+  }
+  return models[0] || 'default';
 }
 
 function normalizeAnswer(value, fallback) {
@@ -31,37 +51,149 @@ function normalizeAnswer(value, fallback) {
   return trimmed;
 }
 
-async function runInit({ cwd, fs, path, io, configPath }) {
-  const answers = {};
-  const questions = getInitQuestions();
-
-  for (const question of questions) {
-    const response = await io.prompt(`${question.prompt} [${question.defaultValue}] `);
-    answers[question.key] = normalizeAnswer(response, question.defaultValue);
+function apiKeyEnvVar(provider) {
+  switch (provider) {
+    case 'openai':
+      return 'OPENAI_API_KEY';
+    case 'claude':
+      return 'ANTHROPIC_API_KEY';
+    case 'grok':
+      return 'GROK_API_KEY';
+    case 'gemini':
+      return 'GOOGLE_API_KEY';
+    default:
+      return 'LLM_API_KEY';
   }
+}
 
-  const providerCheck = validateProvider(answers.provider);
+function formatEnvValue(value) {
+  if (/[\s#"'`]/.test(value)) {
+    return JSON.stringify(value);
+  }
+  return value;
+}
+
+function parseEnvValue(value) {
+  const trimmed = value.trim();
+  if (!trimmed) return '';
+  if ((trimmed.startsWith('"') && trimmed.endsWith('"')) || (trimmed.startsWith("'") && trimmed.endsWith("'"))) {
+    try {
+      return JSON.parse(trimmed);
+    } catch (error) {
+      return trimmed.slice(1, -1);
+    }
+  }
+  return trimmed;
+}
+
+function readEnvVar({ cwd, fs, path, key }) {
+  const envPaths = [path.join(cwd, '.env.local'), path.join(cwd, '.env')];
+  const pattern = new RegExp(`^\\s*(export\\s+)?${key}\\s*=\\s*(.*)$`);
+  for (const envPath of envPaths) {
+    if (!fs.existsSync(envPath)) continue;
+    const content = fs.readFileSync(envPath, 'utf8');
+    const lines = content.split(/\r?\n/);
+    for (const line of lines) {
+      if (!line || !line.trim() || line.trim().startsWith('#')) continue;
+      const match = line.match(pattern);
+      if (match) {
+        return { envPath, value: parseEnvValue(match[2] || '') };
+      }
+    }
+  }
+  return { envPath: envPaths[0], value: '' };
+}
+
+function upsertEnvVar(content, key, value) {
+  const lines = content.split(/\r?\n/).filter((line, index, arr) => {
+    if (index !== arr.length - 1) return true;
+    return line.trim().length > 0;
+  });
+  const pattern = new RegExp(`^\\s*(export\\s+)?${key}\\s*=`);
+  const formatted = `${key}=${formatEnvValue(value)}`;
+  let found = false;
+  const updated = lines.map((line) => {
+    if (pattern.test(line)) {
+      found = true;
+      return formatted;
+    }
+    return line;
+  });
+  if (!found) {
+    updated.push(formatted);
+  }
+  return `${updated.join('\n')}\n`;
+}
+
+function writeEnvFile({ cwd, fs, path, key, value }) {
+  const envPath = path.join(cwd, '.env.local');
+  const existing = fs.existsSync(envPath) ? fs.readFileSync(envPath, 'utf8') : '';
+  const updated = upsertEnvVar(existing, key, value);
+  fs.writeFileSync(envPath, updated, 'utf8');
+  return envPath;
+}
+
+async function ensureApiKey({ cwd, fs, path, io, provider }) {
+  const apiKeyVar = apiKeyEnvVar(provider);
+  const existing = readEnvVar({ cwd, fs, path, key: apiKeyVar });
+  if (existing.value) {
+    return { envPath: existing.envPath, key: apiKeyVar, value: existing.value, existing: true };
+  }
+  const apiKey = normalizeAnswer(await io.prompt(`API key for ${provider} (${apiKeyVar}) `), '');
+  if (!apiKey) {
+    const message = `API key is required for ${provider}.`;
+    io.error(message);
+    throw new Error(message);
+  }
+  const envPath = writeEnvFile({ cwd, fs, path, key: apiKeyVar, value: apiKey });
+  io.log(`Saved API key to ${envPath}`);
+  return { envPath, key: apiKeyVar, value: apiKey, existing: false };
+}
+
+async function runInit({ cwd, fs, path, io, configPath }) {
+  const providerQuestion = getProviderQuestion();
+  const providerResponse = await io.prompt(`${providerQuestion.prompt} [${providerQuestion.defaultValue}] `);
+  const providerAnswer = normalizeAnswer(providerResponse, providerQuestion.defaultValue);
+
+  const providerCheck = validateProvider(providerAnswer);
   if (!providerCheck.valid) {
     io.error(providerCheck.error);
     throw new Error(providerCheck.error);
   }
 
+  const provider = providerCheck.provider;
+  const models = PROVIDER_MODELS[provider] || [];
+  io.log(`\nAvailable models for ${provider}:\n${formatModelChoices(provider)}`);
+  const modelResponse = await io.prompt(`Select model (1-${models.length}) [1] `);
+  const model = parseModelChoice(modelResponse, provider);
+
+  const projectQuestion = getProjectNameQuestion();
+  const projectResponse = await io.prompt(`${projectQuestion.prompt} [${projectQuestion.defaultValue}] `);
+  const projectName = normalizeAnswer(projectResponse, projectQuestion.defaultValue);
+
   const config = {
     ...defaultConfig(),
-    provider: providerCheck.provider,
-    model: answers.model,
-    projectName: answers.projectName || null,
+    provider,
+    model,
+    projectName: projectName || null,
   };
 
   const targetPath = configPath || resolveConfigPath({ cwd, path });
   saveConfig({ cwd, fs, path, config, configPath: targetPath });
   io.log(`Saved config to ${targetPath}`);
+  await ensureApiKey({ cwd, fs, path, io, provider });
 
   return { config, path: targetPath };
 }
 
 module.exports = {
-  getInitQuestions,
+  PROVIDER_MODELS,
+  getProviderQuestion,
+  getProjectNameQuestion,
+  formatModelChoices,
+  parseModelChoice,
   normalizeAnswer,
+  apiKeyEnvVar,
+  ensureApiKey,
   runInit,
 };

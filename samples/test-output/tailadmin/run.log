@@ -1,0 +1,11 @@
+n.codes sample test
+app: tailadmin
+source: /Users/dgyk/Dev/n.codes/samples/tailadmin
+output: /Users/dgyk/Dev/n.codes/samples/test-output/tailadmin
+generatedAt: 2026-02-01T11:51:58.909Z
+filesAnalyzed: 108
+entities: 0
+actions: 0
+queries: 0
+components: 70
+valid: true

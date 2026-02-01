@@ -1,0 +1,10 @@
+version: 1
+generatedAt: "2026-02-01T11:51:58.759Z"
+projectName: "react-admin"
+entities: {}
+actions: {}
+queries: {}
+components: {}
+meta:
+  filesAnalyzed: 1662
+  changedFiles: []

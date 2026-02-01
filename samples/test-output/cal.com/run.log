@@ -1,0 +1,11 @@
+n.codes sample test
+app: cal.com
+source: /Users/dgyk/Dev/n.codes/samples/cal.com
+output: /Users/dgyk/Dev/n.codes/samples/test-output/cal.com
+generatedAt: 2026-02-01T11:51:58.295Z
+filesAnalyzed: 7475
+entities: 0
+actions: 93
+queries: 93
+components: 873
+valid: true

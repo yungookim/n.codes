@@ -38,3 +38,15 @@ test('parseArgs marks --config without value as unknown', () => {
   assert.equal(result.command, 'init');
   assert.ok(result.unknown.includes('--config'));
 });
+
+test('parseArgs recognizes --force flag', () => {
+  const result = parseArgs(['sync', '--force']);
+  assert.equal(result.command, 'sync');
+  assert.equal(result.flags.force, true);
+});
+
+test('parseArgs recognizes -f shorthand for force', () => {
+  const result = parseArgs(['sync', '-f']);
+  assert.equal(result.command, 'sync');
+  assert.equal(result.flags.force, true);
+});

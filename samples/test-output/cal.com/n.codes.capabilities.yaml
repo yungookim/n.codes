@@ -1,0 +1,2686 @@
+version: 1
+generatedAt: "2026-02-01T11:51:58.295Z"
+projectName: "cal.com"
+entities: {}
+actions:
+  deleteApiKey:
+    endpoint:
+      method: "DELETE"
+      path: "/api/v1/api-keys/:id"
+    description: "Deletes an api key identified by id. Use this endpoint to remove the api key and receive a confirmation response. Path parameters: id."
+  patchApiKey:
+    endpoint:
+      method: "PATCH"
+      path: "/api/v1/api-keys/:id"
+    description: "Updates an api key identified by id. Send the fields to update in the request body and receive the updated api key. Path parameters: id."
+  postApiKeys:
+    endpoint:
+      method: "POST"
+      path: "/api/v1/api-keys"
+    description: "Creates an api key. Send the api key payload in the request body and receive the created api key in the response."
+  deleteAttendee:
+    endpoint:
+      method: "DELETE"
+      path: "/api/v1/attendees/:id"
+    description: "Deletes an attendee identified by id. Use this endpoint to remove the attendee and receive a confirmation response. Path parameters: id."
+  patchAttendee:
+    endpoint:
+      method: "PATCH"
+      path: "/api/v1/attendees/:id"
+    description: "Updates an attendee identified by id. Send the fields to update in the request body and receive the updated attendee. Path parameters: id."
+  postAttendees:
+    endpoint:
+      method: "POST"
+      path: "/api/v1/attendees"
+    description: "Creates an attendee. Send the attendee payload in the request body and receive the created attendee in the response."
+  deleteAvailability:
+    endpoint:
+      method: "DELETE"
+      path: "/api/v1/availabilities/:id"
+    description: "Deletes an availability identified by id. Use this endpoint to remove the availability and receive a confirmation response. Path parameters: id."
+  patchAvailability:
+    endpoint:
+      method: "PATCH"
+      path: "/api/v1/availabilities/:id"
+    description: "Updates an availability identified by id. Send the fields to update in the request body and receive the updated availability. Path parameters: id."
+  postAvailabilities:
+    endpoint:
+      method: "POST"
+      path: "/api/v1/availabilities"
+    description: "Creates an availability. Send the availability payload in the request body and receive the created availability in the response."
+  deleteBookingReference:
+    endpoint:
+      method: "DELETE"
+      path: "/api/v1/booking-references/:id"
+    description: "Deletes a booking reference identified by id. Use this endpoint to remove the booking reference and receive a confirmation response. Path parameters: id."
+  patchBookingReference:
+    endpoint:
+      method: "PATCH"
+      path: "/api/v1/booking-references/:id"
+    description: "Updates a booking reference identified by id. Send the fields to update in the request body and receive the updated booking reference. Path parameters: id."
+  postBookingReferences:
+    endpoint:
+      method: "POST"
+      path: "/api/v1/booking-references"
+    description: "Creates a booking reference. Send the booking reference payload in the request body and receive the created booking reference in the response."
+  deleteBooking:
+    endpoint:
+      method: "DELETE"
+      path: "/api/v1/bookings/:id"
+    description: "Deletes a booking identified by id. Use this endpoint to remove the booking and receive a confirmation response. Path parameters: id."
+  patchBooking:
+    endpoint:
+      method: "PATCH"
+      path: "/api/v1/bookings/:id"
+    description: "Updates a booking identified by id. Send the fields to update in the request body and receive the updated booking. Path parameters: id."
+  postBookings:
+    endpoint:
+      method: "POST"
+      path: "/api/v1/bookings"
+    description: "Creates a booking. Send the booking payload in the request body and receive the created booking in the response."
+  deleteCredentialSync:
+    endpoint:
+      method: "DELETE"
+      path: "/api/v1/credential-sync"
+    description: "Deletes a credential sync. Use this endpoint to remove the credential sync and receive a confirmation response."
+  patchCredentialSync:
+    endpoint:
+      method: "PATCH"
+      path: "/api/v1/credential-sync"
+    description: "Updates a credential sync. Send the fields to update in the request body and receive the updated credential sync."
+  postCredentialSync:
+    endpoint:
+      method: "POST"
+      path: "/api/v1/credential-sync"
+    description: "Creates a credential sync. Send the credential sync payload in the request body and receive the created credential sync in the response."
+  deleteCustomInput:
+    endpoint:
+      method: "DELETE"
+      path: "/api/v1/custom-inputs/:id"
+    description: "Deletes a custom input identified by id. Use this endpoint to remove the custom input and receive a confirmation response. Path parameters: id."
+  patchCustomInput:
+    endpoint:
+      method: "PATCH"
+      path: "/api/v1/custom-inputs/:id"
+    description: "Updates a custom input identified by id. Send the fields to update in the request body and receive the updated custom input. Path parameters: id."
+  postCustomInputs:
+    endpoint:
+      method: "POST"
+      path: "/api/v1/custom-inputs"
+    description: "Creates a custom input. Send the custom input payload in the request body and receive the created custom input in the response."
+  deleteDestinationCalendar:
+    endpoint:
+      method: "DELETE"
+      path: "/api/v1/destination-calendars/:id"
+    description: "Deletes a destination calendar identified by id. Use this endpoint to remove the destination calendar and receive a confirmation response. Path parameters: id."
+  patchDestinationCalendar:
+    endpoint:
+      method: "PATCH"
+      path: "/api/v1/destination-calendars/:id"
+    description: "Updates a destination calendar identified by id. Send the fields to update in the request body and receive the updated destination calendar. Path parameters: id."
+  postDestinationCalendars:
+    endpoint:
+      method: "POST"
+      path: "/api/v1/destination-calendars"
+    description: "Creates a destination calendar. Send the destination calendar payload in the request body and receive the created destination calendar in the response."
+  deleteEventType:
+    endpoint:
+      method: "DELETE"
+      path: "/api/v1/event-types/:id"
+    description: "Deletes an event type identified by id. Use this endpoint to remove the event type and receive a confirmation response. Path parameters: id."
+  patchEventType:
+    endpoint:
+      method: "PATCH"
+      path: "/api/v1/event-types/:id"
+    description: "Updates an event type identified by id. Send the fields to update in the request body and receive the updated event type. Path parameters: id."
+  postEventTypes:
+    endpoint:
+      method: "POST"
+      path: "/api/v1/event-types"
+    description: "Creates an event type. Send the event type payload in the request body and receive the created event type in the response."
+  postInvites:
+    endpoint:
+      method: "POST"
+      path: "/api/v1/invites"
+    description: "Creates an invite. Send the invite payload in the request body and receive the created invite in the response."
+  deleteMembership:
+    endpoint:
+      method: "DELETE"
+      path: "/api/v1/memberships/:id"
+    description: "Deletes a membership identified by id. Use this endpoint to remove the membership and receive a confirmation response. Path parameters: id."
+  patchMembership:
+    endpoint:
+      method: "PATCH"
+      path: "/api/v1/memberships/:id"
+    description: "Updates a membership identified by id. Send the fields to update in the request body and receive the updated membership. Path parameters: id."
+  postMemberships:
+    endpoint:
+      method: "POST"
+      path: "/api/v1/memberships"
+    description: "Creates a membership. Send the membership payload in the request body and receive the created membership in the response."
+  deleteSchedule:
+    endpoint:
+      method: "DELETE"
+      path: "/api/v1/schedules/:id"
+    description: "Deletes a schedule identified by id. Use this endpoint to remove the schedule and receive a confirmation response. Path parameters: id."
+  patchSchedule:
+    endpoint:
+      method: "PATCH"
+      path: "/api/v1/schedules/:id"
+    description: "Updates a schedule identified by id. Send the fields to update in the request body and receive the updated schedule. Path parameters: id."
+  postSchedules:
+    endpoint:
+      method: "POST"
+      path: "/api/v1/schedules"
+    description: "Creates a schedule. Send the schedule payload in the request body and receive the created schedule in the response."
+  deleteSelectedCalendar:
+    endpoint:
+      method: "DELETE"
+      path: "/api/v1/selected-calendars/:id"
+    description: "Deletes a selected calendar identified by id. Use this endpoint to remove the selected calendar and receive a confirmation response. Path parameters: id."
+  patchSelectedCalendar:
+    endpoint:
+      method: "PATCH"
+      path: "/api/v1/selected-calendars/:id"
+    description: "Updates a selected calendar identified by id. Send the fields to update in the request body and receive the updated selected calendar. Path parameters: id."
+  postSelectedCalendars:
+    endpoint:
+      method: "POST"
+      path: "/api/v1/selected-calendars"
+    description: "Creates a selected calendar. Send the selected calendar payload in the request body and receive the created selected calendar in the response."
+  deleteTeam:
+    endpoint:
+      method: "DELETE"
+      path: "/api/v1/teams/:teamId"
+    description: "Deletes a team identified by teamId. Use this endpoint to remove the team and receive a confirmation response. Path parameters: teamId."
+  patchTeam:
+    endpoint:
+      method: "PATCH"
+      path: "/api/v1/teams/:teamId"
+    description: "Updates a team identified by teamId. Send the fields to update in the request body and receive the updated team. Path parameters: teamId."
+  postTeams:
+    endpoint:
+      method: "POST"
+      path: "/api/v1/teams"
+    description: "Creates a team. Send the team payload in the request body and receive the created team in the response."
+  deleteUser:
+    endpoint:
+      method: "DELETE"
+      path: "/api/v1/users/:userId"
+    description: "Deletes an user identified by userId. Use this endpoint to remove the user and receive a confirmation response. Path parameters: userId."
+  patchUser:
+    endpoint:
+      method: "PATCH"
+      path: "/api/v1/users/:userId"
+    description: "Updates an user identified by userId. Send the fields to update in the request body and receive the updated user. Path parameters: userId."
+  postUsers:
+    endpoint:
+      method: "POST"
+      path: "/api/v1/users"
+    description: "Creates an user. Send the user payload in the request body and receive the created user in the response."
+  deleteWebhook:
+    endpoint:
+      method: "DELETE"
+      path: "/api/v1/webhooks/:id"
+    description: "Deletes a webhook identified by id. Use this endpoint to remove the webhook and receive a confirmation response. Path parameters: id."
+  patchWebhook:
+    endpoint:
+      method: "PATCH"
+      path: "/api/v1/webhooks/:id"
+    description: "Updates a webhook identified by id. Send the fields to update in the request body and receive the updated webhook. Path parameters: id."
+  postWebhooks:
+    endpoint:
+      method: "POST"
+      path: "/api/v1/webhooks"
+    description: "Creates a webhook. Send the webhook payload in the request body and receive the created webhook in the response."
+  oauthClientUsersController:
+    endpoint:
+      method: "DELETE"
+      path: "/api/v2/oauth-client-users.controller"
+    description: "Deletes an oauth client users.controller. Use this endpoint to remove the oauth client users.controller and receive a confirmation response."
+  teamsController:
+    endpoint:
+      method: "DELETE"
+      path: "/api/v2/teams.controller"
+    description: "Deletes a teams.controller. Use this endpoint to remove the teams.controller and receive a confirmation response."
+  postAuth:
+    endpoint:
+      method: "POST"
+      path: "/api/auth/forgot-password"
+    description: "Creates an auth. Send the auth payload in the request body and receive the created auth in the response."
+  postAuth2:
+    endpoint:
+      method: "POST"
+      path: "/api/auth/oauth/me"
+    description: "Creates an auth. Send the auth payload in the request body and receive the created auth in the response."
+  postAuth3:
+    endpoint:
+      method: "POST"
+      path: "/api/auth/oauth/refreshToken"
+    description: "Creates an auth. Send the auth payload in the request body and receive the created auth in the response."
+  postAuth4:
+    endpoint:
+      method: "POST"
+      path: "/api/auth/oauth/token"
+    description: "Creates an auth. Send the auth payload in the request body and receive the created auth in the response."
+  postAuth5:
+    endpoint:
+      method: "POST"
+      path: "/api/auth/reset-password"
+    description: "Creates an auth. Send the auth payload in the request body and receive the created auth in the response."
+  deleteAuth:
+    endpoint:
+      method: "DELETE"
+      path: "/api/auth/reset-password"
+    description: "Deletes an auth. Use this endpoint to remove the auth and receive a confirmation response."
+  postAuth6:
+    endpoint:
+      method: "POST"
+      path: "/api/auth/saml/callback"
+    description: "Creates an auth. Send the auth payload in the request body and receive the created auth in the response."
+  postAuth7:
+    endpoint:
+      method: "POST"
+      path: "/api/auth/saml/token"
+    description: "Creates an auth. Send the auth payload in the request body and receive the created auth in the response."
+  postAuth8:
+    endpoint:
+      method: "POST"
+      path: "/api/auth/setup"
+    description: "Creates an auth. Send the auth payload in the request body and receive the created auth in the response."
+  calcomsignuphandler:
+    endpoint:
+      method: "DELETE"
+      path: "/api/auth/signup/handlers/calcomSignupHandler"
+    description: "Deletes an auth. Use this endpoint to remove the auth and receive a confirmation response."
+  selfhostedhandler:
+    endpoint:
+      method: "DELETE"
+      path: "/api/auth/signup/handlers/selfHostedHandler"
+    description: "Deletes an auth. Use this endpoint to remove the auth and receive a confirmation response."
+  postAuth9:
+    endpoint:
+      method: "POST"
+      path: "/api/auth/signup"
+    description: "Creates an auth. Send the auth payload in the request body and receive the created auth in the response."
+  postTotp:
+    endpoint:
+      method: "POST"
+      path: "/api/auth/two-factor/totp/disable"
+    description: "Disable a totp. Use this POST endpoint to disable the totp and return the updated totp or a confirmation."
+  postTotp2:
+    endpoint:
+      method: "POST"
+      path: "/api/auth/two-factor/totp/enable"
+    description: "Enable a totp. Use this POST endpoint to enable the totp and return the updated totp or a confirmation."
+  postAuth10:
+    endpoint:
+      method: "POST"
+      path: "/api/auth/two-factor/totp/setup"
+    description: "Creates an auth. Send the auth payload in the request body and receive the created auth in the response."
+  postAvailability:
+    endpoint:
+      method: "POST"
+      path: "/api/availability/calendar"
+    description: "Creates an availability. Send the availability payload in the request body and receive the created availability in the response."
+  deleteAvailability2:
+    endpoint:
+      method: "DELETE"
+      path: "/api/availability/calendar"
+    description: "Deletes an availability. Use this endpoint to remove the availability and receive a confirmation response."
+  postResource:
+    endpoint:
+      method: "POST"
+      path: "/api/cancel"
+    description: "Cancel a resource. Use this POST endpoint to cancel the resource and return the updated resource or a confirmation."
+  deleteResource:
+    endpoint:
+      method: "DELETE"
+      path: "/api/cancel"
+    description: "Cancel a resource. Use this DELETE endpoint to cancel the resource and return the updated resource or a confirmation."
+  postCron:
+    endpoint:
+      method: "POST"
+      path: "/api/cron/bookingReminder"
+    description: "Creates a cron. Send the cron payload in the request body and receive the created cron in the response."
+  postCron2:
+    endpoint:
+      method: "POST"
+      path: "/api/cron/changeTimeZone"
+    description: "Creates a cron. Send the cron payload in the request body and receive the created cron in the response."
+  deleteCron:
+    endpoint:
+      method: "DELETE"
+      path: "/api/cron/changeTimeZone"
+    description: "Deletes a cron. Use this endpoint to remove the cron and receive a confirmation response."
+  postCron3:
+    endpoint:
+      method: "POST"
+      path: "/api/cron/checkSmsPrices"
+    description: "Creates a cron. Send the cron payload in the request body and receive the created cron in the response."
+  postCron4:
+    endpoint:
+      method: "POST"
+      path: "/api/cron/downgradeUsers"
+    description: "Creates a cron. Send the cron payload in the request body and receive the created cron in the response."
+  postCron5:
+    endpoint:
+      method: "POST"
+      path: "/api/cron/monthlyDigestEmail"
+    description: "Creates a cron. Send the cron payload in the request body and receive the created cron in the response."
+  postCron6:
+    endpoint:
+      method: "POST"
+      path: "/api/cron/syncAppMeta"
+    description: "Creates a cron. Send the cron payload in the request body and receive the created cron in the response."
+  postCron7:
+    endpoint:
+      method: "POST"
+      path: "/api/cron/webhookTriggers"
+    description: "Creates a cron. Send the cron payload in the request body and receive the created cron in the response."
+  postCron8:
+    endpoint:
+      method: "POST"
+      path: "/api/cron/workflows/scheduleEmailReminders"
+    description: "Creates a cron. Send the cron payload in the request body and receive the created cron in the response."
+  postCron9:
+    endpoint:
+      method: "POST"
+      path: "/api/cron/workflows/scheduleSMSReminders"
+    description: "Creates a cron. Send the cron payload in the request body and receive the created cron in the response."
+  postCron10:
+    endpoint:
+      method: "POST"
+      path: "/api/cron/workflows/scheduleWhatsappReminders"
+    description: "Creates a cron. Send the cron payload in the request body and receive the created cron in the response."
+  postRecordedDailyVideo:
+    endpoint:
+      method: "POST"
+      path: "/api/recorded-daily-video"
+    description: "Creates a recorded daily video. Send the recorded daily video payload in the request body and receive the created recorded daily video in the response."
+  postRoutingForms:
+    endpoint:
+      method: "POST"
+      path: "/api/routing-forms/queued-response"
+    description: "Creates a routing form. Send the routing form payload in the request body and receive the created routing form in the response."
+  postScim:
+    endpoint:
+      method: "POST"
+      path: "/api/scim/v2.0/:directory*"
+    description: "Creates a scim identified by directory. Send the scim payload in the request body and receive the created scim in the response. Path parameters: directory."
+  putScim:
+    endpoint:
+      method: "PUT"
+      path: "/api/scim/v2.0/:directory*"
+    description: "Updates a scim identified by directory. Send the fields to update in the request body and receive the updated scim. Path parameters: directory."
+  patchScim:
+    endpoint:
+      method: "PATCH"
+      path: "/api/scim/v2.0/:directory*"
+    description: "Updates a scim identified by directory. Send the fields to update in the request body and receive the updated scim. Path parameters: directory."
+  deleteScim:
+    endpoint:
+      method: "DELETE"
+      path: "/api/scim/v2.0/:directory*"
+    description: "Deletes a scim identified by directory. Use this endpoint to remove the scim and receive a confirmation response. Path parameters: directory."
+  postSupport:
+    endpoint:
+      method: "POST"
+      path: "/api/support/conversation"
+    description: "Creates a support. Send the support payload in the request body and receive the created support in the response."
+  postSync:
+    endpoint:
+      method: "POST"
+      path: "/api/sync/helpscout"
+    description: "Creates a sync. Send the sync payload in the request body and receive the created sync in the response."
+  postUsername:
+    endpoint:
+      method: "POST"
+      path: "/api/username"
+    description: "Creates an username. Send the username payload in the request body and receive the created username in the response."
+  postVerifyBookingToken:
+    endpoint:
+      method: "POST"
+      path: "/api/verify-booking-token"
+    description: "Creates a verify booking token. Send the verify booking token payload in the request body and receive the created verify booking token in the response."
+  postVideo:
+    endpoint:
+      method: "POST"
+      path: "/api/video/guest-session"
+    description: "Creates a video. Send the video payload in the request body and receive the created video in the response."
+  postWebhook:
+    endpoint:
+      method: "POST"
+      path: "/api/webhook/app-credential"
+    description: "Creates a webhook. Send the webhook payload in the request body and receive the created webhook in the response."
+  postWebhook2:
+    endpoint:
+      method: "POST"
+      path: "/api/webhooks/calendar-subscription/:provider"
+    description: "Creates a webhook identified by provider. Send the webhook payload in the request body and receive the created webhook in the response. Path parameters: provider."
+  postWebhooks2:
+    endpoint:
+      method: "POST"
+      path: "/api/webhooks/retell-ai"
+    description: "Creates a webhook. Send the webhook payload in the request body and receive the created webhook in the response."
+  postWorkflows:
+    endpoint:
+      method: "POST"
+      path: "/api/workflows/sms/user-response"
+    description: "Creates a workflow. Send the workflow payload in the request body and receive the created workflow in the response."
+queries:
+  getApiKey:
+    endpoint:
+      method: "GET"
+      path: "/api/v1/api-keys/:id"
+    description: "Reads a single api key identified by id. Use this query to fetch api key data without side effects. Path parameters: id."
+  getApiKeys:
+    endpoint:
+      method: "GET"
+      path: "/api/v1/api-keys"
+    description: "Reads api keys for display or reporting. Use this query to fetch api keys with optional filters or pagination."
+  getAttendee:
+    endpoint:
+      method: "GET"
+      path: "/api/v1/attendees/:id"
+    description: "Reads a single attendee identified by id. Use this query to fetch attendee data without side effects. Path parameters: id."
+  getAttendees:
+    endpoint:
+      method: "GET"
+      path: "/api/v1/attendees"
+    description: "Reads attendees for display or reporting. Use this query to fetch attendees with optional filters or pagination."
+  getAvailability:
+    endpoint:
+      method: "GET"
+      path: "/api/v1/availabilities/:id"
+    description: "Reads a single availability identified by id. Use this query to fetch availability data without side effects. Path parameters: id."
+  getAvailability2:
+    endpoint:
+      method: "GET"
+      path: "/api/v1/availability"
+    description: "Reads availability for display or reporting. Use this query to fetch availability with optional filters or pagination."
+  getBookingReference:
+    endpoint:
+      method: "GET"
+      path: "/api/v1/booking-references/:id"
+    description: "Reads a single booking reference identified by id. Use this query to fetch booking reference data without side effects. Path parameters: id."
+  getBookingReferences:
+    endpoint:
+      method: "GET"
+      path: "/api/v1/booking-references"
+    description: "Reads booking references for display or reporting. Use this query to fetch booking references with optional filters or pagination."
+  getBooking:
+    endpoint:
+      method: "GET"
+      path: "/api/v1/bookings/:id"
+    description: "Reads a single booking identified by id. Use this query to fetch booking data without side effects. Path parameters: id."
+  getBooking2:
+    endpoint:
+      method: "GET"
+      path: "/api/v1/bookings/:id/recordings"
+    description: "Reads a single booking identified by id. Use this query to fetch booking data without side effects. Path parameters: id."
+  getBooking3:
+    endpoint:
+      method: "GET"
+      path: "/api/v1/bookings/:id/transcripts/:recordingId"
+    description: "Reads a single booking identified by id, recordingId. Use this query to fetch booking data without side effects. Path parameters: id, recordingId."
+  getBooking4:
+    endpoint:
+      method: "GET"
+      path: "/api/v1/bookings/:id/transcripts"
+    description: "Reads a single booking identified by id. Use this query to fetch booking data without side effects. Path parameters: id."
+  getBookings:
+    endpoint:
+      method: "GET"
+      path: "/api/v1/bookings"
+    description: "Reads bookings for display or reporting. Use this query to fetch bookings with optional filters or pagination."
+  getConnectedCalendars:
+    endpoint:
+      method: "GET"
+      path: "/api/v1/connected-calendars"
+    description: "Reads connected calendars for display or reporting. Use this query to fetch connected calendars with optional filters or pagination."
+  getCredentialSync:
+    endpoint:
+      method: "GET"
+      path: "/api/v1/credential-sync"
+    description: "Reads credential sync for display or reporting. Use this query to fetch credential sync with optional filters or pagination."
+  getCustomInput:
+    endpoint:
+      method: "GET"
+      path: "/api/v1/custom-inputs/:id"
+    description: "Reads a single custom input identified by id. Use this query to fetch custom input data without side effects. Path parameters: id."
+  getCustomInputs:
+    endpoint:
+      method: "GET"
+      path: "/api/v1/custom-inputs"
+    description: "Reads custom inputs for display or reporting. Use this query to fetch custom inputs with optional filters or pagination."
+  getDestinationCalendar:
+    endpoint:
+      method: "GET"
+      path: "/api/v1/destination-calendars/:id"
+    description: "Reads a single destination calendar identified by id. Use this query to fetch destination calendar data without side effects. Path parameters: id."
+  getDestinationCalendars:
+    endpoint:
+      method: "GET"
+      path: "/api/v1/destination-calendars"
+    description: "Reads destination calendars for display or reporting. Use this query to fetch destination calendars with optional filters or pagination."
+  getEventType:
+    endpoint:
+      method: "GET"
+      path: "/api/v1/event-types/:id"
+    description: "Reads a single event type identified by id. Use this query to fetch event type data without side effects. Path parameters: id."
+  getEventTypes:
+    endpoint:
+      method: "GET"
+      path: "/api/v1/event-types"
+    description: "Reads event types for display or reporting. Use this query to fetch event types with optional filters or pagination."
+  getMe:
+    endpoint:
+      method: "GET"
+      path: "/api/v1/me"
+    description: "Reads me for display or reporting. Use this query to fetch me with optional filters or pagination."
+  getMembership:
+    endpoint:
+      method: "GET"
+      path: "/api/v1/memberships/:id"
+    description: "Reads a single membership identified by id. Use this query to fetch membership data without side effects. Path parameters: id."
+  getMemberships:
+    endpoint:
+      method: "GET"
+      path: "/api/v1/memberships"
+    description: "Reads memberships for display or reporting. Use this query to fetch memberships with optional filters or pagination."
+  getSchedule:
+    endpoint:
+      method: "GET"
+      path: "/api/v1/schedules/:id"
+    description: "Reads a single schedule identified by id. Use this query to fetch schedule data without side effects. Path parameters: id."
+  getSchedules:
+    endpoint:
+      method: "GET"
+      path: "/api/v1/schedules"
+    description: "Reads schedules for display or reporting. Use this query to fetch schedules with optional filters or pagination."
+  getSelectedCalendar:
+    endpoint:
+      method: "GET"
+      path: "/api/v1/selected-calendars/:id"
+    description: "Reads a single selected calendar identified by id. Use this query to fetch selected calendar data without side effects. Path parameters: id."
+  getSelectedCalendars:
+    endpoint:
+      method: "GET"
+      path: "/api/v1/selected-calendars"
+    description: "Reads selected calendars for display or reporting. Use this query to fetch selected calendars with optional filters or pagination."
+  getSlots:
+    endpoint:
+      method: "GET"
+      path: "/api/v1/slots"
+    description: "Reads slots for display or reporting. Use this query to fetch slots with optional filters or pagination."
+  getTeam:
+    endpoint:
+      method: "GET"
+      path: "/api/v1/teams/:teamId"
+    description: "Reads a single team identified by teamId. Use this query to fetch team data without side effects. Path parameters: teamId."
+  getTeam2:
+    endpoint:
+      method: "GET"
+      path: "/api/v1/teams/:teamId/event-types"
+    description: "Reads a single team identified by teamId. Use this query to fetch team data without side effects. Path parameters: teamId."
+  getTeams:
+    endpoint:
+      method: "GET"
+      path: "/api/v1/teams"
+    description: "Reads teams for display or reporting. Use this query to fetch teams with optional filters or pagination."
+  getUser:
+    endpoint:
+      method: "GET"
+      path: "/api/v1/users/:userId"
+    description: "Reads a single user identified by userId. Use this query to fetch user data without side effects. Path parameters: userId."
+  getUsers:
+    endpoint:
+      method: "GET"
+      path: "/api/v1/users"
+    description: "Reads users for display or reporting. Use this query to fetch users with optional filters or pagination."
+  getWebhook:
+    endpoint:
+      method: "GET"
+      path: "/api/v1/webhooks/:id"
+    description: "Reads a single webhook identified by id. Use this query to fetch webhook data without side effects. Path parameters: id."
+  getWebhooks:
+    endpoint:
+      method: "GET"
+      path: "/api/v1/webhooks"
+    description: "Reads webhooks for display or reporting. Use this query to fetch webhooks with optional filters or pagination."
+  bookingsController:
+    endpoint:
+      method: "GET"
+      path: "/api/v2/bookings.controller"
+    description: "Reads bookings.controller for display or reporting. Use this query to fetch bookings.controller with optional filters or pagination."
+  calendarsController:
+    endpoint:
+      method: "GET"
+      path: "/api/v2/calendars.controller"
+    description: "Reads calendars.controller for display or reporting. Use this query to fetch calendars.controller with optional filters or pagination."
+  billingController:
+    endpoint:
+      method: "GET"
+      path: "/api/v2/billing.controller"
+    description: "Reads billing.controller for display or reporting. Use this query to fetch billing.controller with optional filters or pagination."
+  conferencingController:
+    endpoint:
+      method: "GET"
+      path: "/api/v2/conferencing.controller"
+    description: "Reads conferencing.controller for display or reporting. Use this query to fetch conferencing.controller with optional filters or pagination."
+  routerController:
+    endpoint:
+      method: "GET"
+      path: "/api/v2/router.controller"
+    description: "Reads router.controller for display or reporting. Use this query to fetch router.controller with optional filters or pagination."
+  stripeController:
+    endpoint:
+      method: "GET"
+      path: "/api/v2/stripe.controller"
+    description: "Reads stripe.controller for display or reporting. Use this query to fetch stripe.controller with optional filters or pagination."
+  getAuth:
+    endpoint:
+      method: "GET"
+      path: "/api/auth/forgot-password"
+    description: "Reads auth for display or reporting. Use this query to fetch auth with optional filters or pagination."
+  getAuth2:
+    endpoint:
+      method: "GET"
+      path: "/api/auth/oauth/me"
+    description: "Reads auth for display or reporting. Use this query to fetch auth with optional filters or pagination."
+  getAuth3:
+    endpoint:
+      method: "GET"
+      path: "/api/auth/oauth/refreshToken"
+    description: "Reads auth for display or reporting. Use this query to fetch auth with optional filters or pagination."
+  getAuth4:
+    endpoint:
+      method: "GET"
+      path: "/api/auth/oidc"
+    description: "Reads auth for display or reporting. Use this query to fetch auth with optional filters or pagination."
+  getAuth5:
+    endpoint:
+      method: "GET"
+      path: "/api/auth/reset-password"
+    description: "Reads auth for display or reporting. Use this query to fetch auth with optional filters or pagination."
+  getSaml:
+    endpoint:
+      method: "GET"
+      path: "/api/auth/saml/authorize"
+    description: "Reads saml for display or reporting. Use this query to fetch saml with optional filters or pagination."
+  getAuth6:
+    endpoint:
+      method: "GET"
+      path: "/api/auth/saml/userinfo"
+    description: "Reads auth for display or reporting. Use this query to fetch auth with optional filters or pagination."
+  getAuth7:
+    endpoint:
+      method: "GET"
+      path: "/api/auth/signup"
+    description: "Reads auth for display or reporting. Use this query to fetch auth with optional filters or pagination."
+  getAvailability3:
+    endpoint:
+      method: "GET"
+      path: "/api/availability/calendar"
+    description: "Reads availability for display or reporting. Use this query to fetch availability with optional filters or pagination."
+  getAvatar:
+    endpoint:
+      method: "GET"
+      path: "/api/avatar/:uuid"
+    description: "Reads a single avatar identified by uuid. Use this query to fetch avatar data without side effects. Path parameters: uuid."
+  getCalaiphone:
+    endpoint:
+      method: "GET"
+      path: "/api/calAIPhone/subscription/success"
+    description: "Reads calAIPhone for display or reporting. Use this query to fetch calAIPhone with optional filters or pagination."
+  getCompliance:
+    endpoint:
+      method: "GET"
+      path: "/api/compliance/download"
+    description: "Reads compliance for display or reporting. Use this query to fetch compliance with optional filters or pagination."
+  getCron:
+    endpoint:
+      method: "GET"
+      path: "/api/cron/bookingReminder"
+    description: "Reads cron for display or reporting. Use this query to fetch cron with optional filters or pagination."
+  getCron2:
+    endpoint:
+      method: "GET"
+      path: "/api/cron/calendar-subscriptions"
+    description: "Reads cron for display or reporting. Use this query to fetch cron with optional filters or pagination."
+  getCron3:
+    endpoint:
+      method: "GET"
+      path: "/api/cron/calendar-subscriptions-cleanup"
+    description: "Reads cron for display or reporting. Use this query to fetch cron with optional filters or pagination."
+  getCron4:
+    endpoint:
+      method: "GET"
+      path: "/api/cron/changeTimeZone"
+    description: "Reads cron for display or reporting. Use this query to fetch cron with optional filters or pagination."
+  getCron5:
+    endpoint:
+      method: "GET"
+      path: "/api/cron/checkSmsPrices"
+    description: "Reads cron for display or reporting. Use this query to fetch cron with optional filters or pagination."
+  getCron6:
+    endpoint:
+      method: "GET"
+      path: "/api/cron/credentials"
+    description: "Reads cron for display or reporting. Use this query to fetch cron with optional filters or pagination."
+  getCron7:
+    endpoint:
+      method: "GET"
+      path: "/api/cron/downgradeUsers"
+    description: "Reads cron for display or reporting. Use this query to fetch cron with optional filters or pagination."
+  getCron8:
+    endpoint:
+      method: "GET"
+      path: "/api/cron/monthlyDigestEmail"
+    description: "Reads cron for display or reporting. Use this query to fetch cron with optional filters or pagination."
+  getCron9:
+    endpoint:
+      method: "GET"
+      path: "/api/cron/queuedFormResponseCleanup"
+    description: "Reads cron for display or reporting. Use this query to fetch cron with optional filters or pagination."
+  getCron10:
+    endpoint:
+      method: "GET"
+      path: "/api/cron/selected-calendars"
+    description: "Reads cron for display or reporting. Use this query to fetch cron with optional filters or pagination."
+  getCron11:
+    endpoint:
+      method: "GET"
+      path: "/api/cron/syncAppMeta"
+    description: "Reads cron for display or reporting. Use this query to fetch cron with optional filters or pagination."
+  getCron12:
+    endpoint:
+      method: "GET"
+      path: "/api/cron/webhookTriggers"
+    description: "Reads cron for display or reporting. Use this query to fetch cron with optional filters or pagination."
+  getCsrf:
+    endpoint:
+      method: "GET"
+      path: "/api/csrf"
+    description: "Reads csrf for display or reporting. Use this query to fetch csrf with optional filters or pagination."
+  getEmail:
+    endpoint:
+      method: "GET"
+      path: "/api/email"
+    description: "Reads email for display or reporting. Use this query to fetch email with optional filters or pagination."
+  getGeolocation:
+    endpoint:
+      method: "GET"
+      path: "/api/geolocation"
+    description: "Reads geolocation for display or reporting. Use this query to fetch geolocation with optional filters or pagination."
+  getIp:
+    endpoint:
+      method: "GET"
+      path: "/api/ip"
+    description: "Reads ip for display or reporting. Use this query to fetch ip with optional filters or pagination."
+  getLink:
+    endpoint:
+      method: "GET"
+      path: "/api/link"
+    description: "Reads link for display or reporting. Use this query to fetch link with optional filters or pagination."
+  getLogo:
+    endpoint:
+      method: "GET"
+      path: "/api/logo"
+    description: "Reads logo for display or reporting. Use this query to fetch logo with optional filters or pagination."
+  getMe2:
+    endpoint:
+      method: "GET"
+      path: "/api/me"
+    description: "Reads me for display or reporting. Use this query to fetch me with optional filters or pagination."
+  getOrganizations:
+    endpoint:
+      method: "GET"
+      path: "/api/organizations/payment-redirect"
+    description: "Reads organizations for display or reporting. Use this query to fetch organizations with optional filters or pagination."
+  parserequestdata:
+    endpoint:
+      method: "GET"
+      path: "/api/parseRequestData"
+    description: "Reads parseRequestData for display or reporting. Use this query to fetch parseRequestData with optional filters or pagination."
+  getRecordedDailyVideo:
+    endpoint:
+      method: "GET"
+      path: "/api/recorded-daily-video"
+    description: "Reads recorded daily video for display or reporting. Use this query to fetch recorded daily video with optional filters or pagination."
+  getScim:
+    endpoint:
+      method: "GET"
+      path: "/api/scim/v2.0/:directory*"
+    description: "Reads a single scim identified by directory. Use this query to fetch scim data without side effects. Path parameters: directory."
+  getSocial:
+    endpoint:
+      method: "GET"
+      path: "/api/social/og/image"
+    description: "Reads social for display or reporting. Use this query to fetch social with optional filters or pagination."
+  getSupport:
+    endpoint:
+      method: "GET"
+      path: "/api/support/hash"
+    description: "Reads support for display or reporting. Use this query to fetch support with optional filters or pagination."
+  getSync:
+    endpoint:
+      method: "GET"
+      path: "/api/sync/helpscout"
+    description: "Reads sync for display or reporting. Use this query to fetch sync with optional filters or pagination."
+  getTasks:
+    endpoint:
+      method: "GET"
+      path: "/api/tasks/cleanup"
+    description: "Reads tasks for display or reporting. Use this query to fetch tasks with optional filters or pagination."
+  getTasks2:
+    endpoint:
+      method: "GET"
+      path: "/api/tasks/cron"
+    description: "Reads tasks for display or reporting. Use this query to fetch tasks with optional filters or pagination."
+  getTeam3:
+    endpoint:
+      method: "GET"
+      path: "/api/teams/:team/upgrade"
+    description: "Reads a single team identified by team. Use this query to fetch team data without side effects. Path parameters: team."
+  getTeams2:
+    endpoint:
+      method: "GET"
+      path: "/api/teams/api/create"
+    description: "Reads teams for display or reporting. Use this query to fetch teams with optional filters or pagination."
+  getTeams3:
+    endpoint:
+      method: "GET"
+      path: "/api/teams/create"
+    description: "Reads teams for display or reporting. Use this query to fetch teams with optional filters or pagination."
+  getGoogleworkspace:
+    endpoint:
+      method: "GET"
+      path: "/api/teams/googleworkspace/add"
+    description: "Reads googleworkspace for display or reporting. Use this query to fetch googleworkspace with optional filters or pagination."
+  getTeams4:
+    endpoint:
+      method: "GET"
+      path: "/api/teams/googleworkspace/callback"
+    description: "Reads teams for display or reporting. Use this query to fetch teams with optional filters or pagination."
+  getUser2:
+    endpoint:
+      method: "GET"
+      path: "/api/user/referrals-token"
+    description: "Reads user for display or reporting. Use this query to fetch user with optional filters or pagination."
+  getVerifyBookingToken:
+    endpoint:
+      method: "GET"
+      path: "/api/verify-booking-token"
+    description: "Reads verify booking token for display or reporting. Use this query to fetch verify booking token with optional filters or pagination."
+  getVersion:
+    endpoint:
+      method: "GET"
+      path: "/api/version"
+    description: "Reads version for display or reporting. Use this query to fetch version with optional filters or pagination."
+  getVideo:
+    endpoint:
+      method: "GET"
+      path: "/api/video/recording"
+    description: "Reads video for display or reporting. Use this query to fetch video with optional filters or pagination."
+  getWebhook2:
+    endpoint:
+      method: "GET"
+      path: "/api/webhook/app-credential"
+    description: "Reads webhook for display or reporting. Use this query to fetch webhook with optional filters or pagination."
+  getWebhooks2:
+    endpoint:
+      method: "GET"
+      path: "/api/webhooks/retell-ai"
+    description: "Reads webhooks for display or reporting. Use this query to fetch webhooks with optional filters or pagination."
+components:
+  addtohomescreen:
+    path: "apps/web/components/AddToHomescreen.tsx"
+  enterprisepage:
+    path: "apps/web/components/EnterprisePage.tsx"
+  gtm:
+    path: "apps/web/components/GTM.tsx"
+  i18nlanguagehandler:
+    path: "apps/web/components/I18nLanguageHandler.tsx"
+  loader:
+    path: "packages/ui/components/skeleton/Loader.tsx"
+  pagewrapper:
+    path: "apps/web/components/PageWrapper.tsx"
+  pagewrapperappdir:
+    path: "apps/web/components/PageWrapperAppDir.tsx"
+  app:
+    path: "apps/web/components/apps/App.tsx"
+  apppage:
+    path: "apps/web/components/apps/AppPage.tsx"
+  appsetuppage:
+    path: "apps/web/components/apps/AppSetupPage.tsx"
+  calendarlistcontainer:
+    path: "apps/web/components/apps/CalendarListContainer.tsx"
+  destinationcalendarsettingswebwrapper:
+    path: "apps/web/components/apps/DestinationCalendarSettingsWebWrapper.tsx"
+  installappbuttonchildTest:
+    path: "apps/web/components/apps/InstallAppButtonChild.test.tsx"
+  installappbuttonchild:
+    path: "apps/web/components/apps/InstallAppButtonChild.tsx"
+  multidisconnectintegration:
+    path: "apps/web/components/apps/MultiDisconnectIntegration.tsx"
+  albypaymentcomponent:
+    path: "apps/web/components/apps/alby/AlbyPaymentComponent.tsx"
+  setup:
+    path: "apps/web/components/apps/stripepayment/Setup.tsx"
+  btcpaypaymentcomponent:
+    path: "apps/web/components/apps/btcpayserver/BtcpayPaymentComponent.tsx"
+  hitpaypaymentcomponent:
+    path: "apps/web/components/apps/hitpay/HitpayPaymentComponent.tsx"
+  accountsstepcard:
+    path: "apps/web/components/apps/installation/AccountsStepCard.tsx"
+  configurestepcard:
+    path: "apps/web/components/apps/installation/ConfigureStepCard.tsx"
+  eventtypeappsettingswrapper:
+    path: "apps/web/components/apps/installation/EventTypeAppSettingsWrapper.tsx"
+  eventtypeconferencingappsettings:
+    path: "apps/web/components/apps/installation/EventTypeConferencingAppSettings.tsx"
+  eventtypesstepcard:
+    path: "apps/web/components/apps/installation/EventTypesStepCard.tsx"
+  stepheader:
+    path: "apps/web/components/apps/installation/StepHeader.tsx"
+  appslayout:
+    path: "apps/web/components/apps/layouts/AppsLayout.tsx"
+  installedappslayout:
+    path: "apps/web/components/apps/layouts/InstalledAppsLayout.tsx"
+  paypalpaymentcomponent:
+    path: "apps/web/components/apps/paypal/PaypalPaymentComponent.tsx"
+  formactions:
+    path: "apps/web/components/apps/routing-forms/FormActions.tsx"
+  formsettingsslideover:
+    path: "apps/web/components/apps/routing-forms/FormSettingsSlideover.tsx"
+  header:
+    path: "companion/components/Header.tsx"
+  singleform:
+    path: "apps/web/components/apps/routing-forms/SingleForm.tsx"
+  testform:
+    path: "apps/web/components/apps/routing-forms/TestForm.tsx"
+  testformdialogTest:
+    path: "apps/web/components/apps/routing-forms/TestFormDialog.test.tsx"
+  confirmdialog:
+    path: "apps/web/components/apps/wipemycalother/confirmDialog.tsx"
+  wipemycalactionbutton:
+    path: "apps/web/components/apps/wipemycalother/wipeMyCalActionButton.tsx"
+  backupcode:
+    path: "apps/web/components/auth/BackupCode.tsx"
+  twofactor:
+    path: "apps/web/components/auth/TwoFactor.tsx"
+  acceptbookingbutton:
+    path: "apps/web/components/booking/AcceptBookingButton.tsx"
+  bookinglistitem:
+    path: "companion/components/booking-list-item/BookingListItem.tsx"
+  cancelbooking:
+    path: "apps/web/components/booking/CancelBooking.tsx"
+  rejectbookingbutton:
+    path: "apps/web/components/booking/RejectBookingButton.tsx"
+  routingtracesheet:
+    path: "apps/web/components/booking/RoutingTraceSheet.tsx"
+  skeletonloader:
+    path: "packages/features/availability/components/SkeletonLoader.tsx"
+  cancelbookingCancellationfeeTest:
+    path: "apps/web/components/booking/__tests__/CancelBooking.cancellationFee.test.tsx"
+  bookingactionsdropdown:
+    path: "apps/web/components/booking/actions/BookingActionsDropdown.tsx"
+  bookingactionsstoreprovider:
+    path: "apps/web/components/booking/actions/BookingActionsStoreProvider.tsx"
+  bookingactionsTest:
+    path: "apps/web/components/booking/actions/bookingActions.test.ts"
+  bookingactions:
+    path: "apps/web/components/booking/actions/bookingActions.ts"
+  store:
+    path: "packages/features/bookings/Booker/components/OverlayCalendar/store.ts"
+  usebookingconfirmation:
+    path: "apps/web/components/booking/hooks/useBookingConfirmation.tsx"
+  types:
+    path: "packages/ui/components/form/select/types.ts"
+  addguestsdialog:
+    path: "apps/web/components/dialog/AddGuestsDialog.tsx"
+  cancelbookingdialog:
+    path: "apps/web/components/dialog/CancelBookingDialog.tsx"
+  chargecarddialog:
+    path: "apps/web/components/dialog/ChargeCardDialog.tsx"
+  editlocationdialog:
+    path: "apps/web/components/dialog/EditLocationDialog.tsx"
+  reassigndialog:
+    path: "apps/web/components/dialog/ReassignDialog.tsx"
+  rejectionreasondialog:
+    path: "apps/web/components/dialog/RejectionReasonDialog.tsx"
+  reportbookingdialog:
+    path: "apps/web/components/dialog/ReportBookingDialog.tsx"
+  reroutedialog:
+    path: "apps/web/components/dialog/RerouteDialog.tsx"
+  rescheduledialog:
+    path: "apps/web/components/dialog/RescheduleDialog.tsx"
+  wrongassignmentdialog:
+    path: "apps/web/components/dialog/WrongAssignmentDialog.tsx"
+  editlocationdialogTest:
+    path: "apps/web/components/dialog/__tests__/EditLocationDialog.test.tsx"
+  reroutedialogTest:
+    path: "apps/web/components/dialog/__tests__/RerouteDialog.test.tsx"
+  bookingpageerrorboundary:
+    path: "apps/web/components/error/BookingPageErrorBoundary.tsx"
+  errorPage:
+    path: "apps/web/components/error/error-page.tsx"
+  eventtypedescriptionsafehtml:
+    path: "apps/web/components/eventtype/EventTypeDescriptionSafeHTML.tsx"
+  appconnectionitem:
+    path: "apps/web/components/getting-started/components/AppConnectionItem.tsx"
+  connectedcalendaritem:
+    path: "apps/web/components/getting-started/components/ConnectedCalendarItem.tsx"
+  createeventsoncalendarselect:
+    path: "apps/web/components/getting-started/components/CreateEventsOnCalendarSelect.tsx"
+  stepconnectionloader:
+    path: "apps/web/components/getting-started/components/StepConnectionLoader.tsx"
+  connectcalendars:
+    path: "apps/web/components/getting-started/steps-views/ConnectCalendars.tsx"
+  connectedvideostep:
+    path: "apps/web/components/getting-started/steps-views/ConnectedVideoStep.tsx"
+  setupavailability:
+    path: "apps/web/components/getting-started/steps-views/SetupAvailability.tsx"
+  userprofile:
+    path: "apps/web/components/getting-started/steps-views/UserProfile.tsx"
+  usersettings:
+    path: "apps/web/components/getting-started/steps-views/UserSettings.tsx"
+  subheadingtitlewithconnections:
+    path: "apps/web/components/integrations/SubHeadingTitleWithConnections.tsx"
+  notificationSoundHandler:
+    path: "apps/web/components/notification-sound-handler.tsx"
+  eventreservationschema:
+    path: "apps/web/components/schemas/EventReservationSchema.tsx"
+  disabletwofactormodal:
+    path: "apps/web/components/settings/DisableTwoFactorModal.tsx"
+  disableuserimpersonation:
+    path: "apps/web/components/security/DisableUserImpersonation.tsx"
+  enabletwofactormodal:
+    path: "apps/web/components/settings/EnableTwoFactorModal.tsx"
+  twofactorauthapi:
+    path: "apps/web/components/settings/TwoFactorAuthAPI.ts"
+  twofactorauthsection:
+    path: "apps/web/components/security/TwoFactorAuthSection.tsx"
+  twofactormodalheader:
+    path: "apps/web/components/security/TwoFactorModalHeader.tsx"
+  customemailtextfield:
+    path: "apps/web/components/settings/CustomEmailTextField.tsx"
+  secondaryemailconfirmmodal:
+    path: "apps/web/components/settings/SecondaryEmailConfirmModal.tsx"
+  secondaryemailmodal:
+    path: "apps/web/components/settings/SecondaryEmailModal.tsx"
+  travelschedulemodal:
+    path: "apps/web/components/settings/TravelScheduleModal.tsx"
+  recentimpersonationslist:
+    path: "apps/web/components/settings/admin/RecentImpersonationsList.tsx"
+  helpcards:
+    path: "apps/web/components/settings/platform/dashboard/HelpCards.tsx"
+  noplatformplan:
+    path: "apps/web/components/settings/platform/dashboard/NoPlatformPlan.tsx"
+  index:
+    path: "packages/ui/components/unpublished-entity/index.ts"
+  usegetuserattributes:
+    path: "apps/web/components/settings/platform/hooks/useGetUserAttributes.ts"
+  useplatformme:
+    path: "apps/web/components/settings/platform/hooks/usePlatformMe.ts"
+  oauthclientcard:
+    path: "apps/web/components/settings/platform/oauth-clients/OAuthClientCard.tsx"
+  platformutils:
+    path: "apps/web/components/settings/platform/platformUtils.ts"
+  adminuser:
+    path: "apps/web/components/setup/AdminUser.tsx"
+  chooselicense:
+    path: "apps/web/components/setup/ChooseLicense.tsx"
+  enterpriselicense:
+    path: "apps/web/components/setup/EnterpriseLicense.tsx"
+  licenseselection:
+    path: "apps/web/components/setup/LicenseSelection.tsx"
+  stepdone:
+    path: "apps/web/components/setup/StepDone.tsx"
+  team:
+    path: "apps/web/components/team/screens/Team.tsx"
+  authcontainer:
+    path: "apps/web/components/ui/AuthContainer.tsx"
+  limitedbadges:
+    path: "apps/web/components/ui/LimitedBadges.tsx"
+  linkiconbutton:
+    path: "packages/ui/components/button/LinkIconButton.tsx"
+  modalcontainer:
+    path: "apps/web/components/ui/ModalContainer.tsx"
+  settinginputcontainer:
+    path: "apps/web/components/ui/SettingInputContainer.tsx"
+  premiumtextfield:
+    path: "apps/web/components/ui/UsernameAvailability/PremiumTextfield.tsx"
+  usernametextfield:
+    path: "apps/web/components/ui/UsernameAvailability/UsernameTextfield.tsx"
+  checkedselect:
+    path: "apps/web/components/ui/form/CheckedSelect.tsx"
+  datepicker:
+    path: "packages/ui/components/form/datepicker/DatePicker.tsx"
+  minutesfield:
+    path: "apps/web/components/ui/form/MinutesField.tsx"
+  adminappslist:
+    path: "apps/web/modules/apps/components/AdminAppsList.tsx"
+  allapps:
+    path: "apps/web/modules/apps/components/AllApps.tsx"
+  appcard:
+    path: "apps/web/modules/apps/components/AppCard.tsx"
+  applist:
+    path: "apps/web/modules/apps/components/AppList.tsx"
+  applistcard:
+    path: "packages/ui/components/app-list-card/AppListCard.tsx"
+  applistcardplatformwrapper:
+    path: "apps/web/modules/apps/components/AppListCardPlatformWrapper.tsx"
+  applistcardwebwrapper:
+    path: "apps/web/modules/apps/components/AppListCardWebWrapper.tsx"
+  appsetdefaultlinkdialog:
+    path: "apps/web/modules/apps/components/AppSetDefaultLinkDialog.tsx"
+  categories:
+    path: "apps/web/modules/apps/components/Categories.tsx"
+  conferencingappsviewwebwrapper:
+    path: "apps/web/modules/apps/components/ConferencingAppsViewWebWrapper.tsx"
+  credentialactionsdropdown:
+    path: "apps/web/modules/apps/components/CredentialActionsDropdown.tsx"
+  disconnectintegration:
+    path: "packages/ui/components/disconnect-calendar-integration/DisconnectIntegration.tsx"
+  disconnectintegrationmodal:
+    path: "apps/web/modules/apps/components/DisconnectIntegrationModal.tsx"
+  popularappsslider:
+    path: "apps/web/modules/apps/components/PopularAppsSlider.tsx"
+  recentappsslider:
+    path: "apps/web/modules/apps/components/RecentAppsSlider.tsx"
+  slider:
+    path: "packages/coss-ui/src/components/slider.tsx"
+  storybookdata:
+    path: "apps/web/modules/apps/components/_storybookData.ts"
+  appcardTest:
+    path: "apps/web/modules/apps/components/appCard.test.tsx"
+  samllogin:
+    path: "apps/web/modules/auth/components/SAMLLogin.tsx"
+  turnstile:
+    path: "apps/web/modules/auth/components/Turnstile.tsx"
+  upgradeteamsbadgewebwrapper:
+    path: "apps/web/modules/billing/components/UpgradeTeamsBadgeWebWrapper.tsx"
+  bookinghistory:
+    path: "apps/web/modules/booking-audit/components/BookingHistory.tsx"
+  bookinghistorypage:
+    path: "apps/web/modules/booking-audit/components/BookingHistoryPage.tsx"
+  availabletimeslots:
+    path: "apps/web/modules/bookings/components/__mocks__/AvailableTimeSlots.tsx"
+  availabletimes:
+    path: "apps/web/modules/bookings/components/AvailableTimes.tsx"
+  availabletimesheader:
+    path: "apps/web/modules/bookings/components/AvailableTimesHeader.tsx"
+  bookeventform:
+    path: "apps/web/modules/bookings/components/BookEventForm/BookEventForm.tsx"
+  bookformasmodal:
+    path: "apps/web/modules/bookings/components/BookEventForm/BookFormAsModal.tsx"
+  bookingfields:
+    path: "apps/web/modules/bookings/components/BookEventForm/BookingFields.tsx"
+  skeleton:
+    path: "packages/ui/components/skeleton/Skeleton.tsx"
+  bookerTest:
+    path: "apps/web/modules/bookings/components/Booker.test.tsx"
+  booker:
+    path: "apps/web/modules/bookings/components/Booker.tsx"
+  bookerwebwrapper:
+    path: "apps/web/modules/bookings/components/BookerWebWrapper.tsx"
+  bookingcalendarcontainer:
+    path: "apps/web/modules/bookings/components/BookingCalendarContainer.tsx"
+  bookingcalendarview:
+    path: "apps/web/modules/bookings/components/BookingCalendarView.tsx"
+  bookingdetailssheet:
+    path: "apps/web/modules/bookings/components/BookingDetailsSheet.tsx"
+  bookinglist:
+    path: "apps/web/modules/bookings/components/BookingList.tsx"
+  bookinglistcontainer:
+    path: "apps/web/modules/bookings/components/BookingListContainer.tsx"
+  bookingsuccesscard:
+    path: "apps/web/modules/bookings/components/BookingSuccessCard.tsx"
+  bookingscsvdownload:
+    path: "apps/web/modules/bookings/components/BookingsCsvDownload.tsx"
+  datepickerTest:
+    path: "packages/ui/components/form/datepicker/datepicker.test.tsx"
+  decoybookingsuccesscard:
+    path: "apps/web/modules/bookings/components/DecoyBookingSuccessCard.tsx"
+  dryrunmessage:
+    path: "apps/web/modules/bookings/components/__mocks__/DryRunMessage.tsx"
+  eventmeta:
+    path: "apps/web/modules/bookings/components/__mocks__/EventMeta.tsx"
+  havingtroublefindingtime:
+    path: "apps/web/modules/bookings/components/HavingTroubleFindingTime.tsx"
+  instantbooking:
+    path: "apps/web/modules/bookings/components/InstantBooking.tsx"
+  joinmeetingbutton:
+    path: "apps/web/modules/bookings/components/JoinMeetingButton.tsx"
+  largecalendar:
+    path: "apps/web/modules/troubleshooter/components/LargeCalendar.tsx"
+  outofofficeinslots:
+    path: "apps/web/modules/bookings/components/OutOfOfficeInSlots.tsx"
+  overlaycalendar:
+    path: "apps/web/modules/bookings/components/__mocks__/OverlayCalendar.tsx"
+  overlaycalendarcontinuemodal:
+    path: "apps/web/modules/bookings/components/OverlayCalendar/OverlayCalendarContinueModal.tsx"
+  overlaycalendarsettingsmodal:
+    path: "apps/web/modules/bookings/components/OverlayCalendar/OverlayCalendarSettingsModal.tsx"
+  overlaycalendarswitch:
+    path: "apps/web/modules/bookings/components/OverlayCalendar/OverlayCalendarSwitch.tsx"
+  redirecttoinstantmeetingmodal:
+    path: "apps/web/modules/bookings/components/RedirectToInstantMeetingModal.tsx"
+  scrollablewithgradients:
+    path: "apps/web/modules/bookings/components/ScrollableWithGradients.tsx"
+  seatsavailabilitytext:
+    path: "apps/web/modules/bookings/components/SeatsAvailabilityText.tsx"
+  section:
+    path: "packages/ui/components/section/section.tsx"
+  slotselectionmodalheader:
+    path: "apps/web/modules/bookings/components/SlotSelectionModalHeader.tsx"
+  timeformattoggle:
+    path: "apps/web/modules/bookings/components/TimeFormatToggle.tsx"
+  unavailable:
+    path: "apps/web/modules/bookings/components/Unavailable.tsx"
+  unconfirmedbookingbadge:
+    path: "apps/web/modules/bookings/components/UnconfirmedBookingBadge.tsx"
+  verifycodedialog:
+    path: "apps/web/modules/bookings/components/VerifyCodeDialog.tsx"
+  viewtogglebutton:
+    path: "apps/web/modules/bookings/components/ViewToggleButton.tsx"
+  weekpicker:
+    path: "apps/web/modules/bookings/components/WeekPicker.tsx"
+  availableeventlocations:
+    path: "apps/web/modules/bookings/components/event-meta/AvailableEventLocations.tsx"
+  details:
+    path: "apps/web/modules/bookings/components/event-meta/Details.tsx"
+  duration:
+    path: "apps/web/modules/bookings/components/event-meta/Duration.tsx"
+  locations:
+    path: "apps/web/modules/event-types/components/locations/Locations.tsx"
+  members:
+    path: "apps/web/modules/bookings/components/event-meta/Members.tsx"
+  occurences:
+    path: "apps/web/modules/bookings/components/event-meta/Occurences.tsx"
+  payicon:
+    path: "apps/web/modules/bookings/components/event-meta/PayIcon.tsx"
+  price:
+    path: "apps/web/modules/bookings/components/event-meta/Price.tsx"
+  priceicon:
+    path: "apps/web/modules/bookings/components/event-meta/PriceIcon.tsx"
+  title:
+    path: "apps/web/modules/bookings/components/event-meta/Title.tsx"
+  usejoinablelocation:
+    path: "apps/web/modules/bookings/components/useJoinableLocation.tsx"
+  additionalcalendarselector:
+    path: "apps/web/modules/calendars/components/AdditionalCalendarSelector.tsx"
+  calendarswitch:
+    path: "packages/ui/components/calendar-switch/CalendarSwitch.tsx"
+  selectedcalendarssettingswebwrapper:
+    path: "apps/web/modules/calendars/components/SelectedCalendarsSettingsWebWrapper.tsx"
+  calendar:
+    path: "packages/ui/components/form/date-range-picker/Calendar.tsx"
+  blockedlist:
+    path: "apps/web/modules/calendars/weeklyview/components/blocking/BlockedList.tsx"
+  blockedtimecell:
+    path: "apps/web/modules/calendars/weeklyview/components/blocking/BlockedTimeCell.tsx"
+  empty:
+    path: "packages/coss-ui/src/components/empty.tsx"
+  event:
+    path: "apps/web/modules/calendars/weeklyview/components/event/Event.tsx"
+  eventlist:
+    path: "apps/web/modules/calendars/weeklyview/components/event/EventList.tsx"
+  schedulerheading:
+    path: "apps/web/modules/calendars/weeklyview/components/heading/SchedulerHeading.tsx"
+  spinner:
+    path: "packages/ui/components/icon/Spinner.tsx"
+  datatable:
+    path: "apps/web/modules/data-table/components/DataTable.tsx"
+  datatablepagination:
+    path: "apps/web/modules/data-table/components/DataTablePagination.tsx"
+  datatableselectionbar:
+    path: "apps/web/modules/data-table/components/DataTableSelectionBar.tsx"
+  datatableskeleton:
+    path: "apps/web/modules/data-table/components/DataTableSkeleton.tsx"
+  datatabletoolbar:
+    path: "apps/web/modules/data-table/components/DataTableToolbar.tsx"
+  datatablewrapper:
+    path: "apps/web/modules/data-table/components/DataTableWrapper.tsx"
+  activefilters:
+    path: "apps/web/modules/data-table/components/filters/ActiveFilters.tsx"
+  addfilterbutton:
+    path: "apps/web/modules/data-table/components/filters/AddFilterButton.tsx"
+  baseselectfilteroptions:
+    path: "apps/web/modules/data-table/components/filters/BaseSelectFilterOptions.tsx"
+  clearfiltersbutton:
+    path: "apps/web/modules/data-table/components/filters/ClearFiltersButton.tsx"
+  columnvisibilitybuttonTest:
+    path: "apps/web/modules/data-table/components/filters/ColumnVisibilityButton.test.tsx"
+  columnvisibilitybutton:
+    path: "apps/web/modules/data-table/components/filters/ColumnVisibilityButton.tsx"
+  daterangefilter:
+    path: "apps/web/modules/data-table/components/filters/DateRangeFilter.tsx"
+  filterbar:
+    path: "apps/web/modules/data-table/components/filters/FilterBar.tsx"
+  filteroptions:
+    path: "apps/web/modules/data-table/components/filters/FilterOptions.tsx"
+  filterpopover:
+    path: "apps/web/modules/data-table/components/filters/FilterPopover.tsx"
+  multiselectfilteroptions:
+    path: "apps/web/modules/data-table/components/filters/MultiSelectFilterOptions.tsx"
+  numberfilteroptions:
+    path: "apps/web/modules/data-table/components/filters/NumberFilterOptions.tsx"
+  singleselectfilteroptions:
+    path: "apps/web/modules/data-table/components/filters/SingleSelectFilterOptions.tsx"
+  textfilteroptions:
+    path: "apps/web/modules/data-table/components/filters/TextFilterOptions.tsx"
+  usefilterpopoveropen:
+    path: "apps/web/modules/data-table/components/filters/useFilterPopoverOpen.ts"
+  utils:
+    path: "companion/components/event-type-detail/utils.ts"
+  deletesegmentdialog:
+    path: "apps/web/modules/data-table/components/segment/DeleteSegmentDialog.tsx"
+  duplicatesegmentdialog:
+    path: "apps/web/modules/data-table/components/segment/DuplicateSegmentDialog.tsx"
+  filtersegmentselect:
+    path: "apps/web/modules/data-table/components/segment/FilterSegmentSelect.tsx"
+  renamesegmentdialog:
+    path: "apps/web/modules/data-table/components/segment/RenameSegmentDialog.tsx"
+  savefiltersegmentbutton:
+    path: "apps/web/modules/data-table/components/segment/SaveFilterSegmentButton.tsx"
+  apikeydialogform:
+    path: "apps/web/modules/ee/api-keys/components/ApiKeyDialogForm.tsx"
+  apikeylistitem:
+    path: "apps/web/modules/ee/api-keys/components/ApiKeyListItem.tsx"
+  dueinvoicebanner:
+    path: "apps/web/modules/ee/billing/components/DueInvoiceBanner.tsx"
+  brandcolorsform:
+    path: "apps/web/modules/ee/common/components/BrandColorsForm.tsx"
+  commonskeletonloaders:
+    path: "apps/web/modules/ee/common/components/CommonSkeletonLoaders.tsx"
+  licenserequired:
+    path: "apps/web/modules/ee/common/components/LicenseRequired.tsx"
+  poweredby:
+    path: "apps/web/modules/ee/common/components/PoweredBy.tsx"
+  configuredirectorysync:
+    path: "apps/web/modules/ee/dsync/components/ConfigureDirectorySync.tsx"
+  createdirectory:
+    path: "apps/web/modules/ee/dsync/components/CreateDirectory.tsx"
+  createteamdialog:
+    path: "apps/web/modules/ee/dsync/components/CreateTeamDialog.tsx"
+  directoryinfo:
+    path: "apps/web/modules/ee/dsync/components/DirectoryInfo.tsx"
+  groupnamecell:
+    path: "apps/web/modules/ee/dsync/components/GroupNameCell.tsx"
+  groupteammappingtable:
+    path: "apps/web/modules/ee/dsync/components/GroupTeamMappingTable.tsx"
+  impersonatingbanner:
+    path: "apps/web/modules/ee/impersonation/components/ImpersonatingBanner.tsx"
+  aboutorganizationform:
+    path: "apps/web/modules/ee/organizations/components/AboutOrganizationForm.tsx"
+  adminonboardinghandover:
+    path: "apps/web/modules/ee/organizations/components/AdminOnboardingHandover.tsx"
+  createaneworganizationform:
+    path: "apps/web/modules/ee/organizations/components/CreateANewOrganizationForm.tsx"
+  disableautofillonbookingpageswitch:
+    path: "apps/web/modules/ee/organizations/components/DisableAutofillOnBookingPageSwitch.tsx"
+  disableguestbookingemailssetting:
+    path: "apps/web/modules/ee/organizations/components/DisableGuestBookingEmailsSetting.tsx"
+  disablephoneonlysmsnotificationsswitch:
+    path: "apps/web/modules/ee/organizations/components/DisablePhoneOnlySMSNotificationsSwitch.tsx"
+  lockeventtypeswitch:
+    path: "apps/web/modules/ee/organizations/components/LockEventTypeSwitch.tsx"
+  memberlistitem:
+    path: "apps/web/modules/ee/organizations/components/MemberListItem.tsx"
+  noslotsnotificationswitch:
+    path: "apps/web/modules/ee/organizations/components/NoSlotsNotificationSwitch.tsx"
+  orgautojoinsetting:
+    path: "apps/web/modules/ee/organizations/components/OrgAutoJoinSetting.tsx"
+  orgupgradebanner:
+    path: "apps/web/modules/ee/organizations/components/OrgUpgradeBanner.tsx"
+  otherteamlist:
+    path: "apps/web/modules/ee/organizations/components/OtherTeamList.tsx"
+  otherteamlistitem:
+    path: "apps/web/modules/ee/organizations/components/OtherTeamListItem.tsx"
+  otherteamslisting:
+    path: "apps/web/modules/ee/organizations/components/OtherTeamsListing.tsx"
+  teaminvitefromorg:
+    path: "apps/web/modules/ee/organizations/components/TeamInviteFromOrg.tsx"
+  welcometoorganizationsmodal:
+    path: "apps/web/modules/ee/organizations/components/WelcomeToOrganizationsModal.tsx"
+  createanewplatformform:
+    path: "apps/web/modules/ee/platform/components/CreateANewPlatformForm.tsx"
+  connectioninfo:
+    path: "apps/web/modules/ee/sso/components/ConnectionInfo.tsx"
+  oidcconnection:
+    path: "apps/web/modules/ee/sso/components/OIDCConnection.tsx"
+  samlconnection:
+    path: "apps/web/modules/ee/sso/components/SAMLConnection.tsx"
+  ssoconfiguration:
+    path: "apps/web/modules/ee/sso/components/SSOConfiguration.tsx"
+  contactmenuitem:
+    path: "apps/web/modules/ee/support/components/ContactMenuItem.tsx"
+  intercomcontactform:
+    path: "apps/web/modules/ee/support/components/IntercomContactForm.tsx"
+  addnewteammembers:
+    path: "apps/web/modules/ee/teams/components/AddNewTeamMembers.tsx"
+  createanewteamform:
+    path: "apps/web/modules/ee/teams/components/CreateANewTeamForm.tsx"
+  deletebulkteammembers:
+    path: "apps/web/modules/ee/teams/components/DeleteBulkTeamMembers.tsx"
+  disableteamimpersonation:
+    path: "apps/web/modules/ee/teams/components/DisableTeamImpersonation.tsx"
+  editmembersheetTest:
+    path: "apps/web/modules/ee/teams/components/EditMemberSheet.test.tsx"
+  editmembersheet:
+    path: "apps/web/modules/ee/teams/components/EditMemberSheet.tsx"
+  eventtypeslist:
+    path: "apps/web/modules/users/components/UserTable/BulkActions/EventTypesList.tsx"
+  googleworkspaceinvitebutton:
+    path: "apps/web/modules/ee/teams/components/GoogleWorkspaceInviteButton.tsx"
+  internalnotepresetsview:
+    path: "apps/web/modules/ee/teams/components/InternalNotePresetsView.tsx"
+  invitelinksettingsmodal:
+    path: "apps/web/modules/ee/teams/components/InviteLinkSettingsModal.tsx"
+  maketeamprivateswitch:
+    path: "apps/web/modules/ee/teams/components/MakeTeamPrivateSwitch.tsx"
+  memberchangerolemodal:
+    path: "apps/web/modules/ee/teams/components/MemberChangeRoleModal.tsx"
+  memberinvitationmodal:
+    path: "apps/web/modules/ee/teams/components/MemberInvitationModal.tsx"
+  memberlist:
+    path: "apps/web/modules/ee/teams/components/MemberList.tsx"
+  roundrobinresetinterval:
+    path: "apps/web/modules/ee/teams/components/RoundRobinResetInterval.tsx"
+  roundrobinsettings:
+    path: "apps/web/modules/ee/teams/components/RoundRobinSettings.tsx"
+  roundrobintimestampbasis:
+    path: "apps/web/modules/ee/teams/components/RoundRobinTimestampBasis.tsx"
+  skeletonloaderavailabilitytimes:
+    path: "apps/web/modules/ee/teams/components/SkeletonLoaderAvailabilityTimes.tsx"
+  skeletonloaderteamlist:
+    path: "apps/web/modules/ee/teams/components/SkeletonloaderTeamList.tsx"
+  teamavailabilitymodal:
+    path: "apps/web/modules/ee/teams/components/TeamAvailabilityModal.tsx"
+  teamavailabilitytimes:
+    path: "apps/web/modules/ee/teams/components/TeamAvailabilityTimes.tsx"
+  teameventtypeform:
+    path: "apps/web/modules/ee/teams/components/TeamEventTypeForm.tsx"
+  teaminvitelist:
+    path: "apps/web/modules/ee/teams/components/TeamInviteList.tsx"
+  teaminvitelistitem:
+    path: "apps/web/modules/ee/teams/components/TeamInviteListItem.tsx"
+  teamlist:
+    path: "apps/web/modules/users/components/UserTable/BulkActions/TeamList.tsx"
+  teamlistitem:
+    path: "apps/web/modules/ee/teams/components/TeamListItem.tsx"
+  teampill:
+    path: "apps/web/modules/ee/teams/components/TeamPill.tsx"
+  teamslisting:
+    path: "apps/web/modules/ee/teams/components/TeamsListing.tsx"
+  teamsupgradebanner:
+    path: "apps/web/modules/ee/teams/components/TeamsUpgradeBanner.tsx"
+  createbutton:
+    path: "apps/web/modules/ee/teams/components/createButton/CreateButton.tsx"
+  createbuttonwithteamslist:
+    path: "apps/web/modules/ee/teams/components/createButton/CreateButtonWithTeamsList.tsx"
+  createButtonWithTeamsListTest:
+    path: "apps/web/modules/ee/teams/components/createButton/create-button-with-teams-list.test.tsx"
+  userform:
+    path: "apps/web/modules/ee/users/components/UserForm.tsx"
+  userstable:
+    path: "apps/web/modules/settings/admin/components/UsersTable.tsx"
+  meetingsessiondetailsdialog:
+    path: "apps/web/modules/ee/video/components/MeetingSessionDetailsDialog.tsx"
+  recordinglistitemskeleton:
+    path: "apps/web/modules/ee/video/components/RecordingListItemSkeleton.tsx"
+  recordinglistskeleton:
+    path: "apps/web/modules/ee/video/components/RecordingListSkeleton.tsx"
+  viewrecordingsdialog:
+    path: "apps/web/modules/ee/video/components/ViewRecordingsDialog.tsx"
+  addactiondialog:
+    path: "apps/web/modules/ee/workflows/components/AddActionDialog.tsx"
+  calldetailssheet:
+    path: "apps/web/modules/ee/workflows/components/CallDetailsSheet.tsx"
+  deletedialog:
+    path: "apps/web/modules/event-types/components/dialogs/DeleteDialog.tsx"
+  emptyscreen:
+    path: "packages/ui/components/empty-screen/EmptyScreen.tsx"
+  skeletonloaderedit:
+    path: "apps/web/modules/ee/workflows/components/SkeletonLoaderEdit.tsx"
+  skeletonloadereventworkflowstab:
+    path: "apps/web/modules/ee/workflows/components/SkeletonLoaderEventWorkflowsTab.tsx"
+  skeletonloaderlist:
+    path: "apps/web/modules/ee/workflows/components/SkeletonLoaderList.tsx"
+  testphonecalldialog:
+    path: "apps/web/modules/ee/workflows/components/TestPhoneCallDialog.tsx"
+  timetimeunitinput:
+    path: "apps/web/modules/ee/workflows/components/TimeTimeUnitInput.tsx"
+  voiceselectiondialog:
+    path: "apps/web/modules/ee/workflows/components/VoiceSelectionDialog.tsx"
+  webcalldialog:
+    path: "apps/web/modules/ee/workflows/components/WebCallDialog.tsx"
+  workflowcreationdialog:
+    path: "apps/web/modules/ee/workflows/components/WorkflowCreationDialog.tsx"
+  workflowdetailspage:
+    path: "apps/web/modules/ee/workflows/components/WorkflowDetailsPage.tsx"
+  workflowlistpage:
+    path: "apps/web/modules/ee/workflows/components/WorkflowListPage.tsx"
+  workflowstepcontainer:
+    path: "apps/web/modules/ee/workflows/components/WorkflowStepContainer.tsx"
+  agentconfigurationsheet:
+    path: "apps/web/modules/ee/workflows/components/agent-configuration/AgentConfigurationSheet.tsx"
+  buynumberdialog:
+    path: "apps/web/modules/ee/workflows/components/agent-configuration/components/dialogs/BuyNumberDialog.tsx"
+  confirmationdialogs:
+    path: "apps/web/modules/ee/workflows/components/agent-configuration/components/dialogs/ConfirmationDialogs.tsx"
+  importnumberdialog:
+    path: "apps/web/modules/ee/workflows/components/agent-configuration/components/dialogs/ImportNumberDialog.tsx"
+  agentconfigform:
+    path: "apps/web/modules/ee/workflows/components/agent-configuration/components/forms/AgentConfigForm.tsx"
+  languageselector:
+    path: "apps/web/modules/ee/workflows/components/agent-configuration/components/forms/LanguageSelector.tsx"
+  voiceselector:
+    path: "apps/web/modules/ee/workflows/components/agent-configuration/components/forms/VoiceSelector.tsx"
+  incomingcallstab:
+    path: "apps/web/modules/ee/workflows/components/agent-configuration/components/tabs/IncomingCallsTab.tsx"
+  outgoingcallstab:
+    path: "apps/web/modules/ee/workflows/components/agent-configuration/components/tabs/OutgoingCallsTab.tsx"
+  phonenumbertab:
+    path: "apps/web/modules/ee/workflows/components/agent-configuration/components/tabs/PhoneNumberTab.tsx"
+  useagentforms:
+    path: "apps/web/modules/ee/workflows/components/agent-configuration/hooks/useAgentForms.ts"
+  usephonenumberactions:
+    path: "apps/web/modules/ee/workflows/components/agent-configuration/hooks/usePhoneNumberActions.ts"
+  schemas:
+    path: "apps/web/modules/ee/workflows/components/agent-configuration/types/schemas.ts"
+  constants:
+    path: "packages/app-store/hitpay/components/constants.ts"
+  embed:
+    path: "apps/web/modules/embed/components/Embed.tsx"
+  embedtabs:
+    path: "apps/web/modules/embed/components/EmbedTabs.tsx"
+  eventtypeembed:
+    path: "apps/web/modules/embed/components/EventTypeEmbed.tsx"
+  routingformembed:
+    path: "apps/web/modules/embed/components/RoutingFormEmbed.tsx"
+  addmemberswithswitch:
+    path: "apps/web/modules/event-types/components/AddMembersWithSwitch.tsx"
+  addmemberswithswitchwebwrapper:
+    path: "apps/web/modules/event-types/components/AddMembersWithSwitchWebWrapper.tsx"
+  addverifiedemail:
+    path: "apps/web/modules/event-types/components/AddVerifiedEmail.tsx"
+  assignallteammembers:
+    path: "apps/web/modules/event-types/components/AssignAllTeamMembers.tsx"
+  bulkeditdefaultforeventsmodal:
+    path: "apps/web/modules/event-types/components/BulkEditDefaultForEventsModal.tsx"
+  checkedteamselect:
+    path: "apps/web/modules/event-types/components/CheckedTeamSelect.tsx"
+  checkeduserselect:
+    path: "apps/web/modules/event-types/components/CheckedUserSelect.tsx"
+  childreneventtypeselect:
+    path: "apps/web/modules/event-types/components/ChildrenEventTypeSelect.tsx"
+  createeventtypedialog:
+    path: "apps/web/modules/event-types/components/CreateEventTypeDialog.tsx"
+  createeventtypeform:
+    path: "apps/web/modules/event-types/components/CreateEventTypeForm.tsx"
+  duplicatedialog:
+    path: "apps/web/modules/event-types/components/DuplicateDialog.tsx"
+  editweightsforallteammembers:
+    path: "apps/web/modules/event-types/components/EditWeightsForAllTeamMembers.tsx"
+  emptypage:
+    path: "apps/web/modules/event-types/components/EmptyPage.tsx"
+  eventtype:
+    path: "apps/web/modules/event-types/components/EventType.tsx"
+  eventtypedescription:
+    path: "apps/web/modules/event-types/components/EventTypeDescription.tsx"
+  eventtypelayout:
+    path: "apps/web/modules/event-types/components/EventTypeLayout.tsx"
+  eventtypewebwrapper:
+    path: "apps/web/modules/event-types/components/EventTypeWebWrapper.tsx"
+  hosteditdialogs:
+    path: "apps/web/modules/event-types/components/HostEditDialogs.tsx"
+  learnmorelink:
+    path: "apps/web/modules/event-types/components/LearnMoreLink.tsx"
+  multidropdownselect:
+    path: "apps/web/modules/event-types/components/MultiDropdownSelect.tsx"
+  multipleprivatelinkscontroller:
+    path: "apps/web/modules/event-types/components/MultiplePrivateLinksController.tsx"
+  segmentTest:
+    path: "apps/web/modules/event-types/components/Segment.test.tsx"
+  segment:
+    path: "apps/web/modules/event-types/components/Segment.tsx"
+  weightdescription:
+    path: "apps/web/modules/event-types/components/WeightDescription.tsx"
+  addmemberswithswitchTest:
+    path: "apps/web/modules/event-types/components/__tests__/AddMembersWithSwitch.test.tsx"
+  assignmentwarningdialog:
+    path: "apps/web/modules/event-types/components/dialogs/AssignmentWarningDialog.tsx"
+  managedeventdialog:
+    path: "apps/web/modules/event-types/components/dialogs/ManagedEventDialog.tsx"
+  calvideosettings:
+    path: "apps/web/modules/event-types/components/locations/CalVideoSettings.tsx"
+  defaultlocationsettings:
+    path: "apps/web/modules/event-types/components/locations/DefaultLocationSettings.tsx"
+  hostlocations:
+    path: "apps/web/modules/event-types/components/locations/HostLocations.tsx"
+  locationinput:
+    path: "apps/web/modules/event-types/components/locations/LocationInput.tsx"
+  locationsettingscontainer:
+    path: "apps/web/modules/event-types/components/locations/LocationSettingsContainer.tsx"
+  customeventtypemodal:
+    path: "apps/web/modules/event-types/components/tabs/advanced/CustomEventTypeModal.tsx"
+  disableallemailssetting:
+    path: "apps/web/modules/event-types/components/tabs/advanced/DisableAllEmailsSetting.tsx"
+  disablereschedulingcontroller:
+    path: "apps/web/modules/event-types/components/tabs/advanced/DisableReschedulingController.tsx"
+  eventadvancedtab:
+    path: "apps/web/modules/event-types/components/tabs/advanced/EventAdvancedTab.tsx"
+  eventadvancedwebwrapper:
+    path: "apps/web/modules/event-types/components/tabs/advanced/EventAdvancedWebWrapper.tsx"
+  formbuilderTest:
+    path: "apps/web/modules/event-types/components/tabs/advanced/FormBuilder.test.tsx"
+  formbuilder:
+    path: "apps/web/modules/event-types/components/tabs/advanced/FormBuilder.tsx"
+  requiresconfirmationcontroller:
+    path: "apps/web/modules/event-types/components/tabs/advanced/RequiresConfirmationController.tsx"
+  aieventcontroller:
+    path: "apps/web/modules/event-types/components/tabs/ai/AIEventController.tsx"
+  eventaitab:
+    path: "apps/web/modules/event-types/components/tabs/ai/EventAITab.tsx"
+  eventappstab:
+    path: "apps/web/modules/event-types/components/tabs/apps/EventAppsTab.tsx"
+  eventteamassignmenttab:
+    path: "apps/web/modules/event-types/components/tabs/assignment/EventTeamAssignmentTab.tsx"
+  eventteamassignmenttabwebwrapper:
+    path: "apps/web/modules/event-types/components/tabs/assignment/EventTeamAssignmentTabWebWrapper.tsx"
+  eventavailabilitytab:
+    path: "apps/web/modules/event-types/components/tabs/availability/EventAvailabilityTab.tsx"
+  eventavailabilitytabwebwrapper:
+    path: "apps/web/modules/event-types/components/tabs/availability/EventAvailabilityTabWebWrapper.tsx"
+  eventinstanttab:
+    path: "apps/web/modules/event-types/components/tabs/instant/EventInstantTab.tsx"
+  instanteventcontroller:
+    path: "apps/web/modules/event-types/components/tabs/instant/InstantEventController.tsx"
+  eventlimitstab:
+    path: "apps/web/modules/event-types/components/tabs/limits/EventLimitsTab.tsx"
+  eventlimitstabwebwrapper:
+    path: "apps/web/modules/event-types/components/tabs/limits/EventLimitsTabWebWrapper.tsx"
+  maxactivebookingsperbookercontroller:
+    path: "apps/web/modules/event-types/components/tabs/limits/MaxActiveBookingsPerBookerController.tsx"
+  eventrecurringtab:
+    path: "apps/web/modules/event-types/components/tabs/recurring/EventRecurringTab.tsx"
+  eventrecurringwebwrapper:
+    path: "apps/web/modules/event-types/components/tabs/recurring/EventRecurringWebWrapper.tsx"
+  recurringeventcontroller:
+    path: "apps/web/modules/event-types/components/tabs/recurring/RecurringEventController.tsx"
+  eventsetuptab:
+    path: "apps/web/modules/event-types/components/tabs/setup/EventSetupTab.tsx"
+  eventsetuptabwebwrapper:
+    path: "apps/web/modules/event-types/components/tabs/setup/EventSetupTabWebWrapper.tsx"
+  eventwebhookstab:
+    path: "apps/web/modules/event-types/components/tabs/webhooks/EventWebhooksTab.tsx"
+  eventworkflowstab:
+    path: "apps/web/modules/event-types/components/tabs/workflows/EventWorkflowsTab.tsx"
+  assignfeaturesheet:
+    path: "apps/web/modules/feature-flags/components/AssignFeatureSheet.tsx"
+  flagadminlist:
+    path: "apps/web/modules/feature-flags/components/FlagAdminList.tsx"
+  bookedbycell:
+    path: "apps/web/modules/insights/components/BookedByCell.tsx"
+  bookingatcell:
+    path: "apps/web/modules/insights/components/BookingAtCell.tsx"
+  bookingstatusbadge:
+    path: "apps/web/modules/insights/components/BookingStatusBadge.tsx"
+  cellwithoverflowx:
+    path: "apps/web/modules/insights/components/CellWithOverflowX.tsx"
+  chartcard:
+    path: "apps/web/modules/insights/components/ChartCard.tsx"
+  kpicard:
+    path: "apps/web/modules/insights/components/KPICard.tsx"
+  responsevaluecell:
+    path: "apps/web/modules/insights/components/ResponseValueCell.tsx"
+  userstatstable:
+    path: "apps/web/modules/insights/components/UserStatsTable.tsx"
+  averageeventdurationchart:
+    path: "apps/web/modules/insights/components/booking/AverageEventDurationChart.tsx"
+  bookingkpicards:
+    path: "apps/web/modules/insights/components/booking/BookingKPICards.tsx"
+  bookingsbyhourchart:
+    path: "apps/web/modules/insights/components/booking/BookingsByHourChart.tsx"
+  csatovertimechart:
+    path: "apps/web/modules/insights/components/booking/CSATOverTimeChart.tsx"
+  eventtrendschart:
+    path: "apps/web/modules/insights/components/booking/EventTrendsChart.tsx"
+  highestnoshowhosttable:
+    path: "apps/web/modules/insights/components/booking/HighestNoShowHostTable.tsx"
+  highestratedmemberstable:
+    path: "apps/web/modules/insights/components/booking/HighestRatedMembersTable.tsx"
+  leastbookedteammemberstable:
+    path: "apps/web/modules/insights/components/booking/LeastBookedTeamMembersTable.tsx"
+  leastcompletedbookings:
+    path: "apps/web/modules/insights/components/booking/LeastCompletedBookings.tsx"
+  lowestratedmemberstable:
+    path: "apps/web/modules/insights/components/booking/LowestRatedMembersTable.tsx"
+  mostbookedteammemberstable:
+    path: "apps/web/modules/insights/components/booking/MostBookedTeamMembersTable.tsx"
+  mostcancelledbookingstables:
+    path: "apps/web/modules/insights/components/booking/MostCancelledBookingsTables.tsx"
+  mostcompletedbookings:
+    path: "apps/web/modules/insights/components/booking/MostCompletedBookings.tsx"
+  noshowhostsovertimechart:
+    path: "apps/web/modules/insights/components/booking/NoShowHostsOverTimeChart.tsx"
+  populareventstable:
+    path: "apps/web/modules/insights/components/booking/PopularEventsTable.tsx"
+  recentfeedbacktable:
+    path: "apps/web/modules/insights/components/booking/RecentFeedbackTable.tsx"
+  recentfeedbacktablecontent:
+    path: "apps/web/modules/insights/components/booking/RecentFeedbackTableContent.tsx"
+  recentnoshowguestschart:
+    path: "apps/web/modules/insights/components/booking/RecentNoShowGuestsChart.tsx"
+  timezonebadge:
+    path: "apps/web/modules/insights/components/booking/TimezoneBadge.tsx"
+  insightsorgteamsprovider:
+    path: "apps/web/modules/insights/components/context/InsightsOrgTeamsProvider.tsx"
+  datetargetselector:
+    path: "apps/web/modules/insights/components/filters/DateTargetSelector.tsx"
+  download:
+    path: "apps/web/modules/insights/components/filters/Download/Download.tsx"
+  routingformresponsesdownload:
+    path: "apps/web/modules/insights/components/filters/Download/RoutingFormResponsesDownload.tsx"
+  orgteamsfilter:
+    path: "apps/web/modules/insights/components/filters/OrgTeamsFilter.tsx"
+  failedbookingsbyfield:
+    path: "apps/web/modules/insights/components/routing/FailedBookingsByField.tsx"
+  routedtoperperiod:
+    path: "apps/web/modules/insights/components/routing/RoutedToPerPeriod.tsx"
+  routingformresponsestable:
+    path: "apps/web/modules/insights/components/routing/RoutingFormResponsesTable.tsx"
+  routingfunnel:
+    path: "apps/web/modules/insights/components/routing/RoutingFunnel.tsx"
+  routingfunnelcontent:
+    path: "apps/web/modules/insights/components/routing/RoutingFunnelContent.tsx"
+  routingfunnelskeleton:
+    path: "apps/web/modules/insights/components/routing/RoutingFunnelSkeleton.tsx"
+  routingkpicards:
+    path: "apps/web/modules/insights/components/routing/RoutingKPICards.tsx"
+  editintegrationattributesynccard:
+    path: "apps/web/modules/integration-attribute-sync/components/EditIntegrationAttributeSyncCard.tsx"
+  fieldmappingbuilder:
+    path: "apps/web/modules/integration-attribute-sync/components/FieldMappingBuilder.tsx"
+  integrationattributesynccard:
+    path: "apps/web/modules/integration-attribute-sync/components/IntegrationAttributeSyncCard.tsx"
+  integrationattributesyncview:
+    path: "apps/web/modules/integration-attribute-sync/components/IntegrationAttributeSyncView.tsx"
+  newintegrationattributesynccard:
+    path: "apps/web/modules/integration-attribute-sync/components/NewIntegrationAttributeSyncCard.tsx"
+  rulebuilder:
+    path: "apps/web/modules/integration-attribute-sync/components/RuleBuilder.tsx"
+  webpushcontext:
+    path: "apps/web/modules/notifications/components/WebPushContext.tsx"
+  emailinviteform:
+    path: "apps/web/modules/onboarding/components/EmailInviteForm.tsx"
+  inviteoptions:
+    path: "apps/web/modules/onboarding/components/InviteOptions.tsx"
+  onboardingcard:
+    path: "apps/web/modules/onboarding/components/OnboardingCard.tsx"
+  onboardinglayout:
+    path: "apps/web/modules/onboarding/components/OnboardingLayout.tsx"
+  roleselector:
+    path: "apps/web/modules/onboarding/components/RoleSelector.tsx"
+  onboardingBrowserView:
+    path: "apps/web/modules/onboarding/components/onboarding-browser-view.tsx"
+  onboardingCalendarBrowserView:
+    path: "apps/web/modules/onboarding/components/onboarding-calendar-browser-view.tsx"
+  onboardingContinuationPrompt:
+    path: "apps/web/modules/onboarding/components/onboarding-continuation-prompt.tsx"
+  onboardingInviteBrowserView:
+    path: "apps/web/modules/onboarding/components/onboarding-invite-browser-view.tsx"
+  onboardingMigrateMembersBrowserView:
+    path: "apps/web/modules/onboarding/components/onboarding-migrate-members-browser-view.tsx"
+  onboardingMigrateTeamsBrowserView:
+    path: "apps/web/modules/onboarding/components/onboarding-migrate-teams-browser-view.tsx"
+  onboardingOrganizationBrowserView:
+    path: "apps/web/modules/onboarding/components/onboarding-organization-browser-view.tsx"
+  onboardingTeamsBrowserView:
+    path: "apps/web/modules/onboarding/components/onboarding-teams-browser-view.tsx"
+  planIcon:
+    path: "apps/web/modules/onboarding/components/plan-icon.tsx"
+  newschedulebutton:
+    path: "apps/web/modules/schedules/components/NewScheduleButton.tsx"
+  schedule:
+    path: "apps/web/modules/schedules/components/Schedule.tsx"
+  dateOverrideListTest:
+    path: "apps/web/modules/schedules/components/date-override-list.test.tsx"
+  billingcredits:
+    path: "apps/web/modules/settings/billing/components/BillingCredits.tsx"
+  billingcreditsskeleton:
+    path: "apps/web/modules/settings/billing/components/BillingCreditsSkeleton.tsx"
+  bookerlayoutselector:
+    path: "apps/web/modules/settings/components/BookerLayoutSelector.tsx"
+  sectionbottomactions:
+    path: "apps/web/modules/settings/components/SectionBottomActions.tsx"
+  settingsheader:
+    path: "apps/web/modules/settings/components/SettingsHeader.tsx"
+  settingsheaderwithbackbutton:
+    path: "apps/web/modules/settings/components/SettingsHeaderWithBackButton.tsx"
+  themelabel:
+    path: "apps/web/modules/settings/components/ThemeLabel.tsx"
+  timezonechangedialog:
+    path: "apps/web/modules/settings/components/TimezoneChangeDialog.tsx"
+  addcalendarbutton:
+    path: "apps/web/modules/settings/my-account/components/AddCalendarButton.tsx"
+  companyemailorganizationbanner:
+    path: "apps/web/modules/settings/my-account/components/CompanyEmailOrganizationBanner.tsx"
+  mailicon:
+    path: "apps/web/modules/settings/my-account/components/MailIcon.tsx"
+  gatedfeaturesmodal:
+    path: "apps/web/modules/shell/components/GatedFeaturesModal.tsx"
+  welcometocalcommodal:
+    path: "apps/web/modules/shell/components/WelcomeToCalcomModal.tsx"
+  timezoneselectTest:
+    path: "apps/web/modules/timezone/components/TimezoneSelect.test.tsx"
+  timezoneselect:
+    path: "apps/web/modules/timezone/components/TimezoneSelect.tsx"
+  availabilityeditsheet:
+    path: "apps/web/modules/timezone-buddy/components/AvailabilityEditSheet.tsx"
+  availabilityslidertable:
+    path: "apps/web/modules/timezone-buddy/components/AvailabilitySliderTable.tsx"
+  cellhighlightcontainer:
+    path: "apps/web/modules/timezone-buddy/components/CellHighlightContainer.tsx"
+  hoveroverview:
+    path: "apps/web/modules/timezone-buddy/components/HoverOverview.tsx"
+  timedial:
+    path: "apps/web/modules/timezone-buddy/components/TimeDial.tsx"
+  availabilityschedulescontainer:
+    path: "apps/web/modules/troubleshooter/components/AvailabilitySchedulesContainer.tsx"
+  calendartogglecontainer:
+    path: "apps/web/modules/troubleshooter/components/CalendarToggleContainer.tsx"
+  connectedappscontainer:
+    path: "apps/web/modules/troubleshooter/components/ConnectedAppsContainer.tsx"
+  eventscheduleitem:
+    path: "apps/web/modules/troubleshooter/components/EventScheduleItem.tsx"
+  eventtypeselect:
+    path: "apps/web/modules/troubleshooter/components/EventTypeSelect.tsx"
+  troubleshooter:
+    path: "apps/web/modules/troubleshooter/components/Troubleshooter.tsx"
+  troubleshooterheader:
+    path: "apps/web/modules/troubleshooter/components/TroubleshooterHeader.tsx"
+  troubleshooterlistitemcontainer:
+    path: "apps/web/modules/troubleshooter/components/TroubleshooterListItemContainer.tsx"
+  troubleshootersidebar:
+    path: "apps/web/modules/troubleshooter/components/TroubleshooterSidebar.tsx"
+  adminpasswordbanner:
+    path: "apps/web/modules/users/components/AdminPasswordBanner.tsx"
+  calendarcredentialbanner:
+    path: "apps/web/modules/users/components/CalendarCredentialBanner.tsx"
+  invalidappcredentialsbanner:
+    path: "apps/web/modules/users/components/InvalidAppCredentialsBanner.tsx"
+  deletebulkusers:
+    path: "apps/web/modules/users/components/UserTable/BulkActions/DeleteBulkUsers.tsx"
+  dynamiclink:
+    path: "apps/web/modules/users/components/UserTable/BulkActions/DynamicLink.tsx"
+  massassignattributes:
+    path: "apps/web/modules/users/components/UserTable/BulkActions/MassAssignAttributes.tsx"
+  changeuserrolemodal:
+    path: "apps/web/modules/users/components/UserTable/ChangeUserRoleModal.tsx"
+  deletemembermodal:
+    path: "apps/web/modules/users/components/UserTable/DeleteMemberModal.tsx"
+  displayinfo:
+    path: "apps/web/modules/users/components/UserTable/EditSheet/DisplayInfo.tsx"
+  edituserform:
+    path: "apps/web/modules/users/components/UserTable/EditSheet/EditUserForm.tsx"
+  editusersheet:
+    path: "apps/web/modules/users/components/UserTable/EditSheet/EditUserSheet.tsx"
+  organizationbanner:
+    path: "apps/web/modules/users/components/UserTable/EditSheet/OrganizationBanner.tsx"
+  sheetfootercontrols:
+    path: "apps/web/modules/users/components/UserTable/EditSheet/SheetFooterControls.tsx"
+  impersonationmembermodal:
+    path: "apps/web/modules/users/components/UserTable/ImpersonationMemberModal.tsx"
+  invitemembermodal:
+    path: "apps/web/modules/users/components/UserTable/InviteMemberModal.tsx"
+  platformmanageduserstable:
+    path: "apps/web/modules/users/components/UserTable/PlatformManagedUsersTable.tsx"
+  userlisttable:
+    path: "apps/web/modules/users/components/UserTable/UserListTable.tsx"
+  userlisttableskeleton:
+    path: "apps/web/modules/users/components/UserTable/UserListTableSkeleton.tsx"
+  usertableactions:
+    path: "apps/web/modules/users/components/UserTable/UserTableActions.tsx"
+  verifyemailbanner:
+    path: "apps/web/modules/users/components/VerifyEmailBanner.tsx"
+  createnewwebhookbutton:
+    path: "apps/web/modules/webhooks/components/CreateNewWebhookButton.tsx"
+  eventtypewebhooklistitem:
+    path: "apps/web/modules/webhooks/components/EventTypeWebhookListItem.tsx"
+  webhookform:
+    path: "apps/web/modules/webhooks/components/WebhookForm.tsx"
+  webhooklistitem:
+    path: "apps/web/modules/webhooks/components/WebhookListItem.tsx"
+  webhooklistitemskeleton:
+    path: "apps/web/modules/webhooks/components/WebhookListItemSkeleton.tsx"
+  webhooklistskeleton:
+    path: "apps/web/modules/webhooks/components/WebhookListSkeleton.tsx"
+  webhooktestdisclosure:
+    path: "apps/web/modules/webhooks/components/WebhookTestDisclosure.tsx"
+  apppressable:
+    path: "companion/components/AppPressable.tsx"
+  authtokenprovider:
+    path: "companion/components/AuthTokenProvider.tsx"
+  bookingactionsmodalIos:
+    path: "companion/components/BookingActionsModal.ios.tsx"
+  bookingactionsmodal:
+    path: "companion/components/BookingActionsModal.tsx"
+  cachestatusindicator:
+    path: "companion/components/CacheStatusIndicator.tsx"
+  calcomlogo:
+    path: "companion/components/CalComLogo.tsx"
+  fullscreenmodalD:
+    path: "companion/components/FullScreenModal.d.ts"
+  fullscreenmodal:
+    path: "companion/components/FullScreenModal.tsx"
+  glassmodalheader:
+    path: "companion/components/GlassModalHeader.tsx"
+  headerbuttonwrapper:
+    path: "companion/components/HeaderButtonWrapper.tsx"
+  loadingspinner:
+    path: "companion/components/LoadingSpinner.tsx"
+  locationslist:
+    path: "companion/components/LocationsList.tsx"
+  locationslistiospickerIos:
+    path: "companion/components/LocationsListIOSPicker.ios.tsx"
+  locationslistiospicker:
+    path: "companion/components/LocationsListIOSPicker.tsx"
+  loginscreen:
+    path: "companion/components/LoginScreen.tsx"
+  logoutbutton:
+    path: "companion/components/LogoutButton.tsx"
+  logoutconfirmmodalIos:
+    path: "companion/components/LogoutConfirmModal.ios.tsx"
+  logoutconfirmmodal:
+    path: "companion/components/LogoutConfirmModal.tsx"
+  networkstatusbanner:
+    path: "companion/components/NetworkStatusBanner.tsx"
+  screenwrapper:
+    path: "companion/components/ScreenWrapper.tsx"
+  searchheader:
+    path: "companion/components/SearchHeader.tsx"
+  svgimage:
+    path: "companion/components/SvgImage.tsx"
+  tooltip:
+    path: "packages/ui/components/tooltip/Tooltip.tsx"
+  tooltipWeb:
+    path: "companion/components/Tooltip.web.tsx"
+  availabilitylistitemIos:
+    path: "companion/components/availability-list-item/AvailabilityListItem.ios.tsx"
+  availabilitylistitem:
+    path: "companion/components/availability-list-item/AvailabilityListItem.tsx"
+  availabilitylistitemparts:
+    path: "companion/components/availability-list-item/AvailabilityListItemParts.tsx"
+  availabilitylistitemskeleton:
+    path: "companion/components/availability-list-item/AvailabilityListItemSkeleton.tsx"
+  bookinglistitemIos:
+    path: "companion/components/booking-list-item/BookingListItem.ios.tsx"
+  bookinglistitemparts:
+    path: "companion/components/booking-list-item/BookingListItemParts.tsx"
+  bookinglistitemskeleton:
+    path: "companion/components/booking-list-item/BookingListItemSkeleton.tsx"
+  recurringbookinglistitemIos:
+    path: "companion/components/booking-list-item/RecurringBookingListItem.ios.tsx"
+  recurringbookinglistitem:
+    path: "companion/components/booking-list-item/RecurringBookingListItem.tsx"
+  usebookinglistitemdata:
+    path: "companion/components/booking-list-item/useBookingListItemData.ts"
+  bookinglistscreen:
+    path: "companion/components/booking-list-screen/BookingListScreen.tsx"
+  bookingmodalsIos:
+    path: "companion/components/booking-modals/BookingModals.ios.tsx"
+  bookingmodals:
+    path: "companion/components/booking-modals/BookingModals.tsx"
+  settingsui:
+    path: "companion/components/event-type-detail/SettingsUI.tsx"
+  advancedtab:
+    path: "companion/components/event-type-detail/tabs/AdvancedTab.tsx"
+  availabilitytab:
+    path: "companion/components/event-type-detail/tabs/AvailabilityTab.tsx"
+  availabilitytabiospickerIos:
+    path: "companion/components/event-type-detail/tabs/AvailabilityTabIOSPicker.ios.tsx"
+  availabilitytabiospicker:
+    path: "companion/components/event-type-detail/tabs/AvailabilityTabIOSPicker.tsx"
+  basicstab:
+    path: "companion/components/event-type-detail/tabs/BasicsTab.tsx"
+  basicstabiospickerIos:
+    path: "companion/components/event-type-detail/tabs/BasicsTabIOSPicker.ios.tsx"
+  basicstabiospicker:
+    path: "companion/components/event-type-detail/tabs/BasicsTabIOSPicker.tsx"
+  iospickertriggerIos:
+    path: "companion/components/event-type-detail/tabs/IOSPickerTrigger.ios.tsx"
+  iospickertrigger:
+    path: "companion/components/event-type-detail/tabs/IOSPickerTrigger.tsx"
+  limitstab:
+    path: "companion/components/event-type-detail/tabs/LimitsTab.tsx"
+  limitstabdatepickerAndroid:
+    path: "companion/components/event-type-detail/tabs/LimitsTabDatePicker.android.tsx"
+  limitstabdatepickerIos:
+    path: "companion/components/event-type-detail/tabs/LimitsTabDatePicker.ios.tsx"
+  limitstabdatepicker:
+    path: "companion/components/event-type-detail/tabs/LimitsTabDatePicker.tsx"
+  limitstabiospickerIos:
+    path: "companion/components/event-type-detail/tabs/LimitsTabIOSPicker.ios.tsx"
+  limitstabiospicker:
+    path: "companion/components/event-type-detail/tabs/LimitsTabIOSPicker.tsx"
+  recurringtab:
+    path: "companion/components/event-type-detail/tabs/RecurringTab.tsx"
+  recurringtabiospickerIos:
+    path: "companion/components/event-type-detail/tabs/RecurringTabIOSPicker.ios.tsx"
+  recurringtabiospicker:
+    path: "companion/components/event-type-detail/tabs/RecurringTabIOSPicker.tsx"
+  buildpartialupdatepayload:
+    path: "companion/components/event-type-detail/utils/buildPartialUpdatePayload.ts"
+  eventtypelistitemIos:
+    path: "companion/components/event-type-list-item/EventTypeListItem.ios.tsx"
+  eventtypelistitem:
+    path: "packages/platform/atoms/event-types/components/EventTypeListItem.tsx"
+  eventtypelistitemparts:
+    path: "companion/components/event-type-list-item/EventTypeListItemParts.tsx"
+  eventtypelistitemskeleton:
+    path: "companion/components/event-type-list-item/EventTypeListItemSkeleton.tsx"
+  useeventtypelistitemdata:
+    path: "companion/components/event-type-list-item/useEventTypeListItemData.ts"
+  addguestsscreen:
+    path: "companion/components/screens/AddGuestsScreen.tsx"
+  availabilitydetailscreenIos:
+    path: "companion/components/screens/AvailabilityDetailScreen.ios.tsx"
+  availabilitydetailscreen:
+    path: "companion/components/screens/AvailabilityDetailScreen.tsx"
+  availabilitylistscreen:
+    path: "companion/components/screens/AvailabilityListScreen.tsx"
+  bookingdetailscreenIos:
+    path: "companion/components/screens/BookingDetailScreen.ios.tsx"
+  bookingdetailscreen:
+    path: "companion/components/screens/BookingDetailScreen.tsx"
+  editavailabilitydayscreenIos:
+    path: "companion/components/screens/EditAvailabilityDayScreen.ios.tsx"
+  editavailabilitydayscreen:
+    path: "companion/components/screens/EditAvailabilityDayScreen.tsx"
+  editavailabilityhoursscreenIos:
+    path: "companion/components/screens/EditAvailabilityHoursScreen.ios.tsx"
+  editavailabilityhoursscreen:
+    path: "companion/components/screens/EditAvailabilityHoursScreen.tsx"
+  editavailabilitynamescreenIos:
+    path: "companion/components/screens/EditAvailabilityNameScreen.ios.tsx"
+  editavailabilitynamescreen:
+    path: "companion/components/screens/EditAvailabilityNameScreen.tsx"
+  editavailabilityoverridescreenAndroid:
+    path: "companion/components/screens/EditAvailabilityOverrideScreen.android.tsx"
+  editavailabilityoverridescreenIos:
+    path: "companion/components/screens/EditAvailabilityOverrideScreen.ios.tsx"
+  editavailabilityoverridescreen:
+    path: "companion/components/screens/EditAvailabilityOverrideScreen.tsx"
+  editlocationscreenIos:
+    path: "companion/components/screens/EditLocationScreen.ios.tsx"
+  editlocationscreen:
+    path: "companion/components/screens/EditLocationScreen.tsx"
+  marknoshowscreen:
+    path: "companion/components/screens/MarkNoShowScreen.tsx"
+  meetingsessiondetailsscreen:
+    path: "companion/components/screens/MeetingSessionDetailsScreen.tsx"
+  reschedulescreenAndroid:
+    path: "companion/components/screens/RescheduleScreen.android.tsx"
+  reschedulescreenIos:
+    path: "companion/components/screens/RescheduleScreen.ios.tsx"
+  reschedulescreen:
+    path: "companion/components/screens/RescheduleScreen.tsx"
+  viewrecordingsscreen:
+    path: "companion/components/screens/ViewRecordingsScreen.tsx"
+  globaltoast:
+    path: "companion/components/ui/GlobalToast.tsx"
+  alertDialog:
+    path: "packages/coss-ui/src/components/alert-dialog.tsx"
+  alert:
+    path: "packages/ui/components/alert/Alert.tsx"
+  button:
+    path: "packages/ui/components/button/Button.tsx"
+  dropdownMenu:
+    path: "companion/components/ui/dropdown-menu.tsx"
+  icon:
+    path: "packages/ui/components/icon/Icon.tsx"
+  nativeOnlyAnimatedView:
+    path: "companion/components/ui/native-only-animated-view.tsx"
+  text:
+    path: "companion/components/ui/text.tsx"
+  toast:
+    path: "packages/platform/atoms/src/components/ui/toast.tsx"
+  albypricecomponent:
+    path: "packages/app-store/alby/components/AlbyPriceComponent.tsx"
+  eventtypeappcardinterface:
+    path: "packages/app-store/zohocrm/components/EventTypeAppCardInterface.tsx"
+  eventtypeappsettingsinterface:
+    path: "packages/app-store/stripepayment/components/EventTypeAppSettingsInterface.tsx"
+  keyinput:
+    path: "packages/app-store/hitpay/components/KeyInput.tsx"
+  installappbutton:
+    path: "packages/app-store/vital/components/InstallAppButton.tsx"
+  searchdialog:
+    path: "packages/app-store/giphy/components/SearchDialog.tsx"
+  selectgifinput:
+    path: "packages/app-store/giphy/components/SelectGifInput.tsx"
+  hitpaydropin:
+    path: "packages/app-store/hitpay/components/HitPayDropIn.ts"
+  accountdialog:
+    path: "packages/app-store/office365video/components/AccountDialog.tsx"
+  dynamicappcomponent:
+    path: "packages/app-store/routing-forms/components/DynamicAppComponent.tsx"
+  forminputfields:
+    path: "packages/app-store/routing-forms/components/FormInputFields.tsx"
+  infolostwarningdialog:
+    path: "packages/app-store/routing-forms/components/InfoLostWarningDialog.tsx"
+  emptystate:
+    path: "packages/app-store/routing-forms/components/_components/EmptyState.tsx"
+  resultsection:
+    path: "packages/app-store/routing-forms/components/_components/ResultSection.tsx"
+  routingskeleton:
+    path: "packages/app-store/routing-forms/components/_components/RoutingSkeleton.tsx"
+  teammemberselect:
+    path: "packages/app-store/routing-forms/components/_components/TeamMemberSelect.tsx"
+  teammembersmatchresult:
+    path: "packages/app-store/routing-forms/components/_components/TeamMembersMatchResult.tsx"
+  basicconfig:
+    path: "packages/app-store/routing-forms/components/react-awesome-query-builder/config/BasicConfig.ts"
+  config:
+    path: "packages/app-store/routing-forms/components/react-awesome-query-builder/config/config.ts"
+  uiconfig:
+    path: "packages/app-store/routing-forms/components/react-awesome-query-builder/config/uiConfig.tsx"
+  widgetsTest:
+    path: "packages/app-store/routing-forms/components/react-awesome-query-builder/widgets.test.tsx"
+  widgets:
+    path: "packages/app-store/routing-forms/components/react-awesome-query-builder/widgets.tsx"
+  responseemail:
+    path: "packages/app-store/routing-forms/emails/components/ResponseEmail.tsx"
+  routingformoptions:
+    path: "packages/app-store/salesforce/components/RoutingFormOptions.tsx"
+  writetoobjectsettings:
+    path: "packages/app-store/salesforce/components/components/WriteToObjectSettings.tsx"
+  appsettingsinterface:
+    path: "packages/app-store/zapier/components/AppSettingsInterface.tsx"
+  appconfiguration:
+    path: "packages/app-store/vital/components/AppConfiguration.tsx"
+  templatecard:
+    path: "packages/app-store/zapier/components/TemplateCard.tsx"
+  appcreateupdateform:
+    path: "packages/app-store-cli/src/components/AppCreateUpdateForm.tsx"
+  deleteform:
+    path: "packages/app-store-cli/src/components/DeleteForm.tsx"
+  importanttext:
+    path: "packages/app-store-cli/src/components/ImportantText.tsx"
+  label:
+    path: "packages/ui/components/form/inputs/Label.tsx"
+  message:
+    path: "packages/app-store-cli/src/components/Message.tsx"
+  accordion:
+    path: "packages/coss-ui/src/components/accordion.tsx"
+  autocomplete:
+    path: "packages/coss-ui/src/components/autocomplete.tsx"
+  avatar:
+    path: "packages/ui/components/avatar/Avatar.tsx"
+  badge:
+    path: "packages/ui/components/badge/Badge.tsx"
+  breadcrumb:
+    path: "packages/ui/components/breadcrumb/Breadcrumb.tsx"
+  card:
+    path: "packages/ui/components/card/Card.tsx"
+  checkboxGroup:
+    path: "packages/coss-ui/src/components/checkbox-group.tsx"
+  checkbox:
+    path: "packages/ui/components/form/checkbox/Checkbox.tsx"
+  collapsible:
+    path: "packages/coss-ui/src/components/collapsible.tsx"
+  combobox:
+    path: "packages/coss-ui/src/components/combobox.tsx"
+  command:
+    path: "packages/ui/components/command/Command.tsx"
+  dialog:
+    path: "packages/ui/components/dialog/Dialog.tsx"
+  field:
+    path: "packages/coss-ui/src/components/field.tsx"
+  fieldset:
+    path: "packages/coss-ui/src/components/fieldset.tsx"
+  form:
+    path: "packages/ui/components/form/inputs/Form.tsx"
+  frame:
+    path: "packages/coss-ui/src/components/frame.tsx"
+  group:
+    path: "packages/coss-ui/src/components/group.tsx"
+  inputGroup:
+    path: "packages/coss-ui/src/components/input-group.tsx"
+  input:
+    path: "packages/ui/components/form/inputs/Input.tsx"
+  kbd:
+    path: "packages/coss-ui/src/components/kbd.tsx"
+  menu:
+    path: "packages/coss-ui/src/components/menu.tsx"
+  meter:
+    path: "packages/coss-ui/src/components/meter.tsx"
+  numberField:
+    path: "packages/coss-ui/src/components/number-field.tsx"
+  pagination:
+    path: "packages/ui/components/pagination/Pagination.tsx"
+  popover:
+    path: "packages/ui/components/popover/Popover.tsx"
+  previewCard:
+    path: "packages/coss-ui/src/components/preview-card.tsx"
+  progress:
+    path: "packages/coss-ui/src/components/progress.tsx"
+  radioGroup:
+    path: "packages/coss-ui/src/components/radio-group.tsx"
+  scrollArea:
+    path: "packages/coss-ui/src/components/scroll-area.tsx"
+  select:
+    path: "packages/ui/components/form/select/Select.tsx"
+  separator:
+    path: "packages/emails/src/components/Separator.tsx"
+  sheet:
+    path: "packages/ui/components/sheet/Sheet.tsx"
+  sidebar:
+    path: "packages/coss-ui/src/components/sidebar.tsx"
+  switch:
+    path: "packages/ui/components/form/switch/Switch.tsx"
+  table:
+    path: "packages/ui/components/table/Table.tsx"
+  tabs:
+    path: "packages/coss-ui/src/components/tabs.tsx"
+  textarea:
+    path: "packages/coss-ui/src/components/textarea.tsx"
+  toggleGroup:
+    path: "packages/coss-ui/src/components/toggle-group.tsx"
+  toggle:
+    path: "packages/coss-ui/src/components/toggle.tsx"
+  toolbar:
+    path: "packages/coss-ui/src/components/toolbar.tsx"
+  rendercounter:
+    path: "packages/debugging/components/RenderCounter.tsx"
+  appsstatus:
+    path: "packages/emails/src/components/AppsStatus.tsx"
+  baseemailhtml:
+    path: "packages/emails/src/components/BaseEmailHtml.tsx"
+  basetable:
+    path: "packages/emails/src/components/BaseTable.tsx"
+  bookingconfirmationform:
+    path: "packages/emails/src/components/BookingConfirmationForm.tsx"
+  calltoaction:
+    path: "packages/emails/src/components/CallToAction.tsx"
+  calltoactionicon:
+    path: "packages/emails/src/components/CallToActionIcon.tsx"
+  calltoactiontable:
+    path: "packages/emails/src/components/CallToActionTable.tsx"
+  emailbodylogo:
+    path: "packages/emails/src/components/EmailBodyLogo.tsx"
+  emailcommondivider:
+    path: "packages/emails/src/components/EmailCommonDivider.tsx"
+  emailhead:
+    path: "packages/emails/src/components/EmailHead.tsx"
+  emailscheduledbodyheadercontent:
+    path: "packages/emails/src/components/EmailScheduledBodyHeaderContent.tsx"
+  emailschedulingbodydivider:
+    path: "packages/emails/src/components/EmailSchedulingBodyDivider.tsx"
+  emailschedulingbodyheader:
+    path: "packages/emails/src/components/EmailSchedulingBodyHeader.tsx"
+  info:
+    path: "packages/emails/src/components/Info.tsx"
+  locationinfo:
+    path: "packages/emails/src/components/LocationInfo.tsx"
+  managelink:
+    path: "packages/emails/src/components/ManageLink.tsx"
+  rawhtml:
+    path: "packages/emails/src/components/RawHtml.tsx"
+  row:
+    path: "packages/emails/src/components/Row.tsx"
+  userfieldsresponses:
+    path: "packages/emails/src/components/UserFieldsResponses.tsx"
+  v2baseemailhtml:
+    path: "packages/emails/src/components/V2BaseEmailHtml.tsx"
+  wheninfo:
+    path: "packages/emails/src/components/WhenInfo.tsx"
+  whoinfo:
+    path: "packages/emails/src/components/WhoInfo.tsx"
+  blockedentriescolumns:
+    path: "packages/features/blocklist/components/BlockedEntriesColumns.tsx"
+  blockedentriestable:
+    path: "packages/features/blocklist/components/BlockedEntriesTable.tsx"
+  blocklistentrydetailssheet:
+    path: "packages/features/blocklist/components/BlocklistEntryDetailsSheet.tsx"
+  bookingreportdetailsmodal:
+    path: "packages/features/blocklist/components/BookingReportDetailsModal.tsx"
+  createblocklistentrymodal:
+    path: "packages/features/blocklist/components/CreateBlocklistEntryModal.tsx"
+  pendingreportsbadge:
+    path: "packages/features/blocklist/components/PendingReportsBadge.tsx"
+  pendingreportscolumns:
+    path: "packages/features/blocklist/components/PendingReportsColumns.tsx"
+  pendingreportstable:
+    path: "packages/features/blocklist/components/PendingReportsTable.tsx"
+  useavailabletimeslots:
+    path: "packages/features/bookings/Booker/components/hooks/useAvailableTimeSlots.ts"
+  usebookerlayout:
+    path: "packages/features/bookings/Booker/components/hooks/useBookerLayout.ts"
+  usebookertime:
+    path: "packages/features/bookings/Booker/components/hooks/useBookerTime.ts"
+  usebookingform:
+    path: "packages/features/bookings/Booker/components/hooks/useBookingForm.ts"
+  usebookings:
+    path: "packages/features/bookings/Booker/components/hooks/useBookings.ts"
+  usecalendars:
+    path: "packages/features/bookings/Booker/components/hooks/useCalendars.ts"
+  usedecoybooking:
+    path: "packages/features/bookings/Booker/components/hooks/useDecoyBooking.ts"
+  useinitialformvaluesTest:
+    path: "packages/features/bookings/Booker/components/hooks/useInitialFormValues.test.ts"
+  useinitialformvalues:
+    path: "packages/features/bookings/Booker/components/hooks/useInitialFormValues.ts"
+  useinitializeweekstart:
+    path: "packages/features/bookings/Booker/components/hooks/useInitializeWeekStart.ts"
+  useisquickavailabilitycheckfeatureenabled:
+    path: "packages/features/bookings/Booker/components/hooks/useIsQuickAvailabilityCheckFeatureEnabled.ts"
+  uselocalset:
+    path: "packages/features/bookings/Booker/components/hooks/useLocalSet.tsx"
+  useoverlaycalendar:
+    path: "packages/features/bookings/Booker/components/hooks/useOverlayCalendar.ts"
+  useskipconfirmstep:
+    path: "packages/features/bookings/Booker/components/hooks/useSkipConfirmStep.ts"
+  useslots:
+    path: "packages/features/bookings/Booker/components/hooks/useSlots.ts"
+  useslotsviewonsmallscreen:
+    path: "packages/features/bookings/Booker/components/hooks/useSlotsViewOnSmallScreen.ts"
+  useverifycode:
+    path: "packages/features/bookings/Booker/components/hooks/useVerifyCode.ts"
+  useverifyemail:
+    path: "packages/features/bookings/Booker/components/hooks/useVerifyEmail.ts"
+  destinationcalendarselector:
+    path: "packages/features/calendars/components/DestinationCalendarSelector.tsx"
+  noavailabilitydialog:
+    path: "packages/features/calendars/components/NoAvailabilityDialog.tsx"
+  phoneinput:
+    path: "packages/features/components/phone-input/PhoneInput.tsx"
+  payment:
+    path: "packages/features/ee/payments/components/Payment.tsx"
+  featureoptinbanner:
+    path: "packages/features/feature-opt-in/components/FeatureOptInBanner.tsx"
+  featureoptinbannerwrapper:
+    path: "packages/features/feature-opt-in/components/FeatureOptInBannerWrapper.tsx"
+  featureoptinconfirmdialog:
+    path: "packages/features/feature-opt-in/components/FeatureOptInConfirmDialog.tsx"
+  featureoptinsuccessdialog:
+    path: "packages/features/feature-opt-in/components/FeatureOptInSuccessDialog.tsx"
+  featuressettings:
+    path: "packages/features/feature-opt-in/components/FeaturesSettings.tsx"
+  filterresults:
+    path: "packages/features/filters/components/FilterResults.tsx"
+  teamsfilter:
+    path: "packages/features/filters/components/TeamsFilter.tsx"
+  checkboxfield:
+    path: "packages/features/form/components/CheckboxField.tsx"
+  locationselect:
+    path: "packages/features/form/components/LocationSelect.tsx"
+  workflowtabpermissionguard:
+    path: "packages/features/pbac/client/components/WorkflowTabPermissionGuard.tsx"
+  domainicon:
+    path: "packages/features/routing-trace/components/DomainIcon.tsx"
+  dateoverrideinputdialog:
+    path: "packages/features/schedules/components/DateOverrideInputDialog.tsx"
+  dateoverridelist:
+    path: "packages/features/schedules/components/DateOverrideList.tsx"
+  schedulecomponent:
+    path: "packages/features/schedules/components/ScheduleComponent.tsx"
+  schedulelistitem:
+    path: "packages/features/schedules/components/ScheduleListItem.tsx"
+  parseTimeStringTest:
+    path: "packages/features/schedules/components/parse-time-string.test.ts"
+  timezoneselectcomponent:
+    path: "packages/features/timezone/components/TimezoneSelectComponent.tsx"
+  nossr:
+    path: "packages/lib/components/NoSSR.tsx"
+  servertrans:
+    path: "packages/lib/components/ServerTrans.tsx"
+  atomsWrapper:
+    path: "packages/platform/atoms/src/components/atoms-wrapper.tsx"
+  shell:
+    path: "packages/platform/atoms/src/components/ui/shell.tsx"
+  toaster:
+    path: "packages/platform/atoms/src/components/ui/toaster.tsx"
+  useToast:
+    path: "packages/platform/atoms/src/components/ui/use-toast.ts"
+  querycell:
+    path: "packages/trpc/components/QueryCell.tsx"
+  tokenhandler:
+    path: "packages/ui/components/TokenHandler/TokenHandler.tsx"
+  tokenHandlerTest:
+    path: "packages/ui/components/TokenHandler/token-handler.test.tsx"
+  unpublishedentity:
+    path: "packages/ui/components/unpublished-entity/UnpublishedEntity.tsx"
+  addressinput:
+    path: "packages/ui/components/address/AddressInput.tsx"
+  addressinputlazy:
+    path: "packages/ui/components/address/AddressInputLazy.tsx"
+  multiemail:
+    path: "packages/ui/components/address/MultiEmail.tsx"
+  multiemaillazy:
+    path: "packages/ui/components/address/MultiEmailLazy.tsx"
+  fields:
+    path: "packages/ui/components/address/fields.tsx"
+  alertTest:
+    path: "packages/ui/components/alert/alert.test.tsx"
+  arrowbutton:
+    path: "packages/ui/components/arrow-button/ArrowButton.tsx"
+  avatargroup:
+    path: "packages/ui/components/avatar/AvatarGroup.tsx"
+  useravatarTest:
+    path: "packages/ui/components/avatar/UserAvatar.test.tsx"
+  useravatar:
+    path: "packages/ui/components/avatar/UserAvatar.tsx"
+  useravatargroup:
+    path: "packages/ui/components/avatar/UserAvatarGroup.tsx"
+  useravatargroupwithorg:
+    path: "packages/ui/components/avatar/UserAvatarGroupWithOrg.tsx"
+  creditsbadge:
+    path: "packages/ui/components/badge/CreditsBadge.tsx"
+  infobadge:
+    path: "packages/ui/components/badge/InfoBadge.tsx"
+  upgradeteamsbadge:
+    path: "packages/ui/components/badge/UpgradeTeamsBadge.tsx"
+  badgeTest:
+    path: "packages/ui/components/badge/badge.test.tsx"
+  breadcrumbTest:
+    path: "packages/ui/components/breadcrumb/breadcrumb.test.tsx"
+  splitbutton:
+    path: "packages/ui/components/button/SplitButton.tsx"
+  buttonTest:
+    path: "packages/ui/components/button/button.test.tsx"
+  buttongroup:
+    path: "packages/ui/components/buttonGroup/ButtonGroup.tsx"
+  formcard:
+    path: "packages/ui/components/card/FormCard.tsx"
+  panelcard:
+    path: "packages/ui/components/card/PanelCard.tsx"
+  stepcard:
+    path: "packages/ui/components/card/StepCard.tsx"
+  cardTest:
+    path: "packages/ui/components/card/card.test.tsx"
+  credits:
+    path: "packages/ui/components/credits/Credits.tsx"
+  creditsTest:
+    path: "packages/ui/components/credits/credits.test.tsx"
+  confirmationdialogcontent:
+    path: "packages/ui/components/dialog/ConfirmationDialogContent.tsx"
+  dialogTest:
+    path: "packages/ui/components/dialog/dialog.test.tsx"
+  divider:
+    path: "packages/ui/components/divider/Divider.tsx"
+  dropdown:
+    path: "packages/ui/components/dropdown/Dropdown.tsx"
+  editableheading:
+    path: "packages/ui/components/editable-heading/EditableHeading.tsx"
+  editorTest:
+    path: "packages/ui/components/editor/Editor.test.tsx"
+  editor:
+    path: "packages/ui/components/editor/Editor.tsx"
+  exampletheme:
+    path: "packages/ui/components/editor/ExampleTheme.ts"
+  variablenodeTest:
+    path: "packages/ui/components/editor/nodes/VariableNode.test.ts"
+  variablenode:
+    path: "packages/ui/components/editor/nodes/VariableNode.ts"
+  addvariablesdropdownTest:
+    path: "packages/ui/components/editor/plugins/AddVariablesDropdown.test.tsx"
+  addvariablesdropdown:
+    path: "packages/ui/components/editor/plugins/AddVariablesDropdown.tsx"
+  addvariablesplugin:
+    path: "packages/ui/components/editor/plugins/AddVariablesPlugin.tsx"
+  autolinkpluginTest:
+    path: "packages/ui/components/editor/plugins/AutoLinkPlugin.test.tsx"
+  autolinkplugin:
+    path: "packages/ui/components/editor/plugins/AutoLinkPlugin.tsx"
+  customenterkeypluginTest:
+    path: "packages/ui/components/editor/plugins/CustomEnterKeyPlugin.test.tsx"
+  editablepluginTest:
+    path: "packages/ui/components/editor/plugins/EditablePlugin.test.tsx"
+  editableplugin:
+    path: "packages/ui/components/editor/plugins/EditablePlugin.tsx"
+  plaintextplugin:
+    path: "packages/ui/components/editor/plugins/PlainTextPlugin.tsx"
+  toolbarpluginTest:
+    path: "packages/ui/components/editor/plugins/ToolbarPlugin.test.tsx"
+  toolbarplugin:
+    path: "packages/ui/components/editor/plugins/ToolbarPlugin.tsx"
+  customenterkeyplugin:
+    path: "packages/ui/components/editor/plugins/customEnterKeyPlugin.tsx"
+  errorboundary:
+    path: "packages/ui/components/errorBoundary/ErrorBoundary.tsx"
+  errorBoundaryTest:
+    path: "packages/ui/components/errorBoundary/error-boundary.test.tsx"
+  fileuploader:
+    path: "packages/ui/components/file-uploader/FileUploader.tsx"
+  checkboxTest:
+    path: "packages/ui/components/form/checkbox/Checkbox.test.tsx"
+  multiselectcheckboxes:
+    path: "packages/ui/components/form/checkbox/MultiSelectCheckboxes.tsx"
+  colorpickerTest:
+    path: "packages/ui/components/form/color-picker/colorpicker.test.tsx"
+  colorpicker:
+    path: "packages/ui/components/form/color-picker/colorpicker.tsx"
+  daterangepicker:
+    path: "packages/ui/components/form/date-range-picker/DateRangePicker.tsx"
+  daterangelogicTest:
+    path: "packages/ui/components/form/date-range-picker/dateRangeLogic.test.ts"
+  daterangelogic:
+    path: "packages/ui/components/form/date-range-picker/dateRangeLogic.ts"
+  hintorerrors:
+    path: "packages/ui/components/form/inputs/HintOrErrors.tsx"
+  inputerror:
+    path: "packages/ui/components/form/inputs/InputError.tsx"
+  multioptioninput:
+    path: "packages/ui/components/form/inputs/MultiOptionInput.tsx"
+  textfield:
+    path: "packages/ui/components/form/inputs/TextField.tsx"
+  inputTest:
+    path: "packages/ui/components/form/inputs/input.test.tsx"
+  typesD:
+    path: "packages/ui/components/form/inputs/types.d.ts"
+  components:
+    path: "packages/ui/components/form/select/components.tsx"
+  selectTest:
+    path: "packages/ui/components/form/select/select.test.tsx"
+  selecttheme:
+    path: "packages/ui/components/form/select/selectTheme.ts"
+  steps:
+    path: "packages/ui/components/form/step/Steps.tsx"
+  stepsTest:
+    path: "packages/ui/components/form/step/steps.test.tsx"
+  settingstoggle:
+    path: "packages/ui/components/form/switch/SettingsToggle.tsx"
+  booleantogglegroup:
+    path: "packages/ui/components/form/toggleGroup/BooleanToggleGroup.tsx"
+  togglegroup:
+    path: "packages/ui/components/form/toggleGroup/ToggleGroup.tsx"
+  wizardform:
+    path: "packages/ui/components/form/wizard/WizardForm.tsx"
+  usewizardstate:
+    path: "packages/ui/components/form/wizard/useWizardState.ts"
+  wizardformTest:
+    path: "packages/ui/components/form/wizard/wizardForm.test.tsx"
+  iconsprites:
+    path: "packages/ui/components/icon/IconSprites.tsx"
+  satsymbol:
+    path: "packages/ui/components/icon/SatSymbol.tsx"
+  iconNames:
+    path: "packages/ui/components/icon/icon-names.ts"
+  banneruploader:
+    path: "packages/ui/components/image-uploader/BannerUploader.tsx"
+  common:
+    path: "packages/ui/components/image-uploader/Common.tsx"
+  imageuploader:
+    path: "packages/ui/components/image-uploader/ImageUploader.tsx"
+  shellsubheading:
+    path: "packages/ui/components/layout/ShellSubHeading.tsx"
+  wizardlayout:
+    path: "packages/ui/components/layout/WizardLayout.tsx"
+  shellsubheadingTest:
+    path: "packages/ui/components/layout/shellSubHeading.test.tsx"
+  list:
+    path: "packages/ui/components/list/List.tsx"
+  listTest:
+    path: "packages/ui/components/list/list.test.tsx"
+  logo:
+    path: "packages/ui/components/logo/Logo.tsx"
+  horizontaltabitem:
+    path: "packages/ui/components/navigation/tabs/HorizontalTabItem.tsx"
+  horizontaltabs:
+    path: "packages/ui/components/navigation/tabs/HorizontalTabs.tsx"
+  verticaltabitem:
+    path: "packages/ui/components/navigation/tabs/VerticalTabItem.tsx"
+  verticaltabs:
+    path: "packages/ui/components/navigation/tabs/VerticalTabs.tsx"
+  navigationTest:
+    path: "packages/ui/components/navigation/tabs/navigation.test.tsx"
+  orgbannerTest:
+    path: "packages/ui/components/organization-banner/OrgBanner.test.tsx"
+  orgbanner:
+    path: "packages/ui/components/organization-banner/OrgBanner.tsx"
+  animatedpopover:
+    path: "packages/ui/components/popover/AnimatedPopover.tsx"
+  meetingtimeintimezones:
+    path: "packages/ui/components/popover/MeetingTimeInTimezones.tsx"
+  progressbar:
+    path: "packages/ui/components/progress-bar/ProgressBar.tsx"
+  radio:
+    path: "packages/ui/components/radio/Radio.tsx"
+  radioareagroup:
+    path: "packages/ui/components/radio/RadioAreaGroup.tsx"
+  scrollablearea:
+    path: "packages/ui/components/scrollable/ScrollableArea.tsx"
+  scrollableareaTest:
+    path: "packages/ui/components/scrollable/scrollablearea.test.tsx"
+  segmentedcontrol:
+    path: "packages/ui/components/segmented-control/SegmentedControl.tsx"
+  tableactions:
+    path: "packages/ui/components/table/TableActions.tsx"
+  tableexamples:
+    path: "packages/ui/components/table/TableExamples.tsx"
+  tablenew:
+    path: "packages/ui/components/table/TableNew.tsx"
+  tableTest:
+    path: "packages/ui/components/table/table.test.tsx"
+  testSetup:
+    path: "packages/ui/components/test-setup.tsx"
+  progresstoast:
+    path: "packages/ui/components/toast/ProgressToast.tsx"
+  showtoast:
+    path: "packages/ui/components/toast/showToast.tsx"
+  toastTest:
+    path: "packages/ui/components/toast/toast.test.tsx"
+  topbanner:
+    path: "packages/ui/components/top-banner/TopBanner.tsx"
+  topbannerTest:
+    path: "packages/ui/components/top-banner/topBanner.test.tsx"
+meta:
+  filesAnalyzed: 7475
+  changedFiles: []

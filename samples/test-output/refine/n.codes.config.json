@@ -1,0 +1,6 @@
+{
+  "provider": "openai",
+  "model": "default",
+  "projectName": "refine",
+  "capabilityMapPath": "n.codes.capabilities.yaml"
+}

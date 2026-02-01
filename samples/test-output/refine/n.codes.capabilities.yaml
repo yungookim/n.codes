@@ -1,0 +1,875 @@
+version: 1
+generatedAt: "2026-02-01T11:51:58.906Z"
+projectName: "refine"
+entities: {}
+actions:
+  postPropertyRoutes:
+    endpoint:
+      method: "POST"
+      path: "/property.routes"
+    description: "Creates a property.route. Send the property.route payload in the request body and receive the created property.route in the response."
+  patchPropertyRoutes:
+    endpoint:
+      method: "PATCH"
+      path: "/property.routes"
+    description: "Updates a property.route. Send the fields to update in the request body and receive the updated property.route."
+  deletePropertyRoutes:
+    endpoint:
+      method: "DELETE"
+      path: "/property.routes"
+    description: "Deletes a property.route. Use this endpoint to remove the property.route and receive a confirmation response."
+  postUserRoutes:
+    endpoint:
+      method: "POST"
+      path: "/user.routes"
+    description: "Creates an user.route. Send the user.route payload in the request body and receive the created user.route in the response."
+  optionsAuth:
+    endpoint:
+      method: "OPTIONS"
+      path: "/api/auth/:nextauth*/options"
+    description: "Performs a OPTIONS operation on auth. Use this endpoint to execute the auth action and return its result. Path parameters: nextauth."
+queries:
+  getTasks:
+    endpoint:
+      method: "GET"
+      path: "/tasks/create"
+    description: "Reads tasks for display or reporting. Use this query to fetch tasks with optional filters or pagination."
+  getPropertyRoutes:
+    endpoint:
+      method: "GET"
+      path: "/property.routes"
+    description: "Reads property.routes for display or reporting. Use this query to fetch property.routes with optional filters or pagination."
+  getUserRoutes:
+    endpoint:
+      method: "GET"
+      path: "/user.routes"
+    description: "Reads user.routes for display or reporting. Use this query to fetch user.routes with optional filters or pagination."
+  getLoginPage:
+    endpoint:
+      method: "GET"
+      path: "/login-page"
+    description: "Reads login page for display or reporting. Use this query to fetch login page with optional filters or pagination."
+  create:
+    endpoint:
+      method: "GET"
+      path: "/video-club/titles/create"
+    description: "Reads titles for display or reporting. Use this query to fetch titles with optional filters or pagination."
+  authLogout:
+    endpoint:
+      method: "GET"
+      path: "/auth.logout"
+    description: "Reads auth.logout for display or reporting. Use this query to fetch auth.logout with optional filters or pagination."
+components:
+  usage:
+    path: "documentation/versioned_docs/version-4.xx.xx/core/components/auto-save-indicator/usage.tsx"
+  index:
+    path: "packages/mui/src/components/themedLayout/title/index.tsx"
+  bannerBlog:
+    path: "documentation/src/components/banner/banner-blog.tsx"
+  bannerModal:
+    path: "documentation/src/components/banner/banner-modal.tsx"
+  bannerSidebar:
+    path: "documentation/src/components/banner/banner-sidebar.tsx"
+  date:
+    path: "examples/refine-hr-ce/src/components/input/date.tsx"
+  readingTime:
+    path: "documentation/src/components/blog/common/reading-time.js"
+  icons:
+    path: "documentation/src/components/blog/icons.tsx"
+  accessControlIcon:
+    path: "documentation/src/components/landing/icons/access-control-icon.tsx"
+  amazonIcon:
+    path: "documentation/src/components/landing/icons/amazon-icon.tsx"
+  atlassianIcon:
+    path: "documentation/src/components/landing/icons/atlassian-icon.tsx"
+  authenticationIcon:
+    path: "documentation/src/components/landing/icons/authentication-icon.tsx"
+  autodeskIcon:
+    path: "documentation/src/components/landing/icons/autodesk-icon.tsx"
+  bestPracticesIcon:
+    path: "documentation/src/components/landing/icons/best-practices-icon.tsx"
+  blackBoxIcon:
+    path: "documentation/src/components/landing/icons/black-box-icon.tsx"
+  chartsIcon:
+    path: "documentation/src/components/landing/icons/charts-icon.tsx"
+  ciscoIcon:
+    path: "documentation/src/components/landing/icons/cisco-icon.tsx"
+  cloudTipIcon:
+    path: "documentation/src/components/landing/icons/cloud-tip-icon.tsx"
+  componentsIcon:
+    path: "documentation/src/components/landing/icons/components-icon.tsx"
+  datatablesIcon:
+    path: "documentation/src/components/landing/icons/datatables-icon.tsx"
+  deloitteIcon:
+    path: "documentation/src/components/landing/icons/deloitte-icon.tsx"
+  formsIcon:
+    path: "documentation/src/components/landing/icons/forms-icon.tsx"
+  githubIcon:
+    path: "documentation/src/components/landing/icons/github-icon.tsx"
+  ibmIcon:
+    path: "documentation/src/components/landing/icons/ibm-icon.tsx"
+  identityIcon:
+    path: "documentation/src/components/landing/icons/identity-icon.tsx"
+  infiniteScalabilityIcon:
+    path: "documentation/src/components/landing/icons/infinite-scalability-icon.tsx"
+  intelIcon:
+    path: "documentation/src/components/landing/icons/intel-icon.tsx"
+  interfacesIcon:
+    path: "documentation/src/components/landing/icons/interfaces-icon.tsx"
+  jpMorganIcon:
+    path: "documentation/src/components/landing/icons/jp-morgan-icon.tsx"
+  listIcon:
+    path: "documentation/src/components/landing/icons/list-icon.tsx"
+  metaIcon:
+    path: "documentation/src/components/landing/icons/meta-icon.tsx"
+  monitorIcon:
+    path: "documentation/src/components/landing/icons/monitor-icon.tsx"
+  noVendorLockinIcon:
+    path: "documentation/src/components/landing/icons/no-vendor-lockin-icon.tsx"
+  oracleIcon:
+    path: "documentation/src/components/landing/icons/oracle-icon.tsx"
+  proServicesIcon:
+    path: "documentation/src/components/landing/icons/pro-services-icon.tsx"
+  providersIcon:
+    path: "documentation/src/components/landing/icons/providers-icon.tsx"
+  routesIcon:
+    path: "documentation/src/components/landing/icons/routes-icon.tsx"
+  salesforceIcon:
+    path: "documentation/src/components/landing/icons/salesforce-icon.tsx"
+  securityIcon:
+    path: "documentation/src/components/landing/icons/security-icon.tsx"
+  selfHostedIcon:
+    path: "documentation/src/components/landing/icons/self-hosted-icon.tsx"
+  supportIcon:
+    path: "documentation/src/components/landing/icons/support-icon.tsx"
+  timelineIcon:
+    path: "documentation/src/components/landing/icons/timeline-icon.tsx"
+  upworkIcon:
+    path: "documentation/src/components/landing/icons/upwork-icon.tsx"
+  utilitiesIconTsx:
+    path: "documentation/src/components/landing/icons/utilities-icon.tsx.tsx"
+  wizardsIcon:
+    path: "documentation/src/components/landing/icons/wizards-icon.tsx"
+  showcaseIndicator:
+    path: "documentation/src/components/landing/showcase-indicator.tsx"
+  showcaseWrapper:
+    path: "documentation/src/components/landing/showcase-wrapper.tsx"
+  coverBgShadow:
+    path: "documentation/src/components/refine-week/cover-bg-shadow.tsx"
+  data:
+    path: "documentation/src/components/refine-week/data.tsx"
+  dayIndicator:
+    path: "documentation/src/components/refine-week/day-indicator.tsx"
+  letsStartButton:
+    path: "documentation/src/components/refine-week/lets-start-button.tsx"
+  publishCountdown:
+    path: "documentation/src/components/refine-week/publish-countdown.tsx"
+  refineWeekDesktop:
+    path: "documentation/src/components/refine-week/refine-week-desktop.tsx"
+  refineWeekMobile:
+    path: "documentation/src/components/refine-week/refine-week-mobile.tsx"
+  twitterButton:
+    path: "documentation/src/components/refine-week/twitter-button.tsx"
+  bugReportButton:
+    path: "documentation/src/components/sandpack/bug-report-button.tsx"
+  bugReportModal:
+    path: "documentation/src/components/sandpack/bug-report-modal.tsx"
+  dragHandle:
+    path: "documentation/src/components/sandpack/drag-handle.tsx"
+  resizablePanels:
+    path: "documentation/src/components/sandpack/resizable-panels.tsx"
+  useResizable:
+    path: "documentation/src/components/sandpack/use-resizable.tsx"
+  header:
+    path: "packages/devtools-ui/src/components/header.tsx"
+  accordionHeaderSkeleton:
+    path: "examples/app-crm-minimal/src/components/accordion/accordion-header-skeleton.tsx"
+  accordion:
+    path: "examples/app-crm-minimal/src/components/accordion/accordion.tsx"
+  texticon:
+    path: "examples/app-crm-minimal/src/components/icon/TextIcon.tsx"
+  queries:
+    path: "examples/app-crm-minimal/src/routes/dashboard/components/upcoming-events/queries.ts"
+  styles:
+    path: "packages/mui/src/components/pages/auth/components/styles.ts"
+  contactStatusTag:
+    path: "examples/app-crm-minimal/src/components/tags/contact-status-tag.tsx"
+  quoteStatusTag:
+    path: "examples/app-crm-minimal/src/components/tags/quote-status-tag.tsx"
+  userTag:
+    path: "examples/app-crm-minimal/src/components/tags/user-tag.tsx"
+  utils:
+    path: "examples/app-crm-minimal/src/routes/dashboard/components/deals-chart/utils.ts"
+  addCardButton:
+    path: "examples/app-crm-minimal/src/routes/tasks/components/button/add-card-button.tsx"
+  accordionHeader:
+    path: "examples/app-crm-minimal/src/routes/tasks/components/headers/accordion-header.tsx"
+  history:
+    path: "examples/audit-log-provider/src/components/history.tsx"
+  modal:
+    path: "packages/devtools-ui/src/components/modal.tsx"
+  columnfilter:
+    path: "examples/upload-mantine-multipart/src/components/table/columnFilter.tsx"
+  columnsorter:
+    path: "examples/upload-mantine-multipart/src/components/table/columnSorter.tsx"
+  filterbutton:
+    path: "examples/blog-ecommerce/src/components/filterButton.tsx"
+  layout:
+    path: "packages/refine-ui/examples/base-example/components/layout.tsx"
+  productcard:
+    path: "examples/blog-ecommerce/src/components/productCard.tsx"
+  avatar:
+    path: "examples/store/src/components/common/Avatar/Avatar.tsx"
+  hamburgericon:
+    path: "examples/blog-heroicons-example/src/components/icons/HamburgerIcon.jsx"
+  searchicon:
+    path: "examples/blog-heroicons-example/src/components/icons/SearchIcon.jsx"
+  tailzuplogo:
+    path: "examples/blog-heroicons-example/src/components/icons/TailzupLogo.jsx"
+  navbar:
+    path: "examples/store/src/components/common/Navbar/Navbar.tsx"
+  create:
+    path: "examples/refine-week-invoice-generator/src/components/mission/create.tsx"
+  edit:
+    path: "examples/store/src/components/icons/Edit.tsx"
+  item:
+    path: "examples/pixels-admin/src/components/canvas/item.tsx"
+  pdflayout:
+    path: "examples/refine-week-invoice-generator/src/components/pdf/pdfLayout.tsx"
+  pie:
+    path: "examples/blog-issue-tracker/src/components/task/pie.tsx"
+  productcards:
+    path: "examples/blog-next-refine-pwa/src/components/ProductCards.tsx"
+  button:
+    path: "packages/devtools-ui/src/components/button.tsx"
+  input:
+    path: "packages/devtools-ui/src/components/input.tsx"
+  cards:
+    path: "examples/blog-react-dnd/src/components/cards.tsx"
+  columns:
+    path: "examples/blog-react-dnd/src/components/columns.tsx"
+  enums:
+    path: "examples/blog-react-dnd/src/components/constants/enums.ts"
+  models:
+    path: "examples/blog-react-dnd/src/components/constants/models.ts"
+  usedata:
+    path: "examples/blog-react-dnd/src/components/constants/useData.ts"
+  blog:
+    path: "examples/blog-react-memoization-memo/src/components/Blog.jsx"
+  latestpost:
+    path: "examples/blog-react-memoization-memo/src/components/LatestPost.jsx"
+  post:
+    path: "examples/blog-react-memoization-memo/src/components/Post.jsx"
+  userpost:
+    path: "examples/blog-react-memoization-memo/src/components/UserPost.jsx"
+  userpostsindex:
+    path: "examples/blog-react-memoization-memo/src/components/UserPostsIndex.jsx"
+  userpostslist:
+    path: "examples/blog-react-memoization-memo/src/components/UserPostsList.jsx"
+  charttooltip:
+    path: "examples/blog-refine-daisyui/src/components/dashboard/ChartTooltip.tsx"
+  kpicard:
+    path: "examples/blog-refine-daisyui/src/components/dashboard/KpiCard.tsx"
+  recentsales:
+    path: "examples/blog-refine-daisyui/src/components/dashboard/RecentSales.tsx"
+  responsiveareachart:
+    path: "examples/blog-refine-daisyui/src/components/dashboard/ResponsiveAreaChart.tsx"
+  responsivebarchart:
+    path: "examples/blog-refine-daisyui/src/components/dashboard/ResponsiveBarChart.tsx"
+  stats:
+    path: "examples/blog-refine-daisyui/src/components/dashboard/Stats.tsx"
+  tabitem:
+    path: "examples/blog-refine-daisyui/src/components/dashboard/TabItem.tsx"
+  tabpanel:
+    path: "examples/blog-refine-daisyui/src/components/dashboard/TabPanel.tsx"
+  tabview:
+    path: "examples/blog-refine-daisyui/src/components/dashboard/TabView.tsx"
+  areagraph:
+    path: "examples/blog-refine-mui/src/components/charts/AreaGraph.tsx"
+  barchart:
+    path: "examples/blog-refine-mui/src/components/charts/BarChart.tsx"
+  displayareagraph:
+    path: "examples/blog-refine-nextui/src/components/charts/DisplayAreaGraph.tsx"
+  displaybarchart:
+    path: "examples/blog-refine-nextui/src/components/charts/DisplayBarChart.tsx"
+  recentsalestable:
+    path: "examples/blog-refine-nextui/src/components/table/RecentSalesTable.tsx"
+  dataTable:
+    path: "examples/blog-refine-shadcn/src/components/table/data-table.tsx"
+  form:
+    path: "examples/mern-dashboard-client/src/components/common/Form.tsx"
+  label:
+    path: "examples/blog-refine-shadcn/src/components/ui/label.tsx"
+  pagination:
+    path: "examples/blog-refine-shadcn/src/components/ui/pagination.tsx"
+  select:
+    path: "packages/devtools-ui/src/components/select.tsx"
+  table:
+    path: "packages/cli/src/components/update-warning-table/table.ts"
+  textarea:
+    path: "examples/blog-refine-shadcn/src/components/ui/textarea.tsx"
+  styled:
+    path: "examples/invoicer/src/components/logo/styled.tsx"
+  basicMarker:
+    path: "examples/finefoods-material-ui/src/components/icons/basic-marker.tsx"
+  bikeWhite:
+    path: "examples/finefoods-material-ui/src/components/icons/bike-white.tsx"
+  bike:
+    path: "examples/finefoods-material-ui/src/components/icons/bike.tsx"
+  courier:
+    path: "examples/finefoods-material-ui/src/components/icons/courier.tsx"
+  decrease:
+    path: "examples/finefoods-antd/src/components/icons/decrease.tsx"
+  fineFoods:
+    path: "examples/finefoods-material-ui/src/components/icons/fine-foods.tsx"
+  finefoodsLogo:
+    path: "examples/finefoods-material-ui/src/components/icons/finefoods-logo.tsx"
+  iconMoon:
+    path: "examples/invoicer/src/components/icons/icon-moon.tsx"
+  iconSun:
+    path: "examples/invoicer/src/components/icons/icon-sun.tsx"
+  increase:
+    path: "examples/finefoods-antd/src/components/icons/increase.tsx"
+  pizza:
+    path: "examples/finefoods-antd/src/components/icons/pizza.tsx"
+  rank1:
+    path: "examples/finefoods-material-ui/src/components/icons/rank-1.tsx"
+  rank2:
+    path: "examples/finefoods-material-ui/src/components/icons/rank-2.tsx"
+  rank3:
+    path: "examples/finefoods-material-ui/src/components/icons/rank-3.tsx"
+  rank4:
+    path: "examples/finefoods-material-ui/src/components/icons/rank-4.tsx"
+  rank5:
+    path: "examples/finefoods-material-ui/src/components/icons/rank-5.tsx"
+  trend:
+    path: "examples/finefoods-antd/src/components/icons/trend.tsx"
+  user:
+    path: "examples/store/src/components/icons/User.tsx"
+  advancedMarker:
+    path: "examples/finefoods-material-ui/src/components/map/advanced-marker.tsx"
+  map:
+    path: "examples/finefoods-material-ui/src/components/map/map.tsx"
+  marker:
+    path: "examples/finefoods-material-ui/src/components/map/marker.tsx"
+  fields:
+    path: "examples/finefoods-antd/src/components/store/form/fields.tsx"
+  usestoreform:
+    path: "examples/finefoods-material-ui/src/components/store/form/useStoreForm.tsx"
+  allStoresMap:
+    path: "examples/finefoods-material-ui/src/components/store/map/all-stores-map.tsx"
+  storeMap:
+    path: "examples/finefoods-material-ui/src/components/store/map/store-map.tsx"
+  basketicon:
+    path: "examples/finefoods-client/src/components/icons/BasketIcon.tsx"
+  chevrondownicon:
+    path: "examples/finefoods-client/src/components/icons/ChevronDownIcon.tsx"
+  chevronlefticon:
+    path: "examples/finefoods-client/src/components/icons/ChevronLeftIcon.tsx"
+  chevronrighticon:
+    path: "examples/finefoods-client/src/components/icons/ChevronRightIcon.tsx"
+  chevronupicon:
+    path: "examples/finefoods-client/src/components/icons/ChevronUpIcon.tsx"
+  closeicon:
+    path: "examples/finefoods-client/src/components/icons/CloseIcon.tsx"
+  dividerverticalicon:
+    path: "examples/finefoods-client/src/components/icons/DividerVerticalIcon.tsx"
+  fastmotocycleicon:
+    path: "examples/finefoods-client/src/components/icons/FastMotocycleIcon.tsx"
+  finefoodsicon:
+    path: "examples/finefoods-client/src/components/icons/FinefoodsIcon.tsx"
+  motorcycleicon:
+    path: "examples/finefoods-client/src/components/icons/MotorcycleIcon.tsx"
+  ordericon:
+    path: "examples/finefoods-client/src/components/icons/OrderIcon.tsx"
+  plussquareicon:
+    path: "examples/finefoods-client/src/components/icons/PlusSquareIcon.tsx"
+  refineicon:
+    path: "examples/finefoods-client/src/components/icons/RefineIcon.tsx"
+  footer:
+    path: "examples/store/src/components/common/Footer/Footer.tsx"
+  skeleton:
+    path: "examples/finefoods-client/src/components/products/table/skeleton.tsx"
+  location:
+    path: "examples/finefoods-material-ui/src/components/icons/location.tsx"
+  trendIcon:
+    path: "examples/finefoods-material-ui/src/components/icons/trend-icon.tsx"
+  createpostdrawer:
+    path: "examples/form-material-ui-use-drawer-form/src/components/createPostDrawer.tsx"
+  editpostdrawer:
+    path: "examples/form-material-ui-use-drawer-form/src/components/editPostDrawer.tsx"
+  createpostmodal:
+    path: "examples/form-material-ui-use-modal-form/src/components/createPostModal.tsx"
+  editpostmodal:
+    path: "examples/form-material-ui-use-modal-form/src/components/editPostModal.tsx"
+  iconInvoicer:
+    path: "examples/invoicer/src/components/icons/icon-invoicer.tsx"
+  agentcard:
+    path: "examples/mern-dashboard-client/src/components/agent/AgentCard.tsx"
+  piechart:
+    path: "examples/mern-dashboard-client/src/components/charts/PieChart.tsx"
+  propertyreferrals:
+    path: "examples/mern-dashboard-client/src/components/charts/PropertyReferrals.tsx"
+  totalrevenue:
+    path: "examples/mern-dashboard-client/src/components/charts/TotalRevenue.tsx"
+  chartConfig:
+    path: "examples/mern-dashboard-client/src/components/charts/chart.config.ts"
+  custombutton:
+    path: "examples/mern-dashboard-client/src/components/common/CustomButton.tsx"
+  profile:
+    path: "examples/mern-dashboard-client/src/components/common/Profile.tsx"
+  propertycard:
+    path: "examples/mern-dashboard-client/src/components/common/PropertyCard.tsx"
+  topagent:
+    path: "examples/mern-dashboard-client/src/components/home/TopAgent.tsx"
+  avatarPanel:
+    path: "examples/pixels/src/components/avatar/avatar-panel.tsx"
+  contributors:
+    path: "examples/pixels/src/components/avatar/contributors.tsx"
+  sponsorsBanner:
+    path: "examples/pixels/src/components/banners/sponsors-banner.tsx"
+  display:
+    path: "examples/pixels/src/components/canvas/display.tsx"
+  tile:
+    path: "examples/pixels/src/components/canvas/tile.tsx"
+  list:
+    path: "examples/refine-hr-ce/src/components/time-offs/list.tsx"
+  stackBanner:
+    path: "examples/pixels-admin/src/components/banners/stack/stack-banner.tsx"
+  dateStartsEnds:
+    path: "examples/refine-hr-ce/src/components/input/date-starts-ends.tsx"
+  text:
+    path: "examples/refine-hr-ce/src/components/input/text.tsx"
+  menu:
+    path: "examples/store/src/components/icons/Menu.tsx"
+  userSelect:
+    path: "examples/refine-hr-ce/src/components/layout/sider/user-select.tsx"
+  listItem:
+    path: "examples/refine-hr-ce/src/components/requests/list-item.tsx"
+  timeOffRequestModal:
+    path: "examples/refine-hr-ce/src/components/requests/time-off-request-modal.tsx"
+  formSummary:
+    path: "examples/refine-hr-ce/src/components/time-offs/form-summary.tsx"
+  leaveCards:
+    path: "examples/refine-hr-ce/src/components/time-offs/leave-cards.tsx"
+  accountinfo:
+    path: "examples/store/src/components/account/AccountInfo/AccountInfo.tsx"
+  accountlayout:
+    path: "examples/store/src/components/account/AccountLayout/AccountLayout.tsx"
+  accountnav:
+    path: "examples/store/src/components/account/AccountNav/AccountNav.tsx"
+  overviewtemplate:
+    path: "examples/store/src/components/account/OverviewTemplate/OverviewTemplate.tsx"
+  addaddress:
+    path: "examples/store/src/components/address/AddAddress/AddAddress.tsx"
+  addressbook:
+    path: "examples/store/src/components/address/AddressBook/AddressBook.tsx"
+  addresstemplate:
+    path: "examples/store/src/components/address/AddressTemplate/AddressTemplate.tsx"
+  editaddress:
+    path: "examples/store/src/components/address/EditAddress/EditAddress.tsx"
+  loginview:
+    path: "examples/store/src/components/auth/LoginView.tsx"
+  signupview:
+    path: "examples/store/src/components/auth/SignUpView.tsx"
+  cartitem:
+    path: "examples/store/src/components/cart/CartItem/CartItem.tsx"
+  cartsidebarview:
+    path: "examples/store/src/components/cart/CartSidebarView/CartSidebarView.tsx"
+  checkoutcartitem:
+    path: "examples/store/src/components/cart/CheckoutCartItem/CheckoutCartItem.tsx"
+  addressselect:
+    path: "examples/store/src/components/checkout/AddressSelect/AddressSelect.tsx"
+  addresses:
+    path: "examples/store/src/components/checkout/Addresses/Addresses.tsx"
+  billingaddress:
+    path: "examples/store/src/components/checkout/BillingAddress/BillingAddress.tsx"
+  cardtotals:
+    path: "examples/store/src/components/checkout/CardTotals/CardTotals.tsx"
+  checkoutform:
+    path: "examples/store/src/components/checkout/CheckoutForm/CheckoutForm.tsx"
+  checkoutloader:
+    path: "examples/store/src/components/checkout/CheckoutLoader/CheckoutLoader.tsx"
+  checkoutsummary:
+    path: "examples/store/src/components/checkout/CheckoutSummary/CheckoutSummary.tsx"
+  checkouttemplate:
+    path: "examples/store/src/components/checkout/CheckoutTemplate/CheckoutTemplate.tsx"
+  discountcode:
+    path: "examples/store/src/components/checkout/DiscountCode/DiscountCode.tsx"
+  giftcard:
+    path: "examples/store/src/components/checkout/GiftCard/GiftCard.tsx"
+  payment:
+    path: "examples/store/src/components/checkout/Payment/Payment.tsx"
+  paymentbutton:
+    path: "examples/store/src/components/checkout/PaymentButton/PaymentButton.tsx"
+  paymentcontainer:
+    path: "examples/store/src/components/checkout/PaymentContainer/PaymentContainer.tsx"
+  paymentstripe:
+    path: "examples/store/src/components/checkout/PaymentStripe/PaymentStripe.tsx"
+  paymentwrapper:
+    path: "examples/store/src/components/checkout/PaymentWrapper/PaymentWrapper.tsx"
+  shipping:
+    path: "examples/store/src/components/checkout/Shipping/Shipping.tsx"
+  shippingaddress:
+    path: "examples/store/src/components/checkout/ShippingAddress/ShippingAddress.tsx"
+  stepcontainer:
+    path: "examples/store/src/components/checkout/StepContainer/StepContainer.tsx"
+  countryselect:
+    path: "examples/store/src/components/common/CountrySelect/CountrySelect.tsx"
+  featurebar:
+    path: "examples/store/src/components/common/FeatureBar/FeatureBar.tsx"
+  lineitemoptions:
+    path: "examples/store/src/components/common/LineItemOptions/LineItemOptions.tsx"
+  lineitemprice:
+    path: "examples/store/src/components/common/LineItemPrice/LineItemPrice.tsx"
+  nativeselect:
+    path: "examples/store/src/components/common/NativeSelect/NativeSelect.tsx"
+  seo:
+    path: "examples/store/src/components/common/SEO/SEO.tsx"
+  searchbar:
+    path: "examples/store/src/components/common/Searchbar/Searchbar.tsx"
+  sidebarlayout:
+    path: "examples/store/src/components/common/SidebarLayout/SidebarLayout.tsx"
+  thumbnail:
+    path: "examples/store/src/components/common/Thumbnail/Thumbnail.tsx"
+  underlinelink:
+    path: "examples/store/src/components/common/UnderlineLink/UnderlineLink.tsx"
+  customermenucontent:
+    path: "examples/store/src/components/common/UserNav/CustomerMenuContent/CustomerMenuContent.tsx"
+  menusidebarview:
+    path: "examples/store/src/components/common/UserNav/MenuSidebarView/MenuSidebarView.tsx"
+  usernav:
+    path: "examples/store/src/components/common/UserNav/UserNav.tsx"
+  arrowright:
+    path: "examples/store/src/components/icons/ArrowRight.tsx"
+  bag:
+    path: "examples/store/src/components/icons/Bag.tsx"
+  check:
+    path: "packages/devtools-ui/src/components/icons/check.tsx"
+  chevrondown:
+    path: "examples/store/src/components/icons/ChevronDown.tsx"
+  cross:
+    path: "examples/store/src/components/icons/Cross.tsx"
+  info:
+    path: "packages/devtools-ui/src/components/icons/info.tsx"
+  mappin:
+    path: "examples/store/src/components/icons/MapPin.tsx"
+  minus:
+    path: "examples/store/src/components/icons/Minus.tsx"
+  moon:
+    path: "examples/store/src/components/icons/Moon.tsx"
+  package:
+    path: "examples/store/src/components/icons/Package.tsx"
+  placeholderimage:
+    path: "examples/store/src/components/icons/PlaceholderImage.tsx"
+  plus:
+    path: "examples/store/src/components/icons/Plus.tsx"
+  spinner:
+    path: "examples/store/src/components/icons/Spinner.tsx"
+  trash:
+    path: "examples/store/src/components/icons/Trash.tsx"
+  iconAdd:
+    path: "examples/store/src/components/icons/icon-add.tsx"
+  iconCoupon:
+    path: "examples/store/src/components/icons/icon-coupon.tsx"
+  iconHourglass:
+    path: "examples/store/src/components/icons/icon-hourglass.tsx"
+  iconPen:
+    path: "examples/store/src/components/icons/icon-pen.tsx"
+  iconRefine:
+    path: "examples/store/src/components/icons/icon-refine.tsx"
+  iconSocialDiscord:
+    path: "examples/store/src/components/icons/icon-social-discord.tsx"
+  iconSocialGithub:
+    path: "examples/store/src/components/icons/icon-social-github.tsx"
+  iconSocialLinkedin:
+    path: "examples/store/src/components/icons/icon-social-linkedin.tsx"
+  iconSocialReddit:
+    path: "examples/store/src/components/icons/icon-social-reddit.tsx"
+  iconSocialTwitter:
+    path: "examples/store/src/components/icons/icon-social-twitter.tsx"
+  iconTrash:
+    path: "examples/store/src/components/icons/icon-trash.tsx"
+  help:
+    path: "examples/store/src/components/orders/Help/Help.tsx"
+  items:
+    path: "examples/store/src/components/orders/Items/Items.tsx"
+  ordercard:
+    path: "examples/store/src/components/orders/OrderCard/OrderCard.tsx"
+  ordercompletedtemplate:
+    path: "examples/store/src/components/orders/OrderCompletedTemplate/OrderCompletedTemplate.tsx"
+  orderdetails:
+    path: "examples/store/src/components/orders/OrderDetails/OrderDetails.tsx"
+  orderdetailstemplate:
+    path: "examples/store/src/components/orders/OrderDetailsTemplate/OrderDetailsTemplate.tsx"
+  orderoverview:
+    path: "examples/store/src/components/orders/OrderOverview/OrderOverview.tsx"
+  ordersummary:
+    path: "examples/store/src/components/orders/OrderSummary/OrderSummary.tsx"
+  orderstemplate:
+    path: "examples/store/src/components/orders/OrdersTemplate/OrdersTemplate.tsx"
+  paymentdetails:
+    path: "examples/store/src/components/orders/PaymentDetails/PaymentDetails.tsx"
+  shippingdetails:
+    path: "examples/store/src/components/orders/ShippingDetails/ShippingDetails.tsx"
+  helpers:
+    path: "examples/store/src/components/product/helpers.ts"
+  productGridItemSkeleton:
+    path: "examples/store/src/components/product/product-grid-item-skeleton.tsx"
+  productGridItem:
+    path: "examples/store/src/components/product/product-grid-item.tsx"
+  productOptionPicker:
+    path: "examples/store/src/components/product/product-option-picker.tsx"
+  productSlider:
+    path: "examples/store/src/components/product/product-slider.tsx"
+  profilebillingaddress:
+    path: "examples/store/src/components/profile/ProfileBillingAddress/ProfileBillingAddress.tsx"
+  profileemail:
+    path: "examples/store/src/components/profile/ProfileEmail/ProfileEmail.tsx"
+  profilename:
+    path: "examples/store/src/components/profile/ProfileName/ProfileName.tsx"
+  profilepassword:
+    path: "examples/store/src/components/profile/ProfilePassword/ProfilePassword.tsx"
+  profilephone:
+    path: "examples/store/src/components/profile/ProfilePhone/ProfilePhone.tsx"
+  profiletemplate:
+    path: "examples/store/src/components/profile/ProfileTemplate/ProfileTemplate.tsx"
+  skeletoncartsidebar:
+    path: "examples/store/src/components/skeletons/SkeletonCartSidebar/SkeletonCartSidebar.tsx"
+  skeletoncarttotals:
+    path: "examples/store/src/components/skeletons/SkeletonCartTotals/SkeletonCartTotals.tsx"
+  skeletonlineitem:
+    path: "examples/store/src/components/skeletons/SkeletonLineItem/SkeletonLineItem.tsx"
+  skeletonorderconfirmed:
+    path: "examples/store/src/components/skeletons/SkeletonOrderConfirmed/SkeletonOrderConfirmed.tsx"
+  skeletonorderconfirmedheader:
+    path: "examples/store/src/components/skeletons/SkeletonOrderConfirmedHeader/SkeletonOrderConfirmedHeader.tsx"
+  skeletonorderinformation:
+    path: "examples/store/src/components/skeletons/SkeletonOrderInformation/SkeletonOrderInformation.tsx"
+  skeletonorderitems:
+    path: "examples/store/src/components/skeletons/SkeletonOrderItems/SkeletonOrderItems.tsx"
+  checkbox:
+    path: "examples/store/src/components/ui/Checkbox/Checkbox.tsx"
+  dropdown:
+    path: "examples/store/src/components/ui/Dropdown/Dropdown.tsx"
+  link:
+    path: "examples/store/src/components/ui/Link/Link.tsx"
+  loadingdots:
+    path: "examples/store/src/components/ui/LoadingDots/LoadingDots.tsx"
+  logo:
+    path: "packages/devtools-ui/src/components/icons/logo.tsx"
+  quantity:
+    path: "examples/store/src/components/ui/Quantity/Quantity.tsx"
+  radio:
+    path: "examples/store/src/components/ui/Radio/Radio.tsx"
+  sidebar:
+    path: "packages/devtools-ui/src/components/sidebar.tsx"
+  buttonAddToCart:
+    path: "examples/store/src/components/ui/button-add-to-cart.tsx"
+  buttonCategory:
+    path: "examples/store/src/components/ui/button-category.tsx"
+  buttonCircle:
+    path: "examples/store/src/components/ui/button-circle.tsx"
+  arrowGreenPixelated:
+    path: "examples/win95/src/components/icons/arrow-green-pixelated.tsx"
+  chevronLeft:
+    path: "examples/win95/src/components/icons/chevron-left.tsx"
+  chevronRight:
+    path: "examples/win95/src/components/icons/chevron-right.tsx"
+  close:
+    path: "packages/devtools-ui/src/components/icons/close.tsx"
+  dangerIcon:
+    path: "examples/win95/src/components/icons/danger-icon.tsx"
+  minimize:
+    path: "examples/win95/src/components/icons/minimize.tsx"
+  paginationGoToFirst:
+    path: "examples/win95/src/components/icons/pagination-go-to-first.tsx"
+  paginationGoToLast:
+    path: "examples/win95/src/components/icons/pagination-go-to-last.tsx"
+  paginationNext:
+    path: "examples/win95/src/components/icons/pagination-next.tsx"
+  paginationPrev:
+    path: "examples/win95/src/components/icons/pagination-prev.tsx"
+  question:
+    path: "examples/win95/src/components/icons/question.tsx"
+  subpageLayout:
+    path: "examples/win95/src/components/layout/video-club/subpage-layout.tsx"
+  player:
+    path: "examples/win95/src/components/media-player/player.tsx"
+  sider:
+    path: "examples/with-custom-pages/src/components/sider.tsx"
+  undoablenotification:
+    path: "examples/with-react-toastify/src/components/undoableNotification.tsx"
+  indexSpec:
+    path: "packages/mui/src/components/themedLayout/title/index.spec.tsx"
+  types:
+    path: "packages/mui/src/components/themedLayout/types.ts"
+  tableTest:
+    path: "packages/cli/src/components/update-warning-table/table.test.ts"
+  applyStyles:
+    path: "packages/devtools/src/components/apply-styles.tsx"
+  devtoolsPin:
+    path: "packages/devtools/src/components/devtools-pin.tsx"
+  devtoolsSelector:
+    path: "packages/devtools/src/components/devtools-selector.tsx"
+  arrowUnionIcon:
+    path: "packages/devtools/src/components/icons/arrow-union-icon.tsx"
+  devtoolsIcon:
+    path: "packages/devtools/src/components/icons/devtools-icon.tsx"
+  resizeHandleIcon:
+    path: "packages/devtools/src/components/icons/resize-handle-icon.tsx"
+  selectorButton:
+    path: "packages/devtools/src/components/icons/selector-button.tsx"
+  resizablePane:
+    path: "packages/devtools-ui/src/components/resizable-pane.tsx"
+  selectableElements:
+    path: "packages/devtools/src/components/selectable-elements.tsx"
+  activeItemBackground:
+    path: "packages/devtools-ui/src/components/active-item-background.tsx"
+  addPackageDrawer:
+    path: "packages/devtools-ui/src/components/add-package-drawer.tsx"
+  addPackageItem:
+    path: "packages/devtools-ui/src/components/add-package.item.tsx"
+  authenticated:
+    path: "packages/devtools-ui/src/components/authenticated.tsx"
+  checkboxGroup:
+    path: "packages/devtools-ui/src/components/checkbox-group.tsx"
+  comingSoonText:
+    path: "packages/devtools-ui/src/components/coming-soon-text.tsx"
+  featureSlide:
+    path: "packages/devtools-ui/src/components/feature-slide.tsx"
+  feedItem:
+    path: "packages/devtools-ui/src/components/feed-item.tsx"
+  feed:
+    path: "packages/devtools-ui/src/components/feed.tsx"
+  filterField:
+    path: "packages/devtools-ui/src/components/filter-field.tsx"
+  filterInput:
+    path: "packages/devtools-ui/src/components/filter-input.tsx"
+  headerAuthStatus:
+    path: "packages/devtools-ui/src/components/header-auth-status.tsx"
+  highlight:
+    path: "packages/devtools-ui/src/components/highlight.tsx"
+  arrowCircleRight:
+    path: "packages/devtools-ui/src/components/icons/arrow-circle-right.tsx"
+  calendar:
+    path: "packages/devtools-ui/src/components/icons/calendar.tsx"
+  chatbot:
+    path: "packages/devtools-ui/src/components/icons/chatbot.tsx"
+  checkAlt:
+    path: "packages/devtools-ui/src/components/icons/check-alt.tsx"
+  checkboxEmpty:
+    path: "packages/devtools-ui/src/components/icons/checkbox-empty.tsx"
+  checkboxFilled:
+    path: "packages/devtools-ui/src/components/icons/checkbox-filled.tsx"
+  chevronDown:
+    path: "packages/devtools-ui/src/components/icons/chevron-down.tsx"
+  contact:
+    path: "packages/devtools-ui/src/components/icons/contact.tsx"
+  copy:
+    path: "packages/devtools-ui/src/components/icons/copy.tsx"
+  filter:
+    path: "packages/devtools-ui/src/components/icons/filter.tsx"
+  github:
+    path: "packages/devtools-ui/src/components/icons/github.tsx"
+  google:
+    path: "packages/devtools-ui/src/components/icons/google.tsx"
+  hiddenItemsBg:
+    path: "packages/devtools-ui/src/components/icons/hidden-items-bg.tsx"
+  horizontalDots:
+    path: "packages/devtools-ui/src/components/icons/horizontal-dots.tsx"
+  hourglass:
+    path: "packages/devtools-ui/src/components/icons/hourglass.tsx"
+  inferencerPreview:
+    path: "packages/devtools-ui/src/components/icons/inferencer-preview.tsx"
+  maximize:
+    path: "packages/devtools-ui/src/components/icons/maximize.tsx"
+  monitor:
+    path: "packages/devtools-ui/src/components/icons/monitor.tsx"
+  notification:
+    path: "packages/devtools-ui/src/components/icons/notification.tsx"
+  options:
+    path: "packages/devtools-ui/src/components/icons/options.tsx"
+  overview:
+    path: "packages/devtools-ui/src/components/icons/overview.tsx"
+  packageOverview:
+    path: "packages/devtools-ui/src/components/icons/package-overview.tsx"
+  playground:
+    path: "packages/devtools-ui/src/components/icons/playground.tsx"
+  plusCircle:
+    path: "packages/devtools-ui/src/components/icons/plus-circle.tsx"
+  resizeHandle:
+    path: "packages/devtools-ui/src/components/icons/resize-handle.tsx"
+  resourceViewer:
+    path: "packages/devtools-ui/src/components/icons/resource-viewer.tsx"
+  search:
+    path: "packages/devtools-ui/src/components/icons/search.tsx"
+  settings:
+    path: "packages/devtools-ui/src/components/icons/settings.tsx"
+  sidebarActive:
+    path: "packages/devtools-ui/src/components/icons/sidebar-active.tsx"
+  slidingBackground:
+    path: "packages/devtools-ui/src/components/icons/sliding-background.tsx"
+  snippets:
+    path: "packages/devtools-ui/src/components/icons/snippets.tsx"
+  ticket:
+    path: "packages/devtools-ui/src/components/icons/ticket.tsx"
+  update:
+    path: "packages/devtools-ui/src/components/icons/update.tsx"
+  warning:
+    path: "packages/devtools-ui/src/components/icons/warning.tsx"
+  iframePageLoadHandler:
+    path: "packages/devtools-ui/src/components/iframe-page-load-handler.tsx"
+  initialLayout:
+    path: "packages/devtools-ui/src/components/initial-layout.tsx"
+  invalidateButton:
+    path: "packages/devtools-ui/src/components/invalidate-button.tsx"
+  jsonViewer:
+    path: "packages/devtools-ui/src/components/json-viewer.tsx"
+  locationChangeHandler:
+    path: "packages/devtools-ui/src/components/location-change-handler.tsx"
+  monitorAppliedFilterGroup:
+    path: "packages/devtools-ui/src/components/monitor-applied-filter-group.tsx"
+  monitorDetails:
+    path: "packages/devtools-ui/src/components/monitor-details.tsx"
+  monitorFilters:
+    path: "packages/devtools-ui/src/components/monitor-filters.tsx"
+  monitorHighlightHandler:
+    path: "packages/devtools-ui/src/components/monitor-highlight-handler.tsx"
+  monitorTable:
+    path: "packages/devtools-ui/src/components/monitor-table.tsx"
+  onboarded:
+    path: "packages/devtools-ui/src/components/onboarded.tsx"
+  owners:
+    path: "packages/devtools-ui/src/components/owners.tsx"
+  packageItem:
+    path: "packages/devtools-ui/src/components/package-item.tsx"
+  packages:
+    path: "packages/devtools-ui/src/components/packages.tsx"
+  projectIdFixBanner:
+    path: "packages/devtools-ui/src/components/project-id-fix-banner.tsx"
+  projectIdFixModal:
+    path: "packages/devtools-ui/src/components/project-id-fix-modal.tsx"
+  relativeTimeValue:
+    path: "packages/devtools-ui/src/components/relative-time-value.tsx"
+  reloadOnChanges:
+    path: "packages/devtools-ui/src/components/reload-on-changes.tsx"
+  resourceValue:
+    path: "packages/devtools-ui/src/components/resource-value.tsx"
+  status:
+    path: "packages/devtools-ui/src/components/status.tsx"
+  traceList:
+    path: "packages/devtools-ui/src/components/trace-list.tsx"
+  liveError:
+    path: "packages/live-previews/src/components/live-error.tsx"
+  loading:
+    path: "packages/live-previews/src/components/loading.tsx"
+  forgotPasswordForm:
+    path: "packages/refine-ui/examples/base-example/components/forgot-password-form.tsx"
+  loginForm:
+    path: "packages/refine-ui/examples/base-example/components/login-form.tsx"
+  registerForm:
+    path: "packages/refine-ui/examples/base-example/components/register-form.tsx"
+meta:
+  filesAnalyzed: 6685
+  changedFiles: []

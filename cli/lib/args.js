@@ -13,6 +13,7 @@ function parseArgs(argv) {
     help: false,
     version: false,
     dryRun: false,
+    force: false,
     configPath: null,
   };
   const positionals = [];
@@ -30,6 +31,10 @@ function parseArgs(argv) {
     }
     if (arg === '--dry-run') {
       flags.dryRun = true;
+      continue;
+    }
+    if (arg === '--force' || arg === '-f') {
+      flags.force = true;
       continue;
     }
     if (arg === '--config') {

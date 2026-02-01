@@ -1,0 +1,150 @@
+version: 1
+generatedAt: "2026-02-01T11:51:58.909Z"
+projectName: "tailadmin"
+entities: {}
+actions: {}
+queries: {}
+components:
+  signinform:
+    path: "src/components/auth/SignInForm.tsx"
+  signupform:
+    path: "src/components/auth/SignUpForm.tsx"
+  calendar:
+    path: "src/components/calendar/Calendar.tsx"
+  barchartone:
+    path: "src/components/charts/bar/BarChartOne.tsx"
+  linechartone:
+    path: "src/components/charts/line/LineChartOne.tsx"
+  charttab:
+    path: "src/components/common/ChartTab.tsx"
+  componentcard:
+    path: "src/components/common/ComponentCard.tsx"
+  gridshape:
+    path: "src/components/common/GridShape.tsx"
+  pagebreadcrumb:
+    path: "src/components/common/PageBreadCrumb.tsx"
+  themetogglebutton:
+    path: "src/components/common/ThemeToggleButton.tsx"
+  themetogglertwo:
+    path: "src/components/common/ThemeTogglerTwo.tsx"
+  countrymap:
+    path: "src/components/ecommerce/CountryMap.tsx"
+  demographiccard:
+    path: "src/components/ecommerce/DemographicCard.tsx"
+  ecommercemetrics:
+    path: "src/components/ecommerce/EcommerceMetrics.tsx"
+  monthlysaleschart:
+    path: "src/components/ecommerce/MonthlySalesChart.tsx"
+  monthlytarget:
+    path: "src/components/ecommerce/MonthlyTarget.tsx"
+  recentorders:
+    path: "src/components/ecommerce/RecentOrders.tsx"
+  statisticschart:
+    path: "src/components/ecommerce/StatisticsChart.tsx"
+  defaultmodal:
+    path: "src/components/example/ModalExample/DefaultModal.tsx"
+  forminmodal:
+    path: "src/components/example/ModalExample/FormInModal.tsx"
+  fullscreenmodal:
+    path: "src/components/example/ModalExample/FullScreenModal.tsx"
+  modalbasedalerts:
+    path: "src/components/example/ModalExample/ModalBasedAlerts.tsx"
+  verticallycenteredmodal:
+    path: "src/components/example/ModalExample/VerticallyCenteredModal.tsx"
+  form:
+    path: "src/components/form/Form.tsx"
+  label:
+    path: "src/components/form/Label.tsx"
+  multiselect:
+    path: "src/components/form/MultiSelect.tsx"
+  select:
+    path: "src/components/form/Select.tsx"
+  datePicker:
+    path: "src/components/form/date-picker.tsx"
+  checkboxcomponents:
+    path: "src/components/form/form-elements/CheckboxComponents.tsx"
+  defaultinputs:
+    path: "src/components/form/form-elements/DefaultInputs.tsx"
+  dropzone:
+    path: "src/components/form/form-elements/DropZone.tsx"
+  fileinputexample:
+    path: "src/components/form/form-elements/FileInputExample.tsx"
+  inputgroup:
+    path: "src/components/form/form-elements/InputGroup.tsx"
+  inputstates:
+    path: "src/components/form/form-elements/InputStates.tsx"
+  radiobuttons:
+    path: "src/components/form/form-elements/RadioButtons.tsx"
+  selectinputs:
+    path: "src/components/form/form-elements/SelectInputs.tsx"
+  textareainput:
+    path: "src/components/form/form-elements/TextAreaInput.tsx"
+  toggleswitch:
+    path: "src/components/form/form-elements/ToggleSwitch.tsx"
+  phoneinput:
+    path: "src/components/form/group-input/PhoneInput.tsx"
+  checkbox:
+    path: "src/components/form/input/Checkbox.tsx"
+  fileinput:
+    path: "src/components/form/input/FileInput.tsx"
+  inputfield:
+    path: "src/components/form/input/InputField.tsx"
+  radio:
+    path: "src/components/form/input/Radio.tsx"
+  radiosm:
+    path: "src/components/form/input/RadioSm.tsx"
+  textarea:
+    path: "src/components/form/input/TextArea.tsx"
+  switch:
+    path: "src/components/form/switch/Switch.tsx"
+  notificationdropdown:
+    path: "src/components/header/NotificationDropdown.tsx"
+  userdropdown:
+    path: "src/components/header/UserDropdown.tsx"
+  basictableone:
+    path: "src/components/tables/BasicTableOne.tsx"
+  pagination:
+    path: "src/components/tables/Pagination.tsx"
+  alert:
+    path: "src/components/ui/alert/Alert.tsx"
+  avatar:
+    path: "src/components/ui/avatar/Avatar.tsx"
+  avatartext:
+    path: "src/components/ui/avatar/AvatarText.tsx"
+  badge:
+    path: "src/components/ui/badge/Badge.tsx"
+  button:
+    path: "src/components/ui/button/Button.tsx"
+  dropdown:
+    path: "src/components/ui/dropdown/Dropdown.tsx"
+  dropdownitem:
+    path: "src/components/ui/dropdown/DropdownItem.tsx"
+  responsiveimage:
+    path: "src/components/ui/images/ResponsiveImage.tsx"
+  threecolumnimagegrid:
+    path: "src/components/ui/images/ThreeColumnImageGrid.tsx"
+  twocolumnimagegrid:
+    path: "src/components/ui/images/TwoColumnImageGrid.tsx"
+  index:
+    path: "src/components/ui/table/index.tsx"
+  videosexample:
+    path: "src/components/ui/video/VideosExample.tsx"
+  youtubeembed:
+    path: "src/components/ui/video/YouTubeEmbed.tsx"
+  useraddresscard:
+    path: "src/components/user-profile/UserAddressCard.tsx"
+  userinfocard:
+    path: "src/components/user-profile/UserInfoCard.tsx"
+  usermetacard:
+    path: "src/components/user-profile/UserMetaCard.tsx"
+  fouristothree:
+    path: "src/components/videos/FourIsToThree.tsx"
+  oneistoone:
+    path: "src/components/videos/OneIsToOne.tsx"
+  sixteenistonine:
+    path: "src/components/videos/SixteenIsToNine.tsx"
+  twentyoneistonine:
+    path: "src/components/videos/TwentyOneIsToNine.tsx"
+meta:
+  filesAnalyzed: 108
+  changedFiles: []

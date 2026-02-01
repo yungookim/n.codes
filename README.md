@@ -47,6 +47,10 @@ I'm creating n.codes. It's an open-source project that lets users build the feat
 
 The LLM doesn't write arbitrary code. 
 
+### Local configuration
+- Store local API keys in `.env.local` (not `.env`) so they stay out of version control.
+- Capability map generation is LLM-based and requires a configured provider/model plus a valid API key.
+
 1. It reads through your frontend components to understand the capabilities of your app and styles. It then uses that knowledge to build the UI that the user asks for. It keeps a consistent style.
 
 2. It reads through your backend APIs, docs, and schemas to create a *"capability map"* of your app. This includes entities, actions, queries, and constraints.

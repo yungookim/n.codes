@@ -1,0 +1,11 @@
+n.codes sample test
+app: medusa
+source: /Users/dgyk/Dev/n.codes/samples/medusa
+output: /Users/dgyk/Dev/n.codes/samples/test-output/medusa
+generatedAt: 2026-02-01T11:51:58.738Z
+filesAnalyzed: 9990
+entities: 0
+actions: 294
+queries: 169
+components: 1608
+valid: true
