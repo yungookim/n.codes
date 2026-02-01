@@ -101,6 +101,36 @@ components:
 4. Developer curates (hide internal APIs, add permissions)
 5. Committed as `n.codes.capabilities.yaml`
 
+### Why Capability Map Instead of MCP Server
+
+We considered generating an MCP (Model Context Protocol) server instead of a static capability map. MCP is a standardized protocol that lets LLMs invoke external tools at runtime. Here's why we chose the capability map approach:
+
+**Different mental models:**
+
+| Capability Map | MCP Server |
+|----------------|------------|
+| Static schema — "here's what exists" | Runtime tools — "call this to do X" |
+| LLM reads it as context for generation | LLM invokes tools directly |
+| Sandbox executes the generated DSL | LLM executes actions immediately |
+
+**The core distinction:** Our LLM doesn't need to *call* anything — it needs to *know* what exists so it can generate valid DSL. The sandbox executes the DSL later. MCP's mental model is "give the LLM hands to do things." Our mental model is "give the LLM knowledge to write a recipe that the sandbox will cook."
+
+```
+n.codes flow:
+User prompt → LLM reads capability map → generates DSL → sandbox validates & executes
+
+MCP flow:
+User prompt → LLM calls MCP tools → actions happen immediately
+```
+
+**Why this matters for security:** MCP would bypass our sandboxed runtime, defeating the security/control model. With the capability map approach:
+1. LLM only has read access to a schema (no execution capability)
+2. Generated DSL declares its bindings explicitly
+3. Sandbox validates bindings against user's RBAC permissions
+4. SDK bridge proxies actual API calls with auth + audit logging
+
+**When MCP might make sense:** If we wanted dynamic capability discovery (e.g., query live API specs at generation time), MCP could expose read-only tools like `listAvailableActions()`. But that's essentially the capability map with extra infrastructure overhead. We may revisit this if dynamic introspection becomes a requirement.
+
 ## CLI Prototype for Capability Map Creation
 
 The CLI prototype is designed to generate, update, and validate the capability map locally. It is intentionally minimal so teams can experiment with workflows before wiring up production introspection.
@@ -136,6 +166,24 @@ npx n.codes validate   # Validate capability map structure
 **Prototype note:** The CLI writes YAML content to `n.codes.capabilities.yaml` using a small, deterministic serializer.
 
 ## DSL Format
+
+### What is a DSL?
+
+DSL stands for **Domain-Specific Language** — a specialized language designed for a specific problem domain rather than general-purpose programming. Unlike general languages (JavaScript, Python), a DSL is constrained to express only what's needed for its domain.
+
+**Why use a DSL for n.codes:**
+- **Constrained expressiveness** — The LLM can only generate UI structures and approved API calls, not arbitrary code
+- **Validation** — We can statically analyze and validate DSL before execution
+- **Security** — The sandbox interprets DSL; it doesn't eval arbitrary JavaScript
+- **Portability** — DSL can be rendered by different runtimes (React, Vue, native)
+
+**Our DSL is "hybrid"** because it combines:
+- **JSON structure** — Declarative layout tree (safe, easy to validate)
+- **JS expressions** — Logic for computed values and handlers (sandboxed execution)
+
+This gives us the safety of declarative JSON with the flexibility of JavaScript where needed, while keeping all execution inside the sandbox.
+
+### DSL Structure
 
 Generated apps are expressed as a Hybrid DSL - JSON for structure, JS for logic:
 

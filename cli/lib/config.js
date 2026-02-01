@@ -13,7 +13,7 @@ function normalizeProvider(provider) {
 }
 
 function isSupportedProvider(provider) {
-  return ['openai', 'claude', 'grok', 'gemini'].includes(provider);
+  return ['openai', 'claude'].includes(provider);
 }
 
 function validateProvider(provider) {

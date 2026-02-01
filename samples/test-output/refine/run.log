@@ -2,7 +2,7 @@ n.codes sample test
 app: refine
 source: /Users/dgyk/Dev/n.codes/samples/refine
 output: /Users/dgyk/Dev/n.codes/samples/test-output/refine
-generatedAt: 2026-02-01T00:01:37.487Z
+generatedAt: 2026-02-01T11:51:58.906Z
 filesAnalyzed: 6685
 entities: 0
 actions: 5

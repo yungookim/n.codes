@@ -5,24 +5,44 @@ const {
   saveConfig,
 } = require('./config');
 
-function getInitQuestions() {
-  return [
-    {
-      key: 'provider',
-      prompt: 'Select LLM provider (openai, claude, grok, gemini)',
-      defaultValue: 'openai',
-    },
-    {
-      key: 'model',
-      prompt: 'Default model name',
-      defaultValue: 'default',
-    },
-    {
-      key: 'projectName',
-      prompt: 'Project name (optional)',
-      defaultValue: '',
-    },
-  ];
+const PROVIDER_MODELS = {
+  openai: ['gpt-5-mini', 'gpt-5.2'],
+  claude: ['claude-sonnet-4-5', 'claude-opus-4-5', 'claude-haiku-4-5'],
+};
+
+function getProviderQuestion() {
+  return {
+    key: 'provider',
+    prompt: 'Select LLM provider (openai, claude)',
+    defaultValue: 'openai',
+  };
+}
+
+function getProjectNameQuestion() {
+  return {
+    key: 'projectName',
+    prompt: 'Project name (optional)',
+    defaultValue: '',
+  };
+}
+
+function formatModelChoices(provider) {
+  const models = PROVIDER_MODELS[provider] || [];
+  return models.map((model, i) => `  ${i + 1}. ${model}`).join('\n');
+}
+
+function parseModelChoice(input, provider) {
+  const models = PROVIDER_MODELS[provider] || [];
+  const trimmed = String(input || '').trim();
+  if (!trimmed) return models[0] || 'default';
+  const num = parseInt(trimmed, 10);
+  if (!isNaN(num) && num >= 1 && num <= models.length) {
+    return models[num - 1];
+  }
+  if (models.includes(trimmed)) {
+    return trimmed;
+  }
+  return models[0] || 'default';
 }
 
 function normalizeAnswer(value, fallback) {
@@ -131,37 +151,47 @@ async function ensureApiKey({ cwd, fs, path, io, provider }) {
 }
 
 async function runInit({ cwd, fs, path, io, configPath }) {
-  const answers = {};
-  const questions = getInitQuestions();
+  const providerQuestion = getProviderQuestion();
+  const providerResponse = await io.prompt(`${providerQuestion.prompt} [${providerQuestion.defaultValue}] `);
+  const providerAnswer = normalizeAnswer(providerResponse, providerQuestion.defaultValue);
 
-  for (const question of questions) {
-    const response = await io.prompt(`${question.prompt} [${question.defaultValue}] `);
-    answers[question.key] = normalizeAnswer(response, question.defaultValue);
-  }
-
-  const providerCheck = validateProvider(answers.provider);
+  const providerCheck = validateProvider(providerAnswer);
   if (!providerCheck.valid) {
     io.error(providerCheck.error);
     throw new Error(providerCheck.error);
   }
 
+  const provider = providerCheck.provider;
+  const models = PROVIDER_MODELS[provider] || [];
+  io.log(`\nAvailable models for ${provider}:\n${formatModelChoices(provider)}`);
+  const modelResponse = await io.prompt(`Select model (1-${models.length}) [1] `);
+  const model = parseModelChoice(modelResponse, provider);
+
+  const projectQuestion = getProjectNameQuestion();
+  const projectResponse = await io.prompt(`${projectQuestion.prompt} [${projectQuestion.defaultValue}] `);
+  const projectName = normalizeAnswer(projectResponse, projectQuestion.defaultValue);
+
   const config = {
     ...defaultConfig(),
-    provider: providerCheck.provider,
-    model: answers.model,
-    projectName: answers.projectName || null,
+    provider,
+    model,
+    projectName: projectName || null,
   };
 
   const targetPath = configPath || resolveConfigPath({ cwd, path });
   saveConfig({ cwd, fs, path, config, configPath: targetPath });
   io.log(`Saved config to ${targetPath}`);
-  await ensureApiKey({ cwd, fs, path, io, provider: providerCheck.provider });
+  await ensureApiKey({ cwd, fs, path, io, provider });
 
   return { config, path: targetPath };
 }
 
 module.exports = {
-  getInitQuestions,
+  PROVIDER_MODELS,
+  getProviderQuestion,
+  getProjectNameQuestion,
+  formatModelChoices,
+  parseModelChoice,
   normalizeAnswer,
   apiKeyEnvVar,
   ensureApiKey,
