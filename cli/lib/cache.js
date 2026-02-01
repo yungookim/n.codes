@@ -1,3 +1,5 @@
+const crypto = require('crypto');
+
 function resolveCachePath({ cwd, path }) {
   return path.join(cwd, '.n.codes.cache.json');
 }
@@ -18,8 +20,32 @@ function saveCache({ cwd, fs, path, cache }) {
   return cachePath;
 }
 
+function hashContent(content) {
+  const hash = crypto.createHash('sha256').update(content).digest('hex');
+  return `sha256:${hash}`;
+}
+
+function getAnalysisCache(cache, routeFile, contentHash) {
+  if (!cache?.analysis?.[routeFile]) return null;
+  const entry = cache.analysis[routeFile];
+  if (entry.contentHash !== contentHash) return null;
+  return entry.result;
+}
+
+function setAnalysisCache(cache, routeFile, contentHash, result) {
+  if (!cache.analysis) cache.analysis = {};
+  cache.analysis[routeFile] = {
+    contentHash,
+    analyzedAt: new Date().toISOString(),
+    result
+  };
+}
+
 module.exports = {
   resolveCachePath,
   loadCache,
   saveCache,
+  hashContent,
+  getAnalysisCache,
+  setAnalysisCache
 };
