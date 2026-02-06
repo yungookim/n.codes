@@ -747,6 +747,24 @@
     .demo-cta:hover .demo-cta-arrow {
       transform: translateX(4px);
     }
+
+    /* Mobile navigation */
+    @media (max-width: 600px) {
+      .container {
+        padding-top: 24px;
+      }
+
+      .top-header {
+        flex-direction: column-reverse;
+        align-items: stretch;
+        gap: 12px;
+      }
+
+      .top-links {
+        justify-content: center;
+        padding-top: 0;
+      }
+    }
   </style>
 </head>
 
@@ -767,7 +785,11 @@
         <a href="/demo/">Demo</a>
         <a href="/changelog.html">Changelog</a>
         <a href="https://github.com/yungookim/n.codes" target="_blank">GitHub</a>
-        <a href="https://x.com/dygk_0x1" target="_blank">X</a>
+        <a href="https://x.com/dygk_0x1" target="_blank" aria-label="X (Twitter)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: -1px;">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
+        </a>
       </div>
     </div>
     <p class="tagline">Let users generate their own features in your app without waiting for your backlog to clear.
