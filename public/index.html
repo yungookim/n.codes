@@ -748,7 +748,7 @@
       transform: translateX(4px);
     }
 
-    /* Mobile navigation */
+    /* Mobile styles */
     @media (max-width: 600px) {
       .container {
         padding-top: 24px;
@@ -763,6 +763,54 @@
       .top-links {
         justify-content: center;
         padding-top: 0;
+      }
+
+      /* Simplify demo table */
+      .app-table th:nth-child(3),
+      .app-table td:nth-child(3),
+      .app-table th:nth-child(4),
+      .app-table td:nth-child(4) {
+        display: none;
+      }
+
+      .app-table th,
+      .app-table td {
+        padding: 10px 8px;
+        font-size: 0.75rem;
+      }
+
+      .app-actions {
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .app-btn {
+        padding: 5px 8px;
+        font-size: 0.65rem;
+      }
+
+      .app-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+
+      .app-title {
+        font-size: 0.85rem;
+      }
+
+      /* Diagram adjustments */
+      .diagram-box {
+        min-width: 100px;
+        padding: 10px 12px;
+      }
+
+      .diagram-row {
+        gap: 12px;
+      }
+
+      .section-box {
+        padding: 20px;
       }
     }
   </style>
