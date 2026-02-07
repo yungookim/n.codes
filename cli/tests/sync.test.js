@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 const { resolveCapabilityMapPath, writeCapabilityMap, buildCapabilityMap, runSync, analyzeRoutesWithLLM } = require('../lib/sync');
-const { defaultCapabilityMap, parseCapabilityMapYaml } = require('../lib/capability-map');
+const { defaultCapabilityMap } = require('../lib/capability-map');
 const { createTempDir, writeFile } = require('./helpers');
 const { createMemoryIO } = require('../lib/io');
 
@@ -53,17 +53,14 @@ test('runSync enriches routes with analysis metadata', async () => {
   const originalKey = process.env.OPENAI_API_KEY;
   delete process.env.OPENAI_API_KEY;
   const io = createMemoryIO();
-  const result = await runSync({ cwd, fs, path, io });
+  await assert.rejects(
+    runSync({ cwd, fs, path, io }),
+    { message: /Missing OPENAI_API_KEY/ }
+  );
   process.env.OPENAI_API_KEY = originalKey;
-  const content = fs.readFileSync(result.mapPath, 'utf8');
-  const map = parseCapabilityMapYaml(content);
-  assert.ok(map.actions.postBookings);
-  assert.equal(map.actions.postBookings.analysisSource, 'heuristic');
-  assert.deepEqual(map.actions.postBookings.entities, []);
 });
 
-test('analyzeRoutesWithLLM returns results for each route', async () => {
-  // Mock LLM to return fallback (no API key)
+test('analyzeRoutesWithLLM throws when no API key', async () => {
   const routes = [
     { name: 'postBookings', method: 'POST', path: '/api/bookings', file: 'pages/api/bookings.ts' },
     { name: 'getBooking', method: 'GET', path: '/api/bookings/:id', file: 'pages/api/bookings/[id].ts' }
@@ -78,22 +75,21 @@ test('analyzeRoutesWithLLM returns results for each route', async () => {
   const originalKey = process.env.OPENAI_API_KEY;
   delete process.env.OPENAI_API_KEY;
 
-  const results = await analyzeRoutesWithLLM({
-    routes,
-    cwd,
-    fs,
-    path,
-    config,
-    concurrency: 2,
-    io: { log: () => {}, error: () => {} },
-    cache: {}
-  });
+  await assert.rejects(
+    analyzeRoutesWithLLM({
+      routes,
+      cwd,
+      fs,
+      path,
+      config,
+      concurrency: 2,
+      io: { log: () => {}, error: () => {} },
+      cache: {}
+    }),
+    { message: /Missing OPENAI_API_KEY/ }
+  );
 
   process.env.OPENAI_API_KEY = originalKey;
-
-  assert.equal(results.length, 2);
-  assert.equal(results[0].capabilityName, 'postBookings');
-  assert.equal(results[0].analysisSource, 'heuristic'); // No API key = fallback
 });
 
 test('analyzeRoutesWithLLM uses cache when available', async () => {
@@ -123,7 +119,7 @@ test('analyzeRoutesWithLLM uses cache when available', async () => {
   };
 
   const originalKey = process.env.OPENAI_API_KEY;
-  delete process.env.OPENAI_API_KEY;
+  process.env.OPENAI_API_KEY = 'test-key';
 
   const results = await analyzeRoutesWithLLM({
     routes,
@@ -136,7 +132,11 @@ test('analyzeRoutesWithLLM uses cache when available', async () => {
     cache
   });
 
-  process.env.OPENAI_API_KEY = originalKey;
+  if (originalKey) {
+    process.env.OPENAI_API_KEY = originalKey;
+  } else {
+    delete process.env.OPENAI_API_KEY;
+  }
 
   assert.equal(results[0].description, 'Cached description');
   assert.equal(results[0].analysisSource, 'llm');
@@ -170,22 +170,22 @@ test('analyzeRoutesWithLLM respects force flag to bypass cache', async () => {
   const originalKey = process.env.OPENAI_API_KEY;
   delete process.env.OPENAI_API_KEY;
 
-  const results = await analyzeRoutesWithLLM({
-    routes,
-    cwd,
-    fs,
-    path,
-    config: { provider: 'openai', model: 'gpt-5-mini', allowHeuristicFallback: true },
-    concurrency: 2,
-    io: { log: () => {}, error: () => {} },
-    cache,
-    force: true  // Force re-analysis
-  });
+  await assert.rejects(
+    analyzeRoutesWithLLM({
+      routes,
+      cwd,
+      fs,
+      path,
+      config: { provider: 'openai', model: 'gpt-5-mini', allowHeuristicFallback: true },
+      concurrency: 2,
+      io: { log: () => {}, error: () => {} },
+      cache,
+      force: true  // Force re-analysis
+    }),
+    { message: /Missing OPENAI_API_KEY/ }
+  );
 
   process.env.OPENAI_API_KEY = originalKey;
-
-  // Without API key, should fallback to heuristic even with cache
-  assert.equal(results[0].analysisSource, 'heuristic');
 });
 
 test('runSync samples routes for LLM analysis', async () => {
@@ -202,21 +202,10 @@ test('runSync samples routes for LLM analysis', async () => {
   delete process.env.OPENAI_API_KEY;
 
   const io = createMemoryIO();
-  const result = await runSync({ cwd, fs, path, io, sample: 1 });
+  await assert.rejects(
+    runSync({ cwd, fs, path, io, sample: 1 }),
+    { message: /Missing OPENAI_API_KEY/ }
+  );
 
   process.env.OPENAI_API_KEY = originalKey;
-
-  const content = fs.readFileSync(result.mapPath, 'utf8');
-  const map = parseCapabilityMapYaml(content);
-  const alphaName = Object.keys(map.actions).find(
-    (name) => map.actions[name].endpoint?.path === '/api/alpha'
-  );
-  const zetaName = Object.keys(map.actions).find(
-    (name) => map.actions[name].endpoint?.path === '/api/zeta'
-  );
-
-  assert.ok(alphaName);
-  assert.ok(zetaName);
-  assert.equal(map.actions[alphaName].analysisSource, 'heuristic');
-  assert.equal(map.actions[zetaName].analysisSource, undefined);
 });

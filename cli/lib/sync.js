@@ -9,7 +9,7 @@ const {
 } = require('./capability-map');
 const { saveCache, loadCache, hashContent, getAnalysisCache, setAnalysisCache } = require('./cache');
 const { buildRouteContext } = require('./imports');
-const { analyzeWithLLM, createSemaphore } = require('./llm');
+const { analyzeWithLLM, createSemaphore, assertApiKey } = require('./llm');
 const { buildRouteAnalysisResult, mergeEntities } = require('./analyzer');
 
 function resolveCapabilityMapPath({ cwd, path, config, overridePath }) {
@@ -72,6 +72,10 @@ async function analyzeRoutesWithLLM({
   const semaphore = createSemaphore(concurrency);
   const total = routes.length;
   let completed = 0;
+
+  if (total > 0) {
+    assertApiKey(config);
+  }
 
   if (io && typeof io.log === 'function' && total > 0) {
     io.log(`Analyzing routes... [0/${total}]`);

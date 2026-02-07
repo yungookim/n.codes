@@ -7,7 +7,6 @@ const { buildIncrementalMap, runDev } = require('../lib/dev');
 const { createTempDir, writeFile } = require('./helpers');
 const { createMemoryIO } = require('../lib/io');
 const { saveCache } = require('../lib/cache');
-const { parseCapabilityMapYaml } = require('../lib/capability-map');
 
 test('buildIncrementalMap records changed files', () => {
   const { map } = buildIncrementalMap({
@@ -55,11 +54,9 @@ test('runDev enriches routes with analysis metadata', async () => {
   const originalKey = process.env.OPENAI_API_KEY;
   delete process.env.OPENAI_API_KEY;
   const io = createMemoryIO();
-  const result = await runDev({ cwd, fs, path, io });
+  await assert.rejects(
+    runDev({ cwd, fs, path, io }),
+    { message: /Missing OPENAI_API_KEY/ }
+  );
   process.env.OPENAI_API_KEY = originalKey;
-  const content = fs.readFileSync(result.mapPath, 'utf8');
-  const map = parseCapabilityMapYaml(content);
-  assert.ok(map.actions.postBookings);
-  assert.equal(map.actions.postBookings.analysisSource, 'heuristic');
-  assert.deepEqual(map.actions.postBookings.entities, []);
 });

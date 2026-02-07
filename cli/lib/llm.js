@@ -17,6 +17,18 @@ function getModelConfig(config) {
   };
 }
 
+function assertApiKey(config) {
+  const modelConfig = getModelConfig(config);
+  if (!modelConfig.envVar) {
+    throw new Error(`Unsupported provider: ${modelConfig.provider}`);
+  }
+  const apiKey = process.env[modelConfig.envVar];
+  if (!apiKey) {
+    throw new Error(`Missing ${modelConfig.envVar}. Set it in .env.local or run n.codes init.`);
+  }
+  return apiKey;
+}
+
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -71,19 +83,7 @@ async function analyzeWithLLM({
   heuristicDescription
 }) {
   const allowHeuristicFallback = config?.allowHeuristicFallback === true;
-  const modelConfig = getModelConfig(config);
-  const apiKey = process.env[modelConfig.envVar];
-
-  if (!apiKey) {
-    if (allowHeuristicFallback) {
-      return {
-        fallback: true,
-        description: heuristicDescription,
-        entities: []
-      };
-    }
-    throw new Error(`Missing ${modelConfig.envVar}. Enable heuristic fallback during init to proceed without an API key.`);
-  }
+  assertApiKey(config);
 
   try {
     const { generateText } = await import('ai');
@@ -204,6 +204,7 @@ function parseAnalysisResponse(text) {
 module.exports = {
   SUPPORTED_MODELS,
   getModelConfig,
+  assertApiKey,
   sleep,
   withRetry,
   createSemaphore,
