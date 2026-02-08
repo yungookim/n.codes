@@ -1031,6 +1031,15 @@
         admins.</li>
     </ul>
 
+    <div class="section-box" style="text-align: center; margin-top: 64px;">
+      <h2 style="justify-content: center;">Stay in the Loop</h2>
+      <p style="margin-bottom: 24px;">Get updates on new releases, capability map improvements, and early access features.</p>
+      <a href="http://blog.n.codes/#/portal/signup" target="_blank" rel="noopener" class="demo-cta" id="subscribe-cta">
+        Subscribe for updates
+        <span class="demo-cta-arrow">&rarr;</span>
+      </a>
+    </div>
+
     <div class="divider"></div>
 
     <p>It's for the 80% of apps that are just different arrangements of the same building blocks.</p>
@@ -1075,6 +1084,16 @@
         });
       });
     });
+
+    // Track subscribe CTA clicks
+    const subscribeCta = document.getElementById('subscribe-cta');
+    if (subscribeCta) {
+      subscribeCta.addEventListener('click', function() {
+        posthog.capture('subscribe_cta_click', {
+          location: 'landing_page',
+        });
+      });
+    }
 
     // Track anchor link clicks (internal navigation)
     document.querySelectorAll('a[href^="#"]').forEach(link => {
