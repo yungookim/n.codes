@@ -13,45 +13,56 @@ const { runSync } = require('./lib/sync');
 const { runValidate } = require('./lib/validate');
 const { runReset } = require('./lib/reset');
 const { loadConfig } = require('./lib/config');
+const { trackCommand, trackError, flushPostHog } = require('./lib/posthog');
 
 async function dispatchCommand(command, { cwd, fs: activeFs, path, io, configPath, force = false, sample = null, all = false }) {
-  if (command !== 'init' && ['dev', 'sync', 'validate'].includes(command)) {
-    let ranInit = false;
-    let { config, exists } = loadConfig({ cwd, fs: activeFs, path, configPath });
-    if (!exists) {
-      io.log('No config found. Running init first.');
-      const result = await runInit({ cwd, fs: activeFs, path, io, configPath });
-      config = result.config;
-      exists = true;
-      ranInit = true;
+  try {
+    if (command !== 'init' && ['dev', 'sync', 'validate'].includes(command)) {
+      let ranInit = false;
+      let { config, exists } = loadConfig({ cwd, fs: activeFs, path, configPath });
+      if (!exists) {
+        io.log('No config found. Running init first.');
+        const result = await runInit({ cwd, fs: activeFs, path, io, configPath });
+        config = result.config;
+        exists = true;
+        ranInit = true;
+      }
+      if (!ranInit && exists && config?.provider) {
+        await ensureApiKey({ cwd, fs: activeFs, path, io, provider: config.provider });
+      }
     }
-    if (!ranInit && exists && config?.provider) {
-      await ensureApiKey({ cwd, fs: activeFs, path, io, provider: config.provider });
+    if (command === 'init') {
+      trackCommand('init', {});
+      await runInit({ cwd, fs: activeFs, path, io, configPath });
+      return 0;
     }
+    if (command === 'dev') {
+      trackCommand('dev', { force });
+      await runDev({ cwd, fs: activeFs, path, io, configPath, force });
+      return 0;
+    }
+    if (command === 'sync') {
+      trackCommand('sync', { force, sample: !!sample });
+      await runSync({ cwd, fs: activeFs, path, io, configPath, force, sample });
+      return 0;
+    }
+    if (command === 'validate') {
+      trackCommand('validate', {});
+      const { result } = runValidate({ cwd, fs: activeFs, path, io, configPath });
+      return result.valid ? 0 : 1;
+    }
+    if (command === 'reset') {
+      trackCommand('reset', { all });
+      runReset({ cwd, fs: activeFs, path, io, configPath, all });
+      return 0;
+    }
+    io.error(`Unknown command: ${command}`);
+    io.log(formatUsage());
+    return 1;
+  } catch (error) {
+    trackError(command, error);
+    throw error;
   }
-  if (command === 'init') {
-    await runInit({ cwd, fs: activeFs, path, io, configPath });
-    return 0;
-  }
-  if (command === 'dev') {
-    await runDev({ cwd, fs: activeFs, path, io, configPath, force });
-    return 0;
-  }
-  if (command === 'sync') {
-    await runSync({ cwd, fs: activeFs, path, io, configPath, force, sample });
-    return 0;
-  }
-  if (command === 'validate') {
-    const { result } = runValidate({ cwd, fs: activeFs, path, io, configPath });
-    return result.valid ? 0 : 1;
-  }
-  if (command === 'reset') {
-    runReset({ cwd, fs: activeFs, path, io, configPath, all });
-    return 0;
-  }
-  io.error(`Unknown command: ${command}`);
-  io.log(formatUsage());
-  return 1;
 }
 
 async function main(argv, { cwd = process.cwd(), io = createNodeIO(), configPath = null } = {}) {
@@ -87,9 +98,12 @@ async function main(argv, { cwd = process.cwd(), io = createNodeIO(), configPath
       all: parsed.flags.all,
     });
   } catch (error) {
+    trackError(parsed.command, error);
     io.error(error.message || 'Command failed.');
     return 1;
   } finally {
+    // Flush analytics before exiting
+    await flushPostHog();
     if (io.close) io.close();
   }
 }
