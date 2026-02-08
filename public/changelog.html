@@ -497,6 +497,31 @@
       </div>
     </div>
   </div>
+
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-2G927JQW7Y"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-2G927JQW7Y');
+  </script>
+
+  <!-- PostHog Analytics -->
+  <script>
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host+"/decide/?v=3",r=t.getElementsByTagName("script")[0],r.parentNode.insertBefore(p,r);var u=e;for(void 0===a._phartransparentQueue&&(a._pharQueue=[],u=a),u._pharQueue=u._pharQueue||[],u._pharQueue.push([,"init",a]),o=0;o<e._i.length;o++)g(e._i[o]);e._i=[],e.__loaded=!0}),e.push=function(t){e._pharQueue.push([,t])},e.loaded=!0,e.config=t,e.set_config=function(t){e.config=Object.assign({},e.config,t)},e.reset=function(){delete window.posthog}),e.opt_in_capturing=function(t){e.set_config({opt_in_capturing_enabled:t})},e.identify=function(t){e.push(["identify",t])},e.reset_after_logout=function(){e.reset()},e.group=function(t,e){e.push(["group",t,e])},e.track=function(t,e,o){o=o||{},e.push(["track",t,e,o])},e.track_links=function(){e.push(["track_links"])},e.track_forms=function(){e.push(["track_forms"])},e.capture=function(t,e,o){o=o||{},e=e||{},e.push(["capture",t,e,o])}}(document,window.posthog||[]);
+    
+    posthog.init('phc_Lfzk7PVaI0qJeZNIIPCrLZ5zToS8du5KkMN6ypQRIxG', {
+      api_host: 'https://us.i.posthog.com',
+      defaults: '2025-11-30',
+    });
+
+    // Track page view
+    posthog.capture('page_view', {
+      page_path: window.location.pathname,
+      page_title: document.title,
+    });
+  </script>
 </body>
 
 </html>
