@@ -8,7 +8,10 @@
 
 > ⚠️ **Early Access**: n.codes is in active development. Star ⭐️ to follow along!
 
-If you like n.codes, please star the repo: https://github.com/yungookim/n.codes
+If you like n.codes, please star the repo.
+
+https://github.com/user-attachments/assets/783ca48a-e08d-4e39-88a9-1b60a1092a8e
+
 
 ## Demo
 
