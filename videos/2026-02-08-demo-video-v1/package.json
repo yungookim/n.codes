@@ -1,0 +1,28 @@
+{
+  "name": "demo-video",
+  "version": "1.0.0",
+  "description": "n.codes demo video showing the prompt-to-UI experience",
+  "scripts": {
+    "studio": "remotion studio",
+    "render:a": "remotion render DemoA out/demo-a-vertical.mp4",
+    "render:b": "remotion render DemoB out/demo-b-vertical.mp4",
+    "render:c": "remotion render DemoC out/demo-c-vertical.mp4",
+    "render:a-h": "remotion render DemoA-H out/demo-a-horizontal.mp4",
+    "render:b-h": "remotion render DemoB-H out/demo-b-horizontal.mp4",
+    "render:c-h": "remotion render DemoC-H out/demo-c-horizontal.mp4",
+    "render:d": "remotion render DemoD out/demo-d-vertical.mp4",
+    "render:d-h": "remotion render DemoD-H out/demo-d-horizontal.mp4",
+    "render:all": "npm run render:a && npm run render:b && npm run render:c && npm run render:d && npm run render:a-h && npm run render:b-h && npm run render:c-h && npm run render:d-h"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.288",
+    "@remotion/google-fonts": "4.0.288",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "remotion": "4.0.288"
+  },
+  "devDependencies": {
+    "@types/react": "18.3.18",
+    "typescript": "5.7.3"
+  }
+}
