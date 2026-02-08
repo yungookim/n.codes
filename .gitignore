@@ -21,5 +21,19 @@ Thumbs.db
 node_modules/
 coverage/
 
+# n.codes generated
+.n.codes/
+
+# Widget build output
+widget/dist/
+
+# Test project build artifacts
+test-projects/*/.next/
+test-projects/*/node_modules/
+
+# Video outputs (large binaries)
+videos/*/out/
+videos/*/node_modules/
+
 # Git worktrees
 .worktrees/

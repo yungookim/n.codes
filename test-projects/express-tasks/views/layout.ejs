@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %> - Express Tasks</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <%- include('partials/sidebar') %>
+    <main class="main-content">
+      <header class="page-header">
+        <h1 class="page-title"><%= title %></h1>
+      </header>
+      <div class="page-body">
+        <%- content %>
+      </div>
+    </main>
+  </div>
+  <script src="/ncodes-widget.js"></script>
+  <script>
+    NCodes.init({
+      user: <%- JSON.stringify(currentUser || null) %>,
+      capabilityMapUrl: '/n.codes.capabilities.json',
+      mode: 'simulation',
+      theme: 'auto',
+    });
+  </script>
+</body>
+</html>

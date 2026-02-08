@@ -1,4 +1,4 @@
-const COMMANDS = new Set(['init', 'dev', 'sync', 'validate', 'reset']);
+const COMMANDS = new Set(['init', 'dev', 'sync', 'validate', 'reset', 'install']);
 
 function normalizeCommand(value) {
   if (!value) return null;

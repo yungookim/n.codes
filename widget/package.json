@@ -1,0 +1,19 @@
+{
+  "name": "@ncodes/widget",
+  "version": "0.1.0",
+  "description": "n.codes widget SDK — add AI-powered UI generation to any web app",
+  "main": "dist/ncodes-widget.js",
+  "module": "dist/ncodes-widget.esm.js",
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "build": "node esbuild.config.js",
+    "test": "node --test tests/*.test.js"
+  },
+  "devDependencies": {
+    "esbuild": "^0.20.0"
+  },
+  "keywords": ["ncodes", "widget", "ai", "ui-generation"],
+  "license": "MIT"
+}

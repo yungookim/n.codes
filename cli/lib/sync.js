@@ -230,8 +230,13 @@ async function runSync({ cwd, fs, path, io, configPath, extensions, excludeDirs,
 
   writeCapabilityMap({ fs, mapPath, map });
 
+  // Also output JSON for widget consumption
+  const jsonPath = mapPath.replace(/\.yaml$/, '.json');
+  fs.writeFileSync(jsonPath, JSON.stringify(map, null, 2), 'utf8');
+
   const summary = summarizeCapabilityMap(map);
   io.log(`Capability map written to ${mapPath}`);
+  io.log(`JSON capability map written to ${jsonPath}`);
   io.log(`Entities: ${summary.entities}, Actions: ${summary.actions}, Queries: ${summary.queries}, Components: ${summary.components}`);
 
   if (analysisResults.length > 0) {

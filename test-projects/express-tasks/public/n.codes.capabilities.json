@@ -1,0 +1,41 @@
+{
+  "project": "express-tasks",
+  "entities": {
+    "task": {
+      "fields": ["id", "title", "status", "assignee", "dueDate"],
+      "description": "A task in the task manager"
+    },
+    "user": {
+      "fields": ["id", "name", "email", "role"],
+      "description": "A user who can be assigned tasks"
+    }
+  },
+  "actions": {
+    "createTask": {
+      "endpoint": "POST /tasks",
+      "description": "Create a new task"
+    },
+    "updateTask": {
+      "endpoint": "PUT /tasks/:id",
+      "description": "Update an existing task"
+    },
+    "deleteTask": {
+      "endpoint": "DELETE /tasks/:id",
+      "description": "Delete a task"
+    }
+  },
+  "queries": {
+    "listTasks": {
+      "endpoint": "GET /tasks",
+      "description": "List all tasks"
+    },
+    "getTask": {
+      "endpoint": "GET /tasks/:id",
+      "description": "Get a single task"
+    },
+    "listUsers": {
+      "endpoint": "GET /users",
+      "description": "List all users"
+    }
+  }
+}

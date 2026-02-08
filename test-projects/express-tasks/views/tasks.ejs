@@ -1,0 +1,60 @@
+<div class="page-actions">
+  <div class="filter-bar">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="todo">To Do</button>
+    <button class="filter-btn" data-filter="in-progress">In Progress</button>
+    <button class="filter-btn" data-filter="done">Done</button>
+  </div>
+</div>
+
+<div class="table-wrap">
+  <table class="data-table" id="tasks-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Task</th>
+        <th>Status</th>
+        <th>Priority</th>
+        <th>Assignee</th>
+        <th>Created</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% tasks.forEach(function(task) { %>
+      <tr data-status="<%= task.status %>">
+        <td class="cell-id">#<%= task.id %></td>
+        <td class="cell-title"><%= task.title %></td>
+        <td><span class="badge badge--<%= task.status %>"><%= task.status %></span></td>
+        <td><span class="priority priority--<%= task.priority %>"><%= task.priority %></span></td>
+        <td><%= task.assignee %></td>
+        <td class="cell-date"><%= task.createdAt %></td>
+      </tr>
+      <% }); %>
+    </tbody>
+  </table>
+</div>
+
+<script>
+  (function() {
+    var buttons = document.querySelectorAll('.filter-btn');
+    var rows = document.querySelectorAll('#tasks-table tbody tr');
+
+    buttons.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var filter = btn.getAttribute('data-filter');
+
+        buttons.forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+
+        rows.forEach(function(row) {
+          var status = row.getAttribute('data-status');
+          if (filter === 'all' || status === filter) {
+            row.style.display = '';
+          } else {
+            row.style.display = 'none';
+          }
+        });
+      });
+    });
+  })();
+</script>

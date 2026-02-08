@@ -1,0 +1,15 @@
+<div class="users-grid">
+  <% users.forEach(function(user) { %>
+  <div class="user-card">
+    <div class="user-card-avatar"><%= user.name.split(' ').map(function(n) { return n[0]; }).join('') %></div>
+    <div class="user-card-body">
+      <h3 class="user-card-name"><%= user.name %></h3>
+      <p class="user-card-email"><%= user.email %></p>
+      <span class="role-badge role-badge--<%= user.role %>"><%= user.role %></span>
+    </div>
+    <div class="user-card-footer">
+      <span class="user-card-date">Joined <%= user.joinedAt %></span>
+    </div>
+  </div>
+  <% }); %>
+</div>

@@ -3,7 +3,9 @@
 ## Project Structure & Module Organization
 - `public/` contains the production landing page and static assets. Key files include `public/index.html` (landing page) and SEO assets like `public/og.html`, `public/robots.txt`, and icons.
 - `public/demo/` holds the interactive demo (`public/demo/index.html`, `public/demo/styles.css`, `public/demo/app.js`).
-- `cli/` contains the n.codes CLI tool for capability map generation.
+- `cli/` contains the n.codes CLI tool for capability map generation and installation.
+- `widget/` contains the n.codes widget SDK (`@ncodes/widget`) — an installable package that adds the AI prompt UI to any web app.
+- `test-projects/` contains 5 small framework-specific apps for testing the widget installation flow.
 - `docs/plans/` includes architecture or planning docs such as `docs/plans/llm-capability-analysis.md`.
 - `README.md` explains the product context; `draft.md` is scratch space.
 
@@ -18,6 +20,11 @@ Core modules:
 - `init.js` — Interactive setup (`n.codes init`)
 - `cache.js` — File index and analysis result caching
 - `validate.js` — Capability map validation (`n.codes validate`)
+
+Installation modules:
+- `install.js` — Generate LLM-friendly installation instructions (`n.codes install`)
+- `detect-framework.js` — Auto-detect project framework from file structure and dependencies
+- `templates/*.md` — Per-framework installation instruction templates (Next.js, Express, Vue, SvelteKit, generic)
 
 LLM analysis modules (see `docs/plans/llm-capability-analysis.md`):
 - `llm.js` — Vercel AI SDK wrapper, provider config, retry logic, concurrency control
@@ -38,10 +45,19 @@ Landing page:
 CLI:
 - `npm install` — install dependencies (including Vercel AI SDK for LLM analysis).
 - `node cli/index.js init` — initialize config with provider/model selection.
-- `node cli/index.js sync` — generate full capability map with LLM analysis.
+- `node cli/index.js sync` — generate full capability map with LLM analysis (outputs YAML + JSON).
 - `node cli/index.js sync --force` — regenerate all routes, ignoring cache.
 - `node cli/index.js dev` — watch mode with incremental analysis.
 - `node cli/index.js validate` — validate capability map structure.
+- `node cli/index.js install` — generate LLM-friendly installation instructions at `.n.codes/INSTALL.md`.
+
+Widget SDK:
+- `cd widget && npm install` — install widget build dependencies.
+- `cd widget && npm run build` — build UMD + ESM bundles to `widget/dist/`.
+- `cd widget && npm test` — run widget unit tests.
+
+Integration tests:
+- `node scripts/test-installation-flow.js` — test install flow across all 5 test projects.
 
 ## Coding Style & Naming Conventions
 - Indentation: 2 spaces in HTML/CSS/JS, as used across `public/index.html` and `public/demo/app.js`.

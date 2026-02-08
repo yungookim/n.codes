@@ -1,0 +1,50 @@
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-value"><%= stats.total %></div>
+    <div class="stat-label">Total Tasks</div>
+  </div>
+  <div class="stat-card stat-card--todo">
+    <div class="stat-value"><%= stats.todo %></div>
+    <div class="stat-label">To Do</div>
+  </div>
+  <div class="stat-card stat-card--progress">
+    <div class="stat-value"><%= stats.inProgress %></div>
+    <div class="stat-label">In Progress</div>
+  </div>
+  <div class="stat-card stat-card--done">
+    <div class="stat-value"><%= stats.done %></div>
+    <div class="stat-label">Completed</div>
+  </div>
+  <div class="stat-card stat-card--team">
+    <div class="stat-value"><%= stats.teamSize %></div>
+    <div class="stat-label">Team Members</div>
+  </div>
+</div>
+
+<section class="content-section">
+  <h2 class="section-title">Recent Tasks</h2>
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Task</th>
+          <th>Status</th>
+          <th>Priority</th>
+          <th>Assignee</th>
+          <th>Created</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% recentTasks.forEach(function(task) { %>
+        <tr>
+          <td class="cell-title"><%= task.title %></td>
+          <td><span class="badge badge--<%= task.status %>"><%= task.status %></span></td>
+          <td><span class="priority priority--<%= task.priority %>"><%= task.priority %></span></td>
+          <td><%= task.assignee %></td>
+          <td class="cell-date"><%= task.createdAt %></td>
+        </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+</section>

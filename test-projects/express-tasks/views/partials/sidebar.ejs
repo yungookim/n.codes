@@ -1,0 +1,29 @@
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <span class="brand-icon">T</span>
+    <span class="brand-name">TaskFlow</span>
+  </div>
+  <nav class="sidebar-nav">
+    <a href="/" class="nav-link<%= activePage === 'dashboard' ? ' active' : '' %>">
+      <span class="nav-icon">&#9673;</span>
+      <span>Dashboard</span>
+    </a>
+    <a href="/tasks-page" class="nav-link<%= activePage === 'tasks' ? ' active' : '' %>">
+      <span class="nav-icon">&#9745;</span>
+      <span>Tasks</span>
+    </a>
+    <a href="/users-page" class="nav-link<%= activePage === 'users' ? ' active' : '' %>">
+      <span class="nav-icon">&#9823;</span>
+      <span>Team</span>
+    </a>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="user-pill">
+      <span class="user-avatar"><%= currentUser.avatar %></span>
+      <div class="user-info">
+        <span class="user-name"><%= currentUser.name %></span>
+        <span class="user-role"><%= currentUser.role %></span>
+      </div>
+    </div>
+  </div>
+</aside>

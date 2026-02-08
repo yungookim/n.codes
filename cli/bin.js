@@ -12,6 +12,7 @@ const { runDev } = require('./lib/dev');
 const { runSync } = require('./lib/sync');
 const { runValidate } = require('./lib/validate');
 const { runReset } = require('./lib/reset');
+const { runInstall } = require('./lib/install');
 const { loadConfig } = require('./lib/config');
 
 async function dispatchCommand(command, { cwd, fs: activeFs, path, io, configPath, force = false, sample = null, all = false }) {
@@ -47,6 +48,10 @@ async function dispatchCommand(command, { cwd, fs: activeFs, path, io, configPat
   }
   if (command === 'reset') {
     runReset({ cwd, fs: activeFs, path, io, configPath, all });
+    return 0;
+  }
+  if (command === 'install') {
+    runInstall({ cwd, fs: activeFs, path, io });
     return 0;
   }
   io.error(`Unknown command: ${command}`);
