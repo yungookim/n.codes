@@ -1,4 +1,4 @@
-const COMMANDS = new Set(['init', 'dev', 'sync', 'validate', 'reset', 'install']);
+const COMMANDS = new Set(['init', 'dev', 'sync', 'validate', 'reset', 'install', 'verify']);
 
 function normalizeCommand(value) {
   if (!value) return null;
@@ -17,6 +17,9 @@ function parseArgs(argv) {
     configPath: null,
     sample: null,
     all: false,
+    provider: null,
+    model: null,
+    auto: false,
   };
   const positionals = [];
   const unknown = [];
@@ -66,6 +69,30 @@ function parseArgs(argv) {
         flags.configPath = next;
         i += 1;
       }
+      continue;
+    }
+    if (arg === '--provider') {
+      const next = argv[i + 1];
+      if (!next || next.startsWith('-')) {
+        unknown.push(arg);
+      } else {
+        flags.provider = next;
+        i += 1;
+      }
+      continue;
+    }
+    if (arg === '--model') {
+      const next = argv[i + 1];
+      if (!next || next.startsWith('-')) {
+        unknown.push(arg);
+      } else {
+        flags.model = next;
+        i += 1;
+      }
+      continue;
+    }
+    if (arg === '--auto') {
+      flags.auto = true;
       continue;
     }
     if (arg.startsWith('-')) {

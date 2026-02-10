@@ -18,6 +18,7 @@ Thumbs.db
 # Local environment
 .env
 .env.local
+.env.ghost
 node_modules/
 coverage/
 

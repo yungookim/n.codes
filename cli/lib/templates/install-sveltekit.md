@@ -41,6 +41,7 @@ cp {{capabilityMapPath}} static/n.codes.capabilities.json
 <script>
   import { onMount, onDestroy } from 'svelte';
 
+  let { children } = $props();
   let NCodes;
 
   onMount(async () => {
@@ -62,8 +63,10 @@ cp {{capabilityMapPath}} static/n.codes.capabilities.json
   });
 </script>
 
-<slot />
+{@render children()}
 ```
+
+**Note:** This uses Svelte 5 syntax. For Svelte 4 projects, replace `{@render children()}` with `<slot />` and `let { children } = $props()` with a regular variable declaration.
 
 **Note:** Replace the hardcoded user with your actual auth state. If you use SvelteKit's `load()` functions for auth, pass the user from `$page.data`.
 

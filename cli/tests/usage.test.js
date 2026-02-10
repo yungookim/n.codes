@@ -6,5 +6,5 @@ const { formatUsage } = require('../lib/usage');
 test('formatUsage includes commands section', () => {
   const usage = formatUsage();
   assert.ok(usage.includes('Commands:'));
-  assert.ok(usage.includes('npx n.codes'));
+  assert.ok(usage.includes('npx ncodes'));
 });

@@ -99,59 +99,52 @@ entities:
 
 n.codes is like a forward-deployed engineer for the user. It's Cloud Code that lives in your app for the user.
 
-## WIP: Widget SDK Installation
+## Getting Started
 
-> This section documents the widget SDK that is currently under development.
-
-### 1. Install the widget
+### For Humans
 
 ```bash
-npx n.codes install
+# 1. Initialize — picks your LLM provider and model
+npx ncodes init
+
+# 2. Generate capability map from your codebase
+npx ncodes sync
+
+# 3. Generate framework-specific widget installation instructions
+npx ncodes install
+
+# 4. Follow the generated instructions
+cat .n.codes/INSTALL.md
+
+# 5. Verify everything is wired up
+npx ncodes verify
 ```
 
-This auto-detects your framework (Next.js, Express, Vue, SvelteKit, etc.) and generates a step-by-step `INSTALL.md` at `.n.codes/INSTALL.md`.
+### For AI Coding Agents
 
-### 2. Add the script tag
+Copy-paste this prompt to any LLM coding agent (Claude Code, Codex, Cursor, etc.):
 
-Load the widget bundle and initialize it in your app's layout:
+~~~
+Install and configure the n.codes widget in this project.
 
-```html
-<script src="/ncodes-widget.js"></script>
-<script>
-  NCodes.init({
-    user: { id: '1', name: 'Demo User' },
-    mode: 'simulation',
-    theme: 'dark',
-  });
-</script>
-```
+Phase 1 — CLI setup:
+1. Run: npx ncodes init --auto
+2. Run: npx ncodes sync
 
-For **Next.js App Router**:
+Phase 2 — Widget installation:
+3. Run: npx ncodes install
+4. Read .n.codes/INSTALL.md and follow every step in it
 
-```tsx
-import Script from "next/script";
+Phase 3 — Verify:
+5. Run: npx ncodes verify
+6. All checks must show [PASS]. Fix any [FAIL] items and re-run verify.
 
-// In your layout.tsx body:
-<Script src="/ncodes-widget.js" strategy="beforeInteractive" />
-<Script id="ncodes-init" strategy="afterInteractive">{`
-  NCodes.init({
-    user: { id: '1', name: 'Demo User' },
-    mode: 'simulation',
-    theme: 'dark',
-  });
-`}</Script>
-```
+Ongoing — watch mode:
+- Run: npx ncodes dev
+  This watches for file changes and keeps the capability map up to date.
+~~~
 
-### 3. That's it
-
-The widget renders inside a **Shadow DOM** — fully isolated from your app's CSS and DOM. It includes:
-
-- AI prompt panel with generation status
-- Feature history persisted in localStorage
-- Inline result rendering in an expanded dialog
-- Animated glow border
-
-See [full documentation](docs/widget-installation-security.md) for the security model and framework-specific guides.
+The agent prompt tells the agent to read `.n.codes/INSTALL.md` rather than inlining framework-specific steps. This keeps the prompt short and framework-agnostic — the CLI auto-detects your framework and generates the right instructions.
 
 ## Project Links
 

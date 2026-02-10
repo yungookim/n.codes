@@ -3,6 +3,7 @@
  */
 
 const { detectFramework } = require('./detect-framework');
+const { loadConfig } = require('./config');
 const { VERSION } = require('./version');
 
 const TEMPLATE_FILES = {
@@ -14,7 +15,8 @@ const TEMPLATE_FILES = {
   'generic': 'install-generic.md',
 };
 
-function runInstall({ cwd, fs, path, io }) {
+function runInstall({ cwd, fs, path, io, configPath }) {
+  const { config } = loadConfig({ cwd, fs, path, configPath });
   const framework = detectFramework({ cwd, fs, path });
   const templateFile = TEMPLATE_FILES[framework] || TEMPLATE_FILES.generic;
   const templatePath = path.join(__dirname, 'templates', templateFile);
@@ -26,7 +28,7 @@ function runInstall({ cwd, fs, path, io }) {
   let template = fs.readFileSync(templatePath, 'utf8');
 
   // Resolve the capability map JSON path
-  const capabilityMapPath = resolveCapabilityJsonPath({ cwd, fs, path });
+  const capabilityMapPath = resolveCapabilityJsonPath({ cwd, fs, path, capabilityMapPath: config.capabilityMapPath });
 
   // Replace template variables
   template = template.replace(/\{\{capabilityMapPath\}\}/g, capabilityMapPath);
@@ -52,21 +54,24 @@ function runInstall({ cwd, fs, path, io }) {
   return { framework, outputPath };
 }
 
-function resolveCapabilityJsonPath({ cwd, fs, path }) {
+function resolveCapabilityJsonPath({ cwd, fs, path, capabilityMapPath }) {
+  // Derive JSON path from YAML path by replacing extension
+  const jsonPath = capabilityMapPath.replace(/\.yaml$/, '.json');
+
   // Check if JSON exists
-  const jsonPath = path.join(cwd, 'n.codes.capabilities.json');
-  if (fs.existsSync(jsonPath)) {
-    return 'n.codes.capabilities.json';
+  const fullJsonPath = path.join(cwd, jsonPath);
+  if (fs.existsSync(fullJsonPath)) {
+    return jsonPath;
   }
 
   // Check if YAML exists (user might need to run sync first)
-  const yamlPath = path.join(cwd, 'n.codes.capabilities.yaml');
-  if (fs.existsSync(yamlPath)) {
-    return 'n.codes.capabilities.json';
+  const fullYamlPath = path.join(cwd, capabilityMapPath);
+  if (fs.existsSync(fullYamlPath)) {
+    return jsonPath;
   }
 
   // Default — will be created by sync
-  return 'n.codes.capabilities.json';
+  return jsonPath;
 }
 
 module.exports = { runInstall, TEMPLATE_FILES };

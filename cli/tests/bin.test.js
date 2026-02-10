@@ -109,3 +109,48 @@ test('main returns error when command fails', async () => {
   assert.equal(code, 1);
   assert.ok(io.getErrors()[0].includes('Unsupported provider'));
 });
+
+test('dispatchCommand verify returns 1 on empty dir', async () => {
+  const cwd = createTempDir();
+  const io = createMemoryIO();
+  const code = await dispatchCommand('verify', { cwd, fs, path, io, configPath: null });
+  assert.equal(code, 1);
+  assert.ok(io.getLogs().some((l) => l.includes('[FAIL]')));
+});
+
+test('dispatchCommand verify returns 0 on fully configured dir', async () => {
+  const cwd = createTempDir();
+  const { defaultConfig, saveConfig } = require('../lib/config');
+  const config = { ...defaultConfig(), provider: 'openai', model: 'gpt-5-mini' };
+  saveConfig({ cwd, fs, path, config });
+  const map = defaultCapabilityMap({ generatedAt: '2026-01-01T00:00:00Z' });
+  const yamlPath = path.join(cwd, config.capabilityMapPath);
+  fs.writeFileSync(yamlPath, renderCapabilityMapYaml(map), 'utf8');
+  fs.writeFileSync(yamlPath.replace(/\.yaml$/, '.json'), JSON.stringify(map), 'utf8');
+  fs.mkdirSync(path.join(cwd, 'node_modules', '@ncodes', 'widget'), { recursive: true });
+  writeFile(cwd, '.n.codes/INSTALL.md', '# Install');
+  writeFile(cwd, 'index.html', '<script>NCodes.init({ user: {} });</script>');
+  const io = createMemoryIO();
+  const code = await dispatchCommand('verify', { cwd, fs, path, io, configPath: null });
+  assert.equal(code, 0);
+});
+
+test('dispatchCommand init with provider flag uses non-interactive mode', async () => {
+  const cwd = createTempDir();
+  const io = createMemoryIO();
+  const originalKey = process.env.OPENAI_API_KEY;
+  try {
+    process.env.OPENAI_API_KEY = 'test-key';
+    const code = await dispatchCommand('init', {
+      cwd, fs, path, io, configPath: null,
+      provider: 'openai', model: 'gpt-5-mini',
+    });
+    assert.equal(code, 0);
+    const config = JSON.parse(fs.readFileSync(path.join(cwd, 'n.codes.config.json'), 'utf8'));
+    assert.equal(config.provider, 'openai');
+    assert.equal(config.model, 'gpt-5-mini');
+  } finally {
+    if (originalKey !== undefined) process.env.OPENAI_API_KEY = originalKey;
+    else delete process.env.OPENAI_API_KEY;
+  }
+});

@@ -91,6 +91,10 @@ function parseEnvValue(value) {
       return trimmed.slice(1, -1);
     }
   }
+  const commentIndex = trimmed.indexOf(' #');
+  if (commentIndex !== -1) {
+    return trimmed.substring(0, commentIndex).trimEnd();
+  }
   return trimmed;
 }
 
@@ -155,7 +159,6 @@ async function ensureApiKey({ cwd, fs, path, io, provider }) {
   const apiKey = normalizeAnswer(await io.prompt(`API key for ${provider} (${apiKeyVar}) `), '');
   if (!apiKey) {
     const message = `API key is required for ${provider}.`;
-    io.error(message);
     throw new Error(message);
   }
   const envPath = writeEnvFile({ cwd, fs, path, key: apiKeyVar, value: apiKey });
@@ -171,7 +174,6 @@ async function runInit({ cwd, fs, path, io, configPath }) {
 
   const providerCheck = validateProvider(providerAnswer);
   if (!providerCheck.valid) {
-    io.error(providerCheck.error);
     throw new Error(providerCheck.error);
   }
 
@@ -205,6 +207,72 @@ async function runInit({ cwd, fs, path, io, configPath }) {
   return { config, path: targetPath };
 }
 
+function detectProviderFromEnv() {
+  if (process.env.OPENAI_API_KEY) return 'openai';
+  if (process.env.ANTHROPIC_API_KEY) return 'claude';
+  return null;
+}
+
+function resolveDefaultModel(provider) {
+  const models = PROVIDER_MODELS[provider];
+  if (!models || models.length === 0) return 'default';
+  return models[0];
+}
+
+function ensureApiKeyNonInteractive({ cwd, fs, path, provider }) {
+  const apiKeyVar = apiKeyEnvVar(provider);
+  const existingEnv = process.env[apiKeyVar];
+  if (existingEnv) {
+    return { envPath: null, key: apiKeyVar, value: existingEnv, existing: true };
+  }
+  const existing = readEnvVar({ cwd, fs, path, key: apiKeyVar });
+  if (existing.value) {
+    process.env[apiKeyVar] = existing.value;
+    return { envPath: existing.envPath, key: apiKeyVar, value: existing.value, existing: true };
+  }
+  const message = `API key ${apiKeyVar} not found in environment or .env.local. Set it before running in non-interactive mode.`;
+  throw new Error(message);
+}
+
+async function runInitNonInteractive({ cwd, fs, path, io, configPath, provider, model, auto }) {
+  let resolvedProvider = provider;
+  if (!resolvedProvider && auto) {
+    resolvedProvider = detectProviderFromEnv();
+    if (process.env.OPENAI_API_KEY && process.env.ANTHROPIC_API_KEY) {
+      io.log('Both OPENAI_API_KEY and ANTHROPIC_API_KEY found. Defaulting to openai. Use --provider to override.');
+    }
+  }
+  if (!resolvedProvider) {
+    const message = auto
+      ? 'No API key found in environment. Set OPENAI_API_KEY or ANTHROPIC_API_KEY, then re-run with --auto.'
+      : 'Provider is required. Use --provider <openai|claude> or --auto to detect from environment.';
+    throw new Error(message);
+  }
+
+  const providerCheck = validateProvider(resolvedProvider);
+  if (!providerCheck.valid) {
+    throw new Error(providerCheck.error);
+  }
+
+  const validProvider = providerCheck.provider;
+  const resolvedModel = model || resolveDefaultModel(validProvider);
+
+  const config = {
+    ...defaultConfig(),
+    provider: validProvider,
+    model: resolvedModel,
+    allowHeuristicFallback: false,
+  };
+
+  const targetPath = configPath || resolveConfigPath({ cwd, path });
+  saveConfig({ cwd, fs, path, config, configPath: targetPath });
+  io.log(`Saved config to ${targetPath}`);
+
+  ensureApiKeyNonInteractive({ cwd, fs, path, provider: validProvider });
+
+  return { config, path: targetPath };
+}
+
 module.exports = {
   PROVIDER_MODELS,
   getProviderQuestion,
@@ -214,6 +282,14 @@ module.exports = {
   normalizeAnswer,
   parseYesNo,
   apiKeyEnvVar,
+  readEnvVar,
+  parseEnvValue,
+  formatEnvValue,
+  upsertEnvVar,
+  writeEnvFile,
   ensureApiKey,
   runInit,
+  detectProviderFromEnv,
+  resolveDefaultModel,
+  runInitNonInteractive,
 };

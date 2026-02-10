@@ -7,7 +7,8 @@ const { formatUsage } = require('./lib/usage');
 const { VERSION } = require('./lib/version');
 const { createNodeIO } = require('./lib/io');
 const { createDryRunFs } = require('./lib/fs-utils');
-const { runInit, ensureApiKey } = require('./lib/init');
+const { runInit, ensureApiKey, runInitNonInteractive } = require('./lib/init');
+const { runVerify } = require('./lib/verify');
 const { runDev } = require('./lib/dev');
 const { runSync } = require('./lib/sync');
 const { runValidate } = require('./lib/validate');
@@ -15,14 +16,21 @@ const { runReset } = require('./lib/reset');
 const { runInstall } = require('./lib/install');
 const { loadConfig } = require('./lib/config');
 
-async function dispatchCommand(command, { cwd, fs: activeFs, path, io, configPath, force = false, sample = null, all = false }) {
+async function dispatchCommand(command, { cwd, fs: activeFs, path, io, configPath, force = false, sample = null, all = false, provider = null, model = null, auto = false }) {
+  const isNonInteractive = !!(provider || auto);
+
   if (command !== 'init' && ['dev', 'sync', 'validate'].includes(command)) {
     let ranInit = false;
     let { config, exists } = loadConfig({ cwd, fs: activeFs, path, configPath });
     if (!exists) {
       io.log('No config found. Running init first.');
-      const result = await runInit({ cwd, fs: activeFs, path, io, configPath });
-      config = result.config;
+      if (isNonInteractive) {
+        const result = await runInitNonInteractive({ cwd, fs: activeFs, path, io, configPath, provider, model, auto });
+        config = result.config;
+      } else {
+        const result = await runInit({ cwd, fs: activeFs, path, io, configPath });
+        config = result.config;
+      }
       exists = true;
       ranInit = true;
     }
@@ -31,7 +39,11 @@ async function dispatchCommand(command, { cwd, fs: activeFs, path, io, configPat
     }
   }
   if (command === 'init') {
-    await runInit({ cwd, fs: activeFs, path, io, configPath });
+    if (isNonInteractive) {
+      await runInitNonInteractive({ cwd, fs: activeFs, path, io, configPath, provider, model, auto });
+    } else {
+      await runInit({ cwd, fs: activeFs, path, io, configPath });
+    }
     return 0;
   }
   if (command === 'dev') {
@@ -51,8 +63,12 @@ async function dispatchCommand(command, { cwd, fs: activeFs, path, io, configPat
     return 0;
   }
   if (command === 'install') {
-    runInstall({ cwd, fs: activeFs, path, io });
+    runInstall({ cwd, fs: activeFs, path, io, configPath });
     return 0;
+  }
+  if (command === 'verify') {
+    const { allPassed } = runVerify({ cwd, fs: activeFs, path, io, configPath });
+    return allPassed ? 0 : 1;
   }
   io.error(`Unknown command: ${command}`);
   io.log(formatUsage());
@@ -90,6 +106,9 @@ async function main(argv, { cwd = process.cwd(), io = createNodeIO(), configPath
       force: parsed.flags.force,
       sample: parsed.flags.sample,
       all: parsed.flags.all,
+      provider: parsed.flags.provider,
+      model: parsed.flags.model,
+      auto: parsed.flags.auto,
     });
   } catch (error) {
     io.error(error.message || 'Command failed.');

@@ -3,6 +3,9 @@
   "version": "0.1.0-prototype",
   "private": true,
   "type": "commonjs",
+  "bin": {
+    "ncodes": "cli/bin.js"
+  },
   "scripts": {
     "test": "node --test cli/tests/*.test.js",
     "coverage": "c8 node --test cli/tests/*.test.js",

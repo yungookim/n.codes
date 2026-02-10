@@ -62,3 +62,38 @@ test('parseArgs recognizes --all flag', () => {
   assert.equal(result.command, 'reset');
   assert.equal(result.flags.all, true);
 });
+
+test('parseArgs recognizes --provider flag', () => {
+  const result = parseArgs(['init', '--provider', 'openai']);
+  assert.equal(result.command, 'init');
+  assert.equal(result.flags.provider, 'openai');
+});
+
+test('parseArgs recognizes --model flag', () => {
+  const result = parseArgs(['init', '--model', 'gpt-5-mini']);
+  assert.equal(result.command, 'init');
+  assert.equal(result.flags.model, 'gpt-5-mini');
+});
+
+test('parseArgs recognizes --auto flag', () => {
+  const result = parseArgs(['init', '--auto']);
+  assert.equal(result.command, 'init');
+  assert.equal(result.flags.auto, true);
+});
+
+test('parseArgs marks --provider without value as unknown', () => {
+  const result = parseArgs(['init', '--provider', '--dry-run']);
+  assert.ok(result.unknown.includes('--provider'));
+  assert.equal(result.flags.provider, null);
+});
+
+test('parseArgs marks --model without value as unknown', () => {
+  const result = parseArgs(['init', '--model']);
+  assert.ok(result.unknown.includes('--model'));
+  assert.equal(result.flags.model, null);
+});
+
+test('normalizeCommand recognizes verify', () => {
+  assert.equal(normalizeCommand('verify'), 'verify');
+  assert.equal(normalizeCommand('VERIFY'), 'verify');
+});
