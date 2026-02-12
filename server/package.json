@@ -4,11 +4,14 @@
   "private": true,
   "scripts": {
     "test": "node --test tests/*.test.js",
-    "start": "node api/generate.js"
+    "start": "node index.js"
   },
   "dependencies": {
+    "@ai-sdk/anthropic": "^0.0.30",
     "ai": "^3.0.0",
     "@ai-sdk/openai": "^0.0.40",
-    "@ai-sdk/anthropic": "^0.0.30"
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
   }
 }

@@ -125,26 +125,64 @@ npx ncodes verify
 Copy-paste this prompt to any LLM coding agent (Claude Code, Codex, Cursor, etc.):
 
 ~~~
-Install and configure the n.codes widget in this project.
+Install n.codes in this project (widget + backend).
 
-Phase 1 — CLI setup:
-1. Run: npx ncodes init --auto
-2. Run: npx ncodes sync
+Step 1: Generate capability map
+  npx ncodes init --auto
+  npx ncodes sync
 
-Phase 2 — Widget installation:
-3. Run: npx ncodes install
-4. Read .n.codes/INSTALL.md and follow every step in it
+Step 2: Set up the backend (standalone service)
+The server/ directory contains API handlers and LLM integration. Set it up as a runnable service:
+  cd server
+  npm install
+  cp .env.example .env
 
-Phase 3 — Verify:
-5. Run: npx ncodes verify
-6. All checks must show [PASS]. Fix any [FAIL] items and re-run verify.
+server/index.js is a minimal Express server that:
+- Mounts handleGenerate at POST /api/generate
+- Mounts handleStreamGenerate at POST /api/generate/stream
+- Uses express.json() middleware
+- Enables CORS for the main app's origin (set APP_ORIGIN or MAIN_APP_ORIGIN if needed)
+- Listens on port 3001 (or PORT env var)
+- Imports handlers from ./api/generate.js
 
-Ongoing — watch mode:
-- Run: npx ncodes dev
-  This watches for file changes and keeps the capability map up to date.
+Ensure OPENAI_API_KEY or ANTHROPIC_API_KEY is set in server/.env
+
+Step 3: Install and wire up the widget
+  cd ..
+  npm install @ncodes/widget
+
+Copy n.codes.capabilities.json to the static directory (public/, or static/ for SvelteKit).
+
+Add the widget to the app's root layout using a dynamic import:
+
+  const NCodes = await import('@ncodes/widget');
+  NCodes.init({
+    user: { id: 'demo', name: 'Demo User' },
+    capabilityMapUrl: '/n.codes.capabilities.json',
+    apiUrl: 'http://localhost:3001/api/generate',
+    mode: 'live',
+    theme: 'auto',
+  });
+
+  Call NCodes.destroy() on cleanup/unmount.
+
+  Framework hints:
+  - Next.js App Router: 'use client' component with useEffect + dynamic import, render in app/layout.tsx
+  - Next.js Pages Router: useEffect in pages/_app.tsx
+  - SvelteKit: onMount/onDestroy in src/routes/+layout.svelte
+  - Vue + Vite: Vue plugin with mixin in mounted/unmounted, register in main.js
+  - Express/static: <script src="/ncodes-widget.js"></script> + NCodes.init() — copy dist/ncodes-widget.js to public/ first
+
+Step 4: Verify
+  npx ncodes verify — all checks must show [PASS]
+  Start the backend: cd server && node index.js
+  Open the app, click "Build with AI", enter a prompt, and confirm a generated UI appears.
+
+Notes
+- The user object is an auth gate. Pass null to hide the widget. Replace demo user with your auth.
+- The server reads OPENAI_API_KEY or ANTHROPIC_API_KEY from environment.
+- Ongoing: npx ncodes dev — watches for file changes and keeps the capability map up to date.
 ~~~
-
-The agent prompt tells the agent to read `.n.codes/INSTALL.md` rather than inlining framework-specific steps. This keeps the prompt short and framework-agnostic — the CLI auto-detects your framework and generates the right instructions.
 
 ## Project Links
 
