@@ -1,0 +1,14 @@
+{
+  "name": "@ncodes/server",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "start": "node api/generate.js"
+  },
+  "dependencies": {
+    "ai": "^3.0.0",
+    "@ai-sdk/openai": "^0.0.40",
+    "@ai-sdk/anthropic": "^0.0.30"
+  }
+}

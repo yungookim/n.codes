@@ -1,0 +1,25 @@
+{
+  "type": "page",
+  "title": "All Tasks",
+  "description": "Showing all tasks from the task manager",
+  "children": [
+    {
+      "type": "data-table",
+      "title": "Tasks",
+      "columns": [
+        { "key": "id", "label": "ID", "type": "number" },
+        { "key": "title", "label": "Title", "type": "string" },
+        { "key": "status", "label": "Status", "type": "badge" },
+        { "key": "assignee", "label": "Assignee", "type": "string" },
+        { "key": "dueDate", "label": "Due Date", "type": "date" }
+      ],
+      "rows": [
+        { "id": 1, "title": "Set up CI pipeline", "status": "done", "assignee": "Alice", "dueDate": "2026-01-15" },
+        { "id": 2, "title": "Design landing page", "status": "in-progress", "assignee": "Bob", "dueDate": "2026-02-01" },
+        { "id": 3, "title": "Write API documentation", "status": "todo", "assignee": "Charlie", "dueDate": "2026-02-10" },
+        { "id": 4, "title": "Fix login bug", "status": "in-progress", "assignee": "Alice", "dueDate": "2026-01-28" },
+        { "id": 5, "title": "Add search feature", "status": "todo", "assignee": "Bob", "dueDate": "2026-03-01" }
+      ]
+    }
+  ]
+}

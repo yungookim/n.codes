@@ -1,0 +1,16 @@
+{
+  "type": "page",
+  "title": "Search Results",
+  "children": [
+    {
+      "type": "empty-state",
+      "title": "No Tasks Found",
+      "message": "No tasks match your search criteria. Try adjusting your filters or create a new task.",
+      "icon": "search",
+      "action": {
+        "label": "Create New Task",
+        "href": "#createTask"
+      }
+    }
+  ]
+}

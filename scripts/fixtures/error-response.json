@@ -1,0 +1,22 @@
+{
+  "dsl": {
+    "type": "page",
+    "title": "Error",
+    "children": [
+      {
+        "type": "error",
+        "title": "Capability Not Found",
+        "message": "Unable to generate UI for this request. The requested capability 'exportReport' is not available in the current capability map.",
+        "code": "CAPABILITY_NOT_FOUND",
+        "retry": false
+      }
+    ]
+  },
+  "reasoning": "No matching capability found for the user's prompt.",
+  "tokensUsed": 85,
+  "capabilitiesUsed": [],
+  "error": {
+    "code": "CAPABILITY_NOT_FOUND",
+    "message": "No matching capability for prompt: 'export quarterly report'"
+  }
+}

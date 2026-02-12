@@ -1,0 +1,296 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://n.codes/dsl-schema.json",
+  "title": "n.codes UI Generation DSL",
+  "description": "Schema for LLM-generated UI component trees rendered by the n.codes widget",
+  "type": "object",
+  "required": ["type", "title"],
+  "properties": {
+    "type": { "const": "page" }
+  },
+  "$ref": "#/definitions/page",
+  "definitions": {
+    "component": {
+      "type": "object",
+      "required": ["type"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "page",
+            "data-table",
+            "detail-view",
+            "form",
+            "summary-cards",
+            "chart",
+            "list",
+            "text",
+            "empty-state",
+            "error"
+          ]
+        },
+        "title": { "type": "string" }
+      },
+      "allOf": [
+        { "if": { "properties": { "type": { "const": "page" } } }, "then": { "$ref": "#/definitions/page" } },
+        { "if": { "properties": { "type": { "const": "data-table" } } }, "then": { "$ref": "#/definitions/data-table" } },
+        { "if": { "properties": { "type": { "const": "detail-view" } } }, "then": { "$ref": "#/definitions/detail-view" } },
+        { "if": { "properties": { "type": { "const": "form" } } }, "then": { "$ref": "#/definitions/form" } },
+        { "if": { "properties": { "type": { "const": "summary-cards" } } }, "then": { "$ref": "#/definitions/summary-cards" } },
+        { "if": { "properties": { "type": { "const": "chart" } } }, "then": { "$ref": "#/definitions/chart" } },
+        { "if": { "properties": { "type": { "const": "list" } } }, "then": { "$ref": "#/definitions/list" } },
+        { "if": { "properties": { "type": { "const": "text" } } }, "then": { "$ref": "#/definitions/text" } },
+        { "if": { "properties": { "type": { "const": "empty-state" } } }, "then": { "$ref": "#/definitions/empty-state" } },
+        { "if": { "properties": { "type": { "const": "error" } } }, "then": { "$ref": "#/definitions/error" } }
+      ]
+    },
+    "page": {
+      "type": "object",
+      "required": ["type", "title", "children"],
+      "properties": {
+        "type": { "const": "page" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "children": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/component" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "data-table": {
+      "type": "object",
+      "required": ["type", "columns", "rows"],
+      "properties": {
+        "type": { "const": "data-table" },
+        "title": { "type": "string" },
+        "columns": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["key", "label"],
+            "properties": {
+              "key": { "type": "string" },
+              "label": { "type": "string" },
+              "type": {
+                "type": "string",
+                "enum": ["string", "number", "date", "boolean", "badge"],
+                "default": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "rows": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": { "type": ["string", "number", "boolean", "null"] }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "detail-view": {
+      "type": "object",
+      "required": ["type", "fields"],
+      "properties": {
+        "type": { "const": "detail-view" },
+        "title": { "type": "string" },
+        "fields": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["key", "label", "value"],
+            "properties": {
+              "key": { "type": "string" },
+              "label": { "type": "string" },
+              "value": { "type": ["string", "number", "boolean", "null"] },
+              "type": {
+                "type": "string",
+                "enum": ["string", "number", "date", "boolean", "badge", "link"],
+                "default": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "form": {
+      "type": "object",
+      "required": ["type", "fields", "submitLabel"],
+      "properties": {
+        "type": { "const": "form" },
+        "title": { "type": "string" },
+        "fields": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["name", "label", "type"],
+            "properties": {
+              "name": { "type": "string" },
+              "label": { "type": "string" },
+              "type": {
+                "type": "string",
+                "enum": ["text", "email", "number", "date", "select", "textarea", "checkbox"]
+              },
+              "required": { "type": "boolean", "default": false },
+              "placeholder": { "type": "string" },
+              "options": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": ["label", "value"],
+                  "properties": {
+                    "label": { "type": "string" },
+                    "value": { "type": "string" }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "submitLabel": { "type": "string" },
+        "action": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "summary-cards": {
+      "type": "object",
+      "required": ["type", "cards"],
+      "properties": {
+        "type": { "const": "summary-cards" },
+        "title": { "type": "string" },
+        "cards": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["label", "value"],
+            "properties": {
+              "label": { "type": "string" },
+              "value": { "type": ["string", "number", "boolean", "null"] },
+              "change": { "type": "string" },
+              "trend": {
+                "type": "string",
+                "enum": ["up", "down", "neutral"]
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "chart": {
+      "type": "object",
+      "required": ["type", "chartType", "labels", "datasets"],
+      "properties": {
+        "type": { "const": "chart" },
+        "title": { "type": "string" },
+        "chartType": {
+          "type": "string",
+          "enum": ["bar", "line", "pie", "doughnut"]
+        },
+        "labels": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "datasets": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["label", "data"],
+            "properties": {
+              "label": { "type": "string" },
+              "data": {
+                "type": "array",
+                "items": { "type": "number" }
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "list": {
+      "type": "object",
+      "required": ["type", "items"],
+      "properties": {
+        "type": { "const": "list" },
+        "title": { "type": "string" },
+        "ordered": { "type": "boolean", "default": false },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["text"],
+            "properties": {
+              "text": { "type": "string" },
+              "secondary": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "text": {
+      "type": "object",
+      "required": ["type", "content"],
+      "properties": {
+        "type": { "const": "text" },
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "variant": {
+          "type": "string",
+          "enum": ["heading", "paragraph", "caption", "code"],
+          "default": "paragraph"
+        }
+      },
+      "additionalProperties": false
+    },
+    "empty-state": {
+      "type": "object",
+      "required": ["type", "message"],
+      "properties": {
+        "type": { "const": "empty-state" },
+        "title": { "type": "string" },
+        "message": { "type": "string" },
+        "icon": { "type": "string" },
+        "action": {
+          "type": "object",
+          "required": ["label"],
+          "properties": {
+            "label": { "type": "string" },
+            "href": { "type": "string", "pattern": "^(#|/|https?://)" }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "error": {
+      "type": "object",
+      "required": ["type", "message"],
+      "properties": {
+        "type": { "const": "error" },
+        "title": { "type": "string" },
+        "message": { "type": "string" },
+        "code": { "type": "string" },
+        "details": { "type": "string" },
+        "retry": { "type": "boolean", "default": false }
+      },
+      "additionalProperties": false
+    }
+  }
+}

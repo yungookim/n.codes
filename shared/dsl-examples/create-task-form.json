@@ -1,0 +1,40 @@
+{
+  "type": "page",
+  "title": "Create New Task",
+  "description": "Form to create a new task in the task manager",
+  "children": [
+    {
+      "type": "form",
+      "title": "New Task",
+      "fields": [
+        { "name": "title", "label": "Task Title", "type": "text", "required": true, "placeholder": "Enter task title" },
+        { "name": "description", "label": "Description", "type": "textarea", "required": false, "placeholder": "Describe the task..." },
+        {
+          "name": "status",
+          "label": "Status",
+          "type": "select",
+          "required": true,
+          "options": [
+            { "label": "To Do", "value": "todo" },
+            { "label": "In Progress", "value": "in-progress" },
+            { "label": "Done", "value": "done" }
+          ]
+        },
+        {
+          "name": "assignee",
+          "label": "Assignee",
+          "type": "select",
+          "required": true,
+          "options": [
+            { "label": "Alice", "value": "alice" },
+            { "label": "Bob", "value": "bob" },
+            { "label": "Charlie", "value": "charlie" }
+          ]
+        },
+        { "name": "dueDate", "label": "Due Date", "type": "date", "required": false }
+      ],
+      "submitLabel": "Create Task",
+      "action": "createTask"
+    }
+  ]
+}

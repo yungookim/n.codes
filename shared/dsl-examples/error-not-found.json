@@ -1,0 +1,13 @@
+{
+  "type": "page",
+  "title": "Error",
+  "children": [
+    {
+      "type": "error",
+      "title": "Task Not Found",
+      "message": "The task you requested could not be found. It may have been deleted or you may not have permission to view it.",
+      "code": "NOT_FOUND",
+      "retry": false
+    }
+  ]
+}

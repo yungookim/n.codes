@@ -1,0 +1,32 @@
+{
+  "type": "page",
+  "title": "Task #2: Design landing page",
+  "description": "Detailed view for task assigned to Bob",
+  "children": [
+    {
+      "type": "detail-view",
+      "title": "Task Details",
+      "fields": [
+        { "key": "id", "label": "Task ID", "value": 2, "type": "number" },
+        { "key": "title", "label": "Title", "value": "Design landing page", "type": "string" },
+        { "key": "status", "label": "Status", "value": "in-progress", "type": "badge" },
+        { "key": "assignee", "label": "Assignee", "value": "Bob", "type": "string" },
+        { "key": "dueDate", "label": "Due Date", "value": "2026-02-01", "type": "date" }
+      ]
+    },
+    {
+      "type": "text",
+      "content": "This task involves creating the initial design mockups for the product landing page, including hero section, feature highlights, and call-to-action layout.",
+      "variant": "paragraph"
+    },
+    {
+      "type": "list",
+      "title": "Related Tasks",
+      "ordered": false,
+      "items": [
+        { "text": "Set up CI pipeline", "secondary": "Done — Alice" },
+        { "text": "Write API documentation", "secondary": "Todo — Charlie" }
+      ]
+    }
+  ]
+}

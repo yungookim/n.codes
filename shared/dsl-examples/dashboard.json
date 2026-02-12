@@ -1,0 +1,51 @@
+{
+  "type": "page",
+  "title": "Task Dashboard",
+  "description": "Overview of task statistics and progress",
+  "children": [
+    {
+      "type": "summary-cards",
+      "title": "Task Metrics",
+      "cards": [
+        { "label": "Total Tasks", "value": 24, "change": "+3 this week", "trend": "up" },
+        { "label": "Completed", "value": 16, "change": "+5 this week", "trend": "up" },
+        { "label": "In Progress", "value": 5, "change": "-1 this week", "trend": "down" },
+        { "label": "Overdue", "value": 2, "change": "Same as last week", "trend": "neutral" }
+      ]
+    },
+    {
+      "type": "chart",
+      "title": "Tasks by Status",
+      "chartType": "pie",
+      "labels": ["Todo", "In Progress", "Done"],
+      "datasets": [
+        { "label": "Task count", "data": [3, 5, 16] }
+      ]
+    },
+    {
+      "type": "chart",
+      "title": "Tasks Completed Over Time",
+      "chartType": "line",
+      "labels": ["Week 1", "Week 2", "Week 3", "Week 4"],
+      "datasets": [
+        { "label": "Completed", "data": [2, 5, 4, 5] },
+        { "label": "Created", "data": [4, 6, 3, 3] }
+      ]
+    },
+    {
+      "type": "data-table",
+      "title": "Recent Activity",
+      "columns": [
+        { "key": "task", "label": "Task", "type": "string" },
+        { "key": "action", "label": "Action", "type": "badge" },
+        { "key": "user", "label": "User", "type": "string" },
+        { "key": "date", "label": "Date", "type": "date" }
+      ],
+      "rows": [
+        { "task": "Set up CI pipeline", "action": "completed", "user": "Alice", "date": "2026-01-15" },
+        { "task": "Design landing page", "action": "updated", "user": "Bob", "date": "2026-01-29" },
+        { "task": "Fix login bug", "action": "created", "user": "Alice", "date": "2026-01-25" }
+      ]
+    }
+  ]
+}
