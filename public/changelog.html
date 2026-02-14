@@ -428,6 +428,91 @@
           <div class="entry-dot"></div>
           <div class="entry-card">
             <div class="entry-meta">
+              <div class="entry-date">February 13, 2026</div>
+              <div class="entry-pill">Major</div>
+            </div>
+            <div class="entry-title">Agentic UI Pipeline</div>
+            <div class="entry-lede">From fixed components to fully generated interfaces.</div>
+
+            <div class="entry-body">
+              <div>
+                Replaced the DSL-based component renderer with a full agentic code generation pipeline.
+                The widget now generates complete HTML/CSS/JS from scratch for every prompt — no
+                pre-defined templates, no fixed component types.
+              </div>
+              <div>
+                The pipeline follows an agentic loop: intent parsing, code generation, QA review, and
+                iteration. Generated UI renders inside a sandboxed iframe with a postMessage bridge
+                for secure data fetching against the host app's APIs.
+              </div>
+              <div>
+                Components are now wired to real API endpoints via capability map resolution. Query
+                bindings fetch live data; form action bindings submit to real endpoints. The server
+                validates refs against the capability map before returning resolved endpoints.
+              </div>
+            </div>
+
+            <div class="capability-grid">
+              <div class="capability-card">
+                <div class="capability-icon">&lt;/&gt;</div>
+                <div class="capability-label">Code Generation</div>
+                <div class="capability-desc">Full HTML/CSS/JS generated per prompt, not mapped to fixed components.</div>
+              </div>
+              <div class="capability-card">
+                <div class="capability-icon">&#x21bb;</div>
+                <div class="capability-label">QA Review Loop</div>
+                <div class="capability-desc">A review agent evaluates generated views and feeds back for iteration.</div>
+              </div>
+              <div class="capability-card">
+                <div class="capability-icon">&#x26A1;</div>
+                <div class="capability-label">Live Data Bindings</div>
+                <div class="capability-desc">Queries and actions resolve to real endpoints through the capability map.</div>
+              </div>
+              <div class="capability-card">
+                <div class="capability-icon">&#x1F6E1;</div>
+                <div class="capability-label">Sandboxed Rendering</div>
+                <div class="capability-desc">Generated UI runs in an iframe sandbox with a postMessage bridge.</div>
+              </div>
+            </div>
+
+            <div class="difference-section">
+              <div class="difference-title">What changed under the hood</div>
+              <div class="difference-grid">
+                <div class="difference-card">
+                  <div class="difference-label">Server</div>
+                  <div class="difference-text">
+                    New agentic pipeline with intent parsing, codegen prompts, and review prompts. Capability
+                    resolver validates refs and resolves endpoints. Proxy layer for cross-origin data fetching.
+                  </div>
+                </div>
+                <div class="difference-card">
+                  <div class="difference-label">Widget</div>
+                  <div class="difference-text">
+                    Removed 10 fixed component renderers. Added iframe sandbox, API bridge, and message handler.
+                    The renderer now injects generated code directly into a sandboxed frame.
+                  </div>
+                </div>
+                <div class="difference-card">
+                  <div class="difference-label">Testing</div>
+                  <div class="difference-text">
+                    400+ new tests across server, widget, and shared modules covering the pipeline,
+                    capability resolver, sandbox, code parser, and message handler.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="capability-note">
+              <span>73 files changed</span> — 7,100 lines added, 2,200 removed. This is the architectural
+              shift from template instantiation to true agentic UI generation.
+            </div>
+          </div>
+        </div>
+
+        <div class="entry">
+          <div class="entry-dot"></div>
+          <div class="entry-card">
+            <div class="entry-meta">
               <div class="entry-date">February 1, 2026</div>
               <div class="entry-pill">New</div>
             </div>
