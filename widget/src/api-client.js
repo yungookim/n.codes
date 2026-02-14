@@ -118,15 +118,116 @@ class GenerateError extends Error {
   }
 }
 
+const DEFAULT_POLL_INTERVAL = 2000;
+const DEFAULT_MAX_POLL_DURATION = 5 * 60 * 1000; // 5 minutes
+
+/**
+ * Poll GET /api/jobs/:jobId until the job completes, fails, or needs clarification.
+ *
+ * @param {string} apiUrl - Base API URL (e.g., "http://localhost:3001")
+ * @param {string} jobId - Job ID returned from POST /api/generate
+ * @param {object} [options]
+ * @param {number} [options.interval] - Poll interval in ms (default 2000)
+ * @param {number} [options.maxDuration] - Max total poll duration in ms (default 5 min)
+ * @param {function} [options.onProgress] - Callback: onProgress(step) for UI updates
+ * @param {function} [options.fetchFn] - Custom fetch function (for testing)
+ * @returns {Promise<object>} - Resolved result or clarification data
+ * @throws {GenerateError}
+ */
+async function pollJobStatus(apiUrl, jobId, options = {}) {
+  const {
+    interval = DEFAULT_POLL_INTERVAL,
+    maxDuration = DEFAULT_MAX_POLL_DURATION,
+    onProgress,
+    fetchFn,
+  } = options;
+  const doFetch = fetchFn || globalThis.fetch;
+
+  // Normalize base URL: strip trailing /api/generate if present
+  const baseUrl = apiUrl.replace(/\/api\/generate\/?$/, '');
+  const pollUrl = `${baseUrl}/api/jobs/${jobId}`;
+
+  const startTime = Date.now();
+
+  while (true) {
+    const elapsed = Date.now() - startTime;
+    if (elapsed >= maxDuration) {
+      throw new GenerateError(
+        'Generation is taking longer than expected. Please try again.',
+        0,
+        null
+      );
+    }
+
+    let data;
+    try {
+      const response = await doFetch(pollUrl);
+      if (!response.ok) {
+        if (response.status === 404) {
+          throw new GenerateError('Job not found. It may have expired.', 404, null);
+        }
+        const errorData = await response.json().catch(() => ({}));
+        throw new GenerateError(
+          errorData.error || `Polling error (${response.status})`,
+          response.status,
+          errorData
+        );
+      }
+      data = await response.json();
+    } catch (err) {
+      if (err instanceof GenerateError) throw err;
+      throw new GenerateError(
+        'Network error while checking generation status.',
+        0,
+        null
+      );
+    }
+
+    if (data.status === 'running') {
+      if (data.step && typeof onProgress === 'function') {
+        onProgress(data.step);
+      }
+      await sleep(interval);
+      continue;
+    }
+
+    if (data.status === 'completed') {
+      return data.result;
+    }
+
+    if (data.status === 'clarification') {
+      return data.result;
+    }
+
+    if (data.status === 'failed') {
+      throw new GenerateError(
+        data.error || 'Generation failed. Please try again.',
+        0,
+        null
+      );
+    }
+
+    // Unknown status — treat as error
+    throw new GenerateError(
+      `Unexpected job status: ${data.status}`,
+      0,
+      null
+    );
+  }
+}
+
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 module.exports = {
   callGenerateAPI,
+  pollJobStatus,
   GenerateError,
   classifyError,
   DEFAULT_TIMEOUT,
   MAX_RETRIES,
   BASE_DELAY,
+  DEFAULT_POLL_INTERVAL,
+  DEFAULT_MAX_POLL_DURATION,
 };

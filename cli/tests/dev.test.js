@@ -43,7 +43,7 @@ test('runDev updates map and cache', async () => {
   assert.ok(result.changedFiles.length >= 0);
 });
 
-test('runDev enriches routes with analysis metadata', async () => {
+test('runDev uses heuristic fallback when no API key', async () => {
   const cwd = createTempDir();
   writeFile(cwd, 'pages/api/bookings/index.ts', 'export async function POST() { return {}; }');
   fs.writeFileSync(
@@ -54,9 +54,13 @@ test('runDev enriches routes with analysis metadata', async () => {
   const originalKey = process.env.OPENAI_API_KEY;
   delete process.env.OPENAI_API_KEY;
   const io = createMemoryIO();
-  await assert.rejects(
-    runDev({ cwd, fs, path, io }),
-    { message: /Missing OPENAI_API_KEY/ }
-  );
-  process.env.OPENAI_API_KEY = originalKey;
+  // With fallback enabled, should succeed without API key
+  const result = await runDev({ cwd, fs, path, io });
+  assert.ok(fs.existsSync(result.mapPath));
+
+  if (originalKey) {
+    process.env.OPENAI_API_KEY = originalKey;
+  } else {
+    delete process.env.OPENAI_API_KEY;
+  }
 });

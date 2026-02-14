@@ -2,11 +2,14 @@ const { describe, it } = require('node:test');
 const assert = require('node:assert/strict');
 const {
   callGenerateAPI,
+  pollJobStatus,
   GenerateError,
   classifyError,
   DEFAULT_TIMEOUT,
   MAX_RETRIES,
   BASE_DELAY,
+  DEFAULT_POLL_INTERVAL,
+  DEFAULT_MAX_POLL_DURATION,
 } = require('../src/api-client');
 
 /** Create a mock fetch that resolves with given data. */
@@ -274,6 +277,157 @@ describe('api-client', () => {
       assert.equal(err.status, 500);
       assert.deepEqual(err.data, { detail: 'info' });
       assert.ok(err instanceof Error);
+    });
+  });
+
+  describe('polling constants', () => {
+    it('has expected defaults', () => {
+      assert.equal(DEFAULT_POLL_INTERVAL, 2000);
+      assert.equal(DEFAULT_MAX_POLL_DURATION, 5 * 60 * 1000);
+    });
+  });
+
+  describe('pollJobStatus', () => {
+    it('returns result when job completes on first poll', async () => {
+      const result = { html: '<h1>Hi</h1>', css: '', js: '' };
+      const fetchFn = async () => ({
+        ok: true,
+        json: async () => ({ status: 'completed', result }),
+      });
+      const data = await pollJobStatus('http://localhost:3001/api/generate', 'job-1', {
+        fetchFn,
+        interval: 10,
+      });
+      assert.deepEqual(data, result);
+    });
+
+    it('polls until job completes', async () => {
+      let callCount = 0;
+      const result = { html: '<h1>Done</h1>', css: '', js: '' };
+      const fetchFn = async () => {
+        callCount++;
+        if (callCount < 3) {
+          return {
+            ok: true,
+            json: async () => ({ status: 'running', step: 'codegen' }),
+          };
+        }
+        return {
+          ok: true,
+          json: async () => ({ status: 'completed', result }),
+        };
+      };
+      const data = await pollJobStatus('http://localhost:3001/api/generate', 'job-1', {
+        fetchFn,
+        interval: 10,
+      });
+      assert.deepEqual(data, result);
+      assert.equal(callCount, 3);
+    });
+
+    it('calls onProgress with step name during polling', async () => {
+      let callCount = 0;
+      const steps = [];
+      const fetchFn = async () => {
+        callCount++;
+        if (callCount === 1) return { ok: true, json: async () => ({ status: 'running', step: 'intent' }) };
+        if (callCount === 2) return { ok: true, json: async () => ({ status: 'running', step: 'codegen' }) };
+        return { ok: true, json: async () => ({ status: 'completed', result: {} }) };
+      };
+      await pollJobStatus('http://localhost:3001/api/generate', 'job-1', {
+        fetchFn,
+        interval: 10,
+        onProgress(step) { steps.push(step); },
+      });
+      assert.deepEqual(steps, ['intent', 'codegen']);
+    });
+
+    it('throws on failed job', async () => {
+      const fetchFn = async () => ({
+        ok: true,
+        json: async () => ({ status: 'failed', error: 'LLM crashed' }),
+      });
+      await assert.rejects(
+        () => pollJobStatus('http://localhost:3001/api/generate', 'job-1', { fetchFn, interval: 10 }),
+        (err) => {
+          assert.ok(err instanceof GenerateError);
+          assert.ok(err.message.includes('LLM crashed'));
+          return true;
+        }
+      );
+    });
+
+    it('throws on 404 (job not found)', async () => {
+      const fetchFn = async () => ({
+        ok: false,
+        status: 404,
+        json: async () => ({ error: 'Job not found' }),
+      });
+      await assert.rejects(
+        () => pollJobStatus('http://localhost:3001/api/generate', 'job-1', { fetchFn, interval: 10 }),
+        (err) => {
+          assert.ok(err instanceof GenerateError);
+          assert.equal(err.status, 404);
+          return true;
+        }
+      );
+    });
+
+    it('throws on max duration exceeded', async () => {
+      const fetchFn = async () => ({
+        ok: true,
+        json: async () => ({ status: 'running', step: 'codegen' }),
+      });
+      await assert.rejects(
+        () => pollJobStatus('http://localhost:3001/api/generate', 'job-1', {
+          fetchFn,
+          interval: 10,
+          maxDuration: 50,
+        }),
+        (err) => {
+          assert.ok(err instanceof GenerateError);
+          assert.ok(err.message.includes('taking longer'));
+          return true;
+        }
+      );
+    });
+
+    it('returns clarification result', async () => {
+      const result = { clarifyingQuestion: 'Which?', options: ['A', 'B'] };
+      const fetchFn = async () => ({
+        ok: true,
+        json: async () => ({ status: 'clarification', result }),
+      });
+      const data = await pollJobStatus('http://localhost:3001/api/generate', 'job-1', {
+        fetchFn,
+        interval: 10,
+      });
+      assert.deepEqual(data, result);
+    });
+
+    it('strips /api/generate from base URL for polling', async () => {
+      let capturedUrl;
+      const fetchFn = async (url) => {
+        capturedUrl = url;
+        return { ok: true, json: async () => ({ status: 'completed', result: {} }) };
+      };
+      await pollJobStatus('http://localhost:3001/api/generate', 'job-123', {
+        fetchFn,
+        interval: 10,
+      });
+      assert.equal(capturedUrl, 'http://localhost:3001/api/jobs/job-123');
+    });
+
+    it('throws on network error during polling', async () => {
+      const fetchFn = async () => { throw new TypeError('Failed to fetch'); };
+      await assert.rejects(
+        () => pollJobStatus('http://localhost:3001/api/generate', 'job-1', { fetchFn, interval: 10 }),
+        (err) => {
+          assert.ok(err instanceof GenerateError);
+          assert.ok(err.message.includes('Network error'));
+          return true;
+        }
+      );
     });
   });
 });

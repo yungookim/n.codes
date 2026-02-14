@@ -25,16 +25,22 @@ function hashContent(content) {
   return `sha256:${hash}`;
 }
 
-function getAnalysisCache(cache, routeFile, contentHash) {
-  if (!cache?.analysis?.[routeFile]) return null;
-  const entry = cache.analysis[routeFile];
+function makeCacheKey(routeFile, method) {
+  return method ? `${routeFile}:${method}` : routeFile;
+}
+
+function getAnalysisCache(cache, routeFile, contentHash, method) {
+  const key = makeCacheKey(routeFile, method);
+  if (!cache?.analysis?.[key]) return null;
+  const entry = cache.analysis[key];
   if (entry.contentHash !== contentHash) return null;
   return entry.result;
 }
 
-function setAnalysisCache(cache, routeFile, contentHash, result) {
+function setAnalysisCache(cache, routeFile, contentHash, result, method) {
   if (!cache.analysis) cache.analysis = {};
-  cache.analysis[routeFile] = {
+  const key = makeCacheKey(routeFile, method);
+  cache.analysis[key] = {
     contentHash,
     analyzedAt: new Date().toISOString(),
     result

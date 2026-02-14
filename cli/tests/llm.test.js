@@ -84,7 +84,7 @@ test('createSemaphore limits concurrency', async () => {
   assert.equal(maxConcurrent, 2);
 });
 
-test('analyzeWithLLM throws when no API key even with fallback enabled', async () => {
+test('analyzeWithLLM falls back when no API key with fallback enabled', async () => {
   const routeContext = {
     routeFile: 'pages/api/test.ts',
     routeContent: 'export function GET() { return Response.json({}); }',
@@ -97,18 +97,23 @@ test('analyzeWithLLM throws when no API key even with fallback enabled', async (
   const originalKey = process.env.OPENAI_API_KEY;
   delete process.env.OPENAI_API_KEY;
 
-  await assert.rejects(
-    analyzeWithLLM({
-      routeContext,
-      method: 'GET',
-      path: '/api/test',
-      config,
-      heuristicDescription
-    }),
-    { message: /Missing OPENAI_API_KEY/ }
-  );
+  const result = await analyzeWithLLM({
+    routeContext,
+    method: 'GET',
+    path: '/api/test',
+    config,
+    heuristicDescription
+  });
 
-  process.env.OPENAI_API_KEY = originalKey;
+  assert.equal(result.fallback, true);
+  assert.equal(result.description, heuristicDescription);
+  assert.ok(result.error);
+
+  if (originalKey) {
+    process.env.OPENAI_API_KEY = originalKey;
+  } else {
+    delete process.env.OPENAI_API_KEY;
+  }
 });
 
 test('analyzeWithLLM throws when no API key and fallback disabled', async () => {
@@ -177,12 +182,22 @@ test('buildAnalysisPrompt includes imports', () => {
   assert.ok(prompt.includes('export const db'));
 });
 
-test('parseAnalysisResponse parses valid JSON', () => {
-  const response = '{"description": "Test description", "entities": [{"name": "User", "fields": ["id"]}]}';
+test('parseAnalysisResponse parses valid JSON with all fields', () => {
+  const response = JSON.stringify({
+    description: 'Test description',
+    responseFormat: 'array of User objects',
+    queryParams: ['status'],
+    requestBody: ['name', 'email'],
+    entities: [{ name: 'User', fields: ['id'], description: 'A user entity', source: 'inferred' }]
+  });
   const result = parseAnalysisResponse(response);
   assert.equal(result.description, 'Test description');
+  assert.equal(result.responseFormat, 'array of User objects');
+  assert.deepEqual(result.queryParams, ['status']);
+  assert.deepEqual(result.requestBody, ['name', 'email']);
   assert.equal(result.entities.length, 1);
   assert.equal(result.entities[0].name, 'User');
+  assert.equal(result.entities[0].description, 'A user entity');
 });
 
 test('parseAnalysisResponse handles markdown code blocks', () => {
@@ -195,5 +210,28 @@ test('parseAnalysisResponse returns defaults on invalid JSON', () => {
   const response = 'This is not valid JSON';
   const result = parseAnalysisResponse(response);
   assert.equal(result.description, null);
+  assert.equal(result.responseFormat, null);
+  assert.deepEqual(result.queryParams, []);
+  assert.deepEqual(result.requestBody, []);
   assert.deepEqual(result.entities, []);
+});
+
+test('buildAnalysisPrompt asks for responseFormat and queryParams', () => {
+  const routeContext = {
+    routeFile: 'routes/tasks.js',
+    routeContent: 'router.get("/", (req, res) => res.json(tasks));',
+    imports: [],
+    typeImports: []
+  };
+
+  const prompt = buildAnalysisPrompt({
+    routeContext,
+    method: 'GET',
+    path: '/tasks'
+  });
+
+  assert.ok(prompt.includes('responseFormat'));
+  assert.ok(prompt.includes('queryParams'));
+  assert.ok(prompt.includes('requestBody'));
+  assert.ok(prompt.includes('description'));
 });

@@ -437,6 +437,33 @@ function getStyles(theme) {
       to { transform: rotate(360deg); }
     }
 
+    .status-step {
+      display: inline-block;
+      font-size: 11px;
+      color: var(--ncodes-text-dim);
+      font-family: var(--ncodes-mono);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-left: 26px;
+      margin-top: 6px;
+    }
+
+    .status-step:empty {
+      display: none;
+    }
+
+    .status-step::after {
+      content: '';
+      animation: ncodes-dots 1.4s steps(4, end) infinite;
+    }
+
+    @keyframes ncodes-dots {
+      0% { content: ''; }
+      25% { content: '.'; }
+      50% { content: '..'; }
+      75% { content: '...'; }
+    }
+
     /* ===== Panel Expansion (result view) — centered dialog ===== */
     .ncodes-panel.expanded {
       width: 80vw;
@@ -1139,6 +1166,56 @@ function getStyles(theme) {
 
     .ncodes-error-fallback:hover {
       border-color: var(--ncodes-text-muted);
+    }
+
+    /* ===== Clarifying Question ===== */
+    .ncodes-clarifying-question {
+      padding: 32px 20px;
+      text-align: center;
+    }
+
+    .ncodes-clarifying-text {
+      font-size: 15px;
+      color: var(--ncodes-text-main);
+      line-height: 1.5;
+      margin-bottom: 20px;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .ncodes-clarifying-options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-width: 320px;
+      margin: 0 auto;
+    }
+
+    .ncodes-clarifying-option {
+      padding: 10px 16px;
+      background: var(--ncodes-bg-body);
+      border: 1px solid var(--ncodes-border-color);
+      border-radius: 8px;
+      color: var(--ncodes-text-muted);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-family: var(--ncodes-font);
+    }
+
+    .ncodes-clarifying-option:hover {
+      border-color: var(--ncodes-accent);
+      color: var(--ncodes-text-main);
+      background: var(--ncodes-accent-dim);
+    }
+
+    /* ===== Sandbox iframe ===== */
+    .result-content iframe {
+      width: 100%;
+      height: 100%;
+      min-height: 400px;
     }
   `;
 }

@@ -19,6 +19,11 @@ function mergeEntities(routeResults) {
         }
       }
 
+      // Merge description (keep first non-empty)
+      if (entity.description && !entities[name].description) {
+        entities[name].description = entity.description;
+      }
+
       // Merge sources (dedupe)
       if (entity.source && !entities[name].sources.includes(entity.source)) {
         entities[name].sources.push(entity.source);
@@ -54,6 +59,7 @@ function buildRouteAnalysisResult({
   const normalizedEntities = (llmResult.entities || []).map((entity) => ({
     name: normalizeEntityName(entity.name),
     fields: entity.fields || [],
+    description: entity.description || '',
     source: entity.source || 'inferred'
   }));
 
@@ -63,6 +69,9 @@ function buildRouteAnalysisResult({
     method,
     path,
     description: llmResult.description,
+    responseFormat: llmResult.responseFormat || null,
+    queryParams: llmResult.queryParams || [],
+    requestBody: llmResult.requestBody || [],
     entities: normalizedEntities,
     analysisSource: llmResult.fallback ? 'heuristic' : 'llm'
   };

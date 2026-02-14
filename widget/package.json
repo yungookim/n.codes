@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "build": "node esbuild.config.js",
-    "test": "node --test tests/*.test.js tests/components/*.test.js"
+    "test": "node --test tests/*.test.js"
   },
   "devDependencies": {
     "esbuild": "^0.20.0"

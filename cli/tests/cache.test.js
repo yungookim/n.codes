@@ -74,6 +74,38 @@ test('getAnalysisCache returns result for matching hash', () => {
   assert.deepEqual(result, { description: 'test' });
 });
 
+test('getAnalysisCache uses method in cache key', () => {
+  const cache = {
+    analysis: {
+      'routes/tasks.js:GET': {
+        contentHash: 'sha256:abc',
+        result: { description: 'GET tasks' }
+      },
+      'routes/tasks.js:POST': {
+        contentHash: 'sha256:abc',
+        result: { description: 'POST tasks' }
+      }
+    }
+  };
+  const getResult = getAnalysisCache(cache, 'routes/tasks.js', 'sha256:abc', 'GET');
+  assert.deepEqual(getResult, { description: 'GET tasks' });
+  const postResult = getAnalysisCache(cache, 'routes/tasks.js', 'sha256:abc', 'POST');
+  assert.deepEqual(postResult, { description: 'POST tasks' });
+});
+
+test('getAnalysisCache without method falls back to bare key', () => {
+  const cache = {
+    analysis: {
+      'pages/api/test.ts': {
+        contentHash: 'sha256:abc',
+        result: { description: 'no method' }
+      }
+    }
+  };
+  const result = getAnalysisCache(cache, 'pages/api/test.ts', 'sha256:abc');
+  assert.deepEqual(result, { description: 'no method' });
+});
+
 test('setAnalysisCache stores entry', () => {
   const cache = { analysis: {} };
   setAnalysisCache(cache, 'pages/api/test.ts', 'sha256:abc', { description: 'test' });
@@ -86,4 +118,14 @@ test('setAnalysisCache creates analysis object if missing', () => {
   setAnalysisCache(cache, 'pages/api/test.ts', 'sha256:abc', { description: 'test' });
   assert.ok(cache.analysis);
   assert.equal(cache.analysis['pages/api/test.ts'].contentHash, 'sha256:abc');
+});
+
+test('setAnalysisCache with method creates separate entries', () => {
+  const cache = { analysis: {} };
+  setAnalysisCache(cache, 'routes/tasks.js', 'sha256:abc', { description: 'GET tasks' }, 'GET');
+  setAnalysisCache(cache, 'routes/tasks.js', 'sha256:abc', { description: 'POST tasks' }, 'POST');
+  assert.equal(cache.analysis['routes/tasks.js:GET'].contentHash, 'sha256:abc');
+  assert.deepEqual(cache.analysis['routes/tasks.js:GET'].result, { description: 'GET tasks' });
+  assert.equal(cache.analysis['routes/tasks.js:POST'].contentHash, 'sha256:abc');
+  assert.deepEqual(cache.analysis['routes/tasks.js:POST'].result, { description: 'POST tasks' });
 });

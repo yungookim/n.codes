@@ -2,8 +2,8 @@
   "project": "express-tasks",
   "entities": {
     "task": {
-      "fields": ["id", "title", "status", "assignee", "dueDate"],
-      "description": "A task in the task manager"
+      "fields": ["id", "title", "description", "status", "priority", "assignee", "createdAt"],
+      "description": "A task in the task manager. Status is one of: todo, in-progress, done. Priority is one of: low, medium, high."
     },
     "user": {
       "fields": ["id", "name", "email", "role"],
@@ -13,29 +13,29 @@
   "actions": {
     "createTask": {
       "endpoint": "POST /tasks",
-      "description": "Create a new task"
+      "description": "Create a new task. Body: { title, description?, status?, priority?, assignee? }"
     },
     "updateTask": {
       "endpoint": "PUT /tasks/:id",
-      "description": "Update an existing task"
+      "description": "Update an existing task. Body: { title?, description?, status?, priority?, assignee? }"
     },
     "deleteTask": {
       "endpoint": "DELETE /tasks/:id",
-      "description": "Delete a task"
+      "description": "Delete a task by id"
     }
   },
   "queries": {
     "listTasks": {
       "endpoint": "GET /tasks",
-      "description": "List all tasks"
+      "description": "List all tasks. Returns an array of task objects. Supports query params: ?status=todo|in-progress|done&assignee=name"
     },
     "getTask": {
       "endpoint": "GET /tasks/:id",
-      "description": "Get a single task"
+      "description": "Get a single task by id"
     },
     "listUsers": {
       "endpoint": "GET /users",
-      "description": "List all users"
+      "description": "List all users. Returns an array of user objects."
     }
   }
 }

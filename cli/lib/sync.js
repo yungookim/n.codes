@@ -74,7 +74,17 @@ async function analyzeRoutesWithLLM({
   let completed = 0;
 
   if (total > 0) {
-    assertApiKey(config);
+    try {
+      assertApiKey(config);
+    } catch (err) {
+      if (config?.allowHeuristicFallback === true) {
+        if (io && typeof io.log === 'function') {
+          io.log(`Warning: ${err.message} — using heuristic descriptions.`);
+        }
+      } else {
+        throw err;
+      }
+    }
   }
 
   if (io && typeof io.log === 'function' && total > 0) {
@@ -111,7 +121,7 @@ async function analyzeRoutesWithLLM({
 
       // Check cache unless force flag is set
       if (!force) {
-        const cached = getAnalysisCache(cache, route.file, contentHash);
+        const cached = getAnalysisCache(cache, route.file, contentHash, route.method);
         if (cached) {
           return {
             routeFile: route.file,
@@ -119,6 +129,9 @@ async function analyzeRoutesWithLLM({
             method: route.method,
             path: route.path,
             description: cached.description,
+            responseFormat: cached.responseFormat || null,
+            queryParams: cached.queryParams || [],
+            requestBody: cached.requestBody || [],
             entities: cached.entities || [],
             analysisSource: cached.analysisSource || 'llm'
           };
@@ -154,9 +167,12 @@ async function analyzeRoutesWithLLM({
       // Update cache
       setAnalysisCache(cache, route.file, contentHash, {
         description: analysisResult.description,
+        responseFormat: analysisResult.responseFormat,
+        queryParams: analysisResult.queryParams,
+        requestBody: analysisResult.requestBody,
         entities: analysisResult.entities,
         analysisSource: analysisResult.analysisSource
-      });
+      }, route.method);
 
       return analysisResult;
     } finally {
@@ -207,6 +223,10 @@ async function runSync({ cwd, fs, path, io, configPath, extensions, excludeDirs,
     activeCache.entities = entities;
 
     analysisResults.forEach((result) => {
+      // Only enrich with LLM results — heuristic fallback descriptions are worse
+      // than the structural descriptions already in the map
+      if (result.analysisSource !== 'llm') return;
+
       if (map.actions[result.capabilityName]) {
         map.actions[result.capabilityName] = enrichCapabilityWithAnalysis(
           map.actions[result.capabilityName],

@@ -21,11 +21,9 @@ const {
   updateHistoryList,
 } = require('./panel');
 const { findTemplate, getTemplateHTML, STATUS_MESSAGES } = require('./simulation');
-const { renderGeneratedUI, clearRenderedUI } = require('./renderer');
+const { renderGenerated, renderGeneratedUI, clearRenderedUI } = require('./renderer');
 const { getHistory, addToHistory, removeFromHistory } = require('./history');
-const { validateDSL } = require('../../shared/dsl-types');
-const { renderDSL, getDSLStyles } = require('./components/index');
-const { callGenerateAPI, GenerateError } = require('./api-client');
+const { callGenerateAPI, pollJobStatus, GenerateError } = require('./api-client');
 
 let _state = null;
 
@@ -61,12 +59,12 @@ function init(userConfig) {
   host.id = 'ncodes-root';
   const shadow = host.attachShadow({ mode: 'open' });
 
-  // Inject styles (include DSL component styles for live mode rendering)
+  // Inject styles (generated UI now renders inside sandboxed iframe, no DSL styles needed)
   const styleEl = document.createElement('style');
   const resolvedTheme = config.theme === 'auto'
     ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
     : config.theme;
-  styleEl.textContent = getStyles(resolvedTheme) + getDSLStyles();
+  styleEl.textContent = getStyles(resolvedTheme);
   shadow.appendChild(styleEl);
 
   // Create trigger and panel
@@ -222,16 +220,20 @@ function handleHistoryClick(e) {
 function showHistoryResult(historyId, promptText) {
   if (!_state || !_state.mounted) return;
 
-  // Find the history entry to check if it has DSL data
   const history = getHistory();
   const entry = history.find((h) => h.id === historyId);
 
   const container = getResultContainer(_state.panel);
   clearRenderedUI(container);
 
-  if (entry && entry.dsl) {
-    // Live mode entry — re-render stored DSL
-    renderDSL(container, entry.dsl);
+  if (entry && entry.generated) {
+    // Live mode entry — re-render stored generated code in sandbox
+    renderGenerated(container, {
+      html: entry.generated.html,
+      css: entry.generated.css,
+      js: entry.generated.js,
+      apiBindings: entry.generated.apiBindings,
+    });
   } else {
     // Simulation entry — render from template
     const templateId = entry ? entry.templateId : 'invoices';
@@ -272,52 +274,124 @@ async function handleGenerate() {
   _state.isGenerating = false;
 }
 
+/** Step-specific status messages shown during polling. */
+const STEP_MESSAGES = {
+  intent: 'Understanding your request...',
+  codegen: 'Writing HTML, CSS & JavaScript...',
+  review: 'Reviewing generated code...',
+  iterate: 'Fixing issues found by QA...',
+  resolve: 'Resolving API connections...',
+};
+
 /**
- * Live mode: call API → validate DSL → render.
- * Shows loading state during API call, error state on failure.
- * Falls back to simulation after all retries are exhausted.
+ * Live mode: call API → poll for job completion → render generated HTML/CSS/JS in sandbox.
+ * Handles clarifying questions from the server.
+ * Shows step-level progress during polling, error state on failure.
  */
 async function handleGenerateLive(prompt, generateBtn, textarea) {
-  // Show loading state
-  showLoadingState();
+  showLoadingState('Generating... this usually takes 1-2 minutes');
 
   try {
     const { config } = _state;
-    const result = await callGenerateAPI(config.apiUrl, {
+    const { jobId } = await callGenerateAPI(config.apiUrl, {
       prompt,
       provider: config.provider,
       model: config.model,
     });
 
-    // Validate DSL
-    const { valid, errors } = validateDSL(result.dsl);
-    if (!valid) {
-      console.warn('[n.codes] Invalid DSL response:', errors);
-      throw new GenerateError('The AI generated an invalid response. Please try again.', 422, null);
+    // Poll for completion with step progress updates
+    const result = await pollJobStatus(config.apiUrl, jobId, {
+      onProgress(step) {
+        const message = STEP_MESSAGES[step] || 'Generating...';
+        updateStepProgress(step, message);
+      },
+    });
+
+    // Handle clarifying question response
+    if (result.clarifyingQuestion) {
+      hideLoadingState();
+      showClarifyingQuestion(result.clarifyingQuestion, result.options, prompt, generateBtn, textarea);
+      return;
     }
 
-    // Save DSL to history
-    addToHistory({ prompt, dsl: result.dsl });
+    // Save generated content to history
+    addToHistory({
+      prompt,
+      generated: {
+        html: result.html,
+        css: result.css,
+        js: result.js,
+        apiBindings: result.apiBindings,
+      },
+    });
     refreshHistoryList();
 
-    // Render DSL
+    // Render in sandbox
     hideLoadingState();
     const container = getResultContainer(_state.panel);
     clearRenderedUI(container);
-    renderDSL(container, result.dsl);
+    renderGenerated(container, {
+      html: result.html,
+      css: result.css,
+      js: result.js,
+      apiBindings: result.apiBindings,
+    });
     showResultView(_state.panel, prompt);
     resetGenerateUI(generateBtn, textarea);
   } catch (err) {
     hideLoadingState();
     console.warn('[n.codes] Live generation failed:', err.message);
-
-    // Show error in result view with retry option
     showErrorState(err.message, prompt, generateBtn, textarea);
   }
 }
 
 /**
- * Simulation mode: keyword match → local template rendering.
+ * Show a clarifying question in the panel with clickable option buttons.
+ */
+function showClarifyingQuestion(question, options, originalPrompt, generateBtn, textarea) {
+  if (!_state || !_state.mounted) return;
+
+  const container = getResultContainer(_state.panel);
+  clearRenderedUI(container);
+
+  const wrapper = document.createElement('div');
+  wrapper.className = 'ncodes-clarifying-question';
+
+  const questionEl = document.createElement('div');
+  questionEl.className = 'ncodes-clarifying-text';
+  questionEl.textContent = question;
+  wrapper.appendChild(questionEl);
+
+  if (Array.isArray(options) && options.length > 0) {
+    const optionsDiv = document.createElement('div');
+    optionsDiv.className = 'ncodes-clarifying-options';
+
+    options.forEach((option) => {
+      const btn = document.createElement('button');
+      btn.className = 'ncodes-clarifying-option';
+      btn.textContent = option;
+      btn.addEventListener('click', () => {
+        // Re-submit with the answer appended to the prompt
+        const newPrompt = originalPrompt + ' — ' + option;
+        if (textarea) textarea.value = newPrompt;
+        showPromptView(_state.panel);
+        resetGenerateUI(generateBtn, textarea);
+        _state.isGenerating = false;
+        handleGenerate();
+      });
+      optionsDiv.appendChild(btn);
+    });
+
+    wrapper.appendChild(optionsDiv);
+  }
+
+  container.appendChild(wrapper);
+  showResultView(_state.panel, originalPrompt);
+  resetGenerateUI(generateBtn, textarea);
+}
+
+/**
+ * Simulation mode: keyword match -> local template rendering.
  */
 async function handleGenerateSimulation(prompt, generateBtn, textarea) {
   await animateStatus();
@@ -350,14 +424,24 @@ function resetGenerateUI(generateBtn, textarea) {
   if (textarea) textarea.value = '';
 }
 
-function showLoadingState() {
+function showLoadingState(message) {
   if (!_state || !_state.mounted) return;
   const statusEl = _state.panel.querySelector('.generation-status');
   const statusText = _state.panel.querySelector('.status-text');
   const statusIcon = _state.panel.querySelector('.status-icon');
+  const stepEl = _state.panel.querySelector('.status-step');
   if (statusEl) statusEl.style.display = 'block';
-  if (statusText) statusText.textContent = 'Generating with AI...';
+  if (statusText) statusText.textContent = message || 'Generating with AI...';
   if (statusIcon) statusIcon.classList.add('spinning');
+  if (stepEl) stepEl.textContent = '';
+}
+
+function updateStepProgress(step, message) {
+  if (!_state || !_state.mounted) return;
+  const statusText = _state.panel.querySelector('.status-text');
+  const stepEl = _state.panel.querySelector('.status-step');
+  if (statusText) statusText.textContent = message;
+  if (stepEl) stepEl.textContent = step;
 }
 
 function hideLoadingState() {

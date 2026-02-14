@@ -137,7 +137,7 @@ Available component types and their required properties:
 - **form**: Input form. Required: fields (array of {name, label, type, required?, placeholder?, options?}), submitLabel
 - **summary-cards**: Metric cards. Required: cards (array of {label, value, change?, trend?})
 - **chart**: Data visualization. Required: chartType (bar|line|pie|doughnut), labels, datasets (array of {label, data})
-- **list**: Item list. Required: items (array of {text, secondary?}). Optional: ordered
+- **list**: Item list. Required: items (array of {text, secondary?}). Optional: ordered, itemMapping ({text, secondary?} — maps API response fields to list item props)
 - **text**: Text content. Required: content. Optional: variant (heading|paragraph|caption|code)
 - **empty-state**: No data placeholder. Required: message. Optional: icon, action ({label, href?})
 - **error**: Error display. Required: message. Optional: code, details, retry
@@ -160,6 +160,20 @@ Add a "query" object with a "ref" that matches a query name from the capability 
 - "params" is optional — key-value pairs sent as query params (for GET) or body (for POST)
 - "responsePath" is optional — dot-notation path to extract data from the response (e.g., "data.items")
 - When using query binding, the static data prop (rows, fields, cards, items, labels+datasets) is OPTIONAL — leave it out and let the widget fetch live data
+
+### List itemMapping (REQUIRED when list has query binding)
+When a "list" component uses a query binding, you MUST include an "itemMapping" object that maps API response fields to list item props:
+\`\`\`json
+{
+  "type": "list",
+  "title": "To Do",
+  "query": { "ref": "listTasks", "params": { "status": "todo" } },
+  "itemMapping": { "text": "title", "secondary": "assignee" }
+}
+\`\`\`
+- "text" (required): API response field name to use as the list item's primary text
+- "secondary" (optional): API response field name to use as the secondary text
+- Without itemMapping, the list will look for "text" and "secondary" fields in the response, which usually don't exist in API data
 
 ### Action binding (for form)
 Add an "action" object with a "ref" that matches an action name from the capability map:

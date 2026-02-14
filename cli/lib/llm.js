@@ -83,9 +83,9 @@ async function analyzeWithLLM({
   heuristicDescription
 }) {
   const allowHeuristicFallback = config?.allowHeuristicFallback === true;
-  assertApiKey(config);
 
   try {
+    assertApiKey(config);
     const { generateText } = await import('ai');
     let model;
 
@@ -118,6 +118,9 @@ async function analyzeWithLLM({
     return {
       fallback: false,
       description: parsed.description || heuristicDescription,
+      responseFormat: parsed.responseFormat || null,
+      queryParams: parsed.queryParams || [],
+      requestBody: parsed.requestBody || [],
       entities: parsed.entities || []
     };
   } catch (error) {
@@ -162,17 +165,25 @@ ${routeContext.routeContent}
 Analyze this route and respond in JSON only (no markdown code blocks).
 Only describe the handler for the method specified above. If other HTTP methods are present in the file, ignore them and do not mention them.
 
-Example:
-Input: Method=POST, File defines GET and POST handlers
-Output description: "Handles POST requests to create a new record, validating input and returning the created resource."
+Include:
+- A rich description mentioning what the endpoint returns (e.g., "Returns an array of task objects" or "Returns the created task")
+- The response format (what shape the response is)
+- Query parameters the endpoint accepts (if any, look for req.query usage)
+- Request body fields the endpoint expects (if any, look for req.body usage)
+- Entity descriptions with allowed/enum values when visible in code (e.g., "Status is one of: todo, in-progress, done")
 
+Example:
 {
-  "description": "A 2-3 sentence description of what this endpoint does, its purpose, and key behavior",
+  "description": "Lists all tasks with optional filtering by status. Returns an array of task objects sorted by creation date.",
+  "responseFormat": "array of Task objects",
+  "queryParams": ["status", "assignee"],
+  "requestBody": [],
   "entities": [
     {
-      "name": "EntityName",
-      "fields": ["field1", "field2"],
-      "source": "prisma" | "typescript" | "inferred"
+      "name": "Task",
+      "fields": ["id", "title", "status", "priority", "assignee", "createdAt"],
+      "description": "A task item. Status is one of: todo, in-progress, done. Priority is one of: low, medium, high.",
+      "source": "inferred"
     }
   ]
 }`;
@@ -194,10 +205,13 @@ function parseAnalysisResponse(text) {
     const parsed = JSON.parse(jsonStr);
     return {
       description: parsed.description || null,
+      responseFormat: parsed.responseFormat || null,
+      queryParams: Array.isArray(parsed.queryParams) ? parsed.queryParams : [],
+      requestBody: Array.isArray(parsed.requestBody) ? parsed.requestBody : [],
       entities: Array.isArray(parsed.entities) ? parsed.entities : []
     };
   } catch {
-    return { description: null, entities: [] };
+    return { description: null, responseFormat: null, queryParams: [], requestBody: [], entities: [] };
   }
 }
 

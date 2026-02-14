@@ -1,12 +1,14 @@
-const { describe, it } = require('node:test');
+const { describe, it, afterEach } = require('node:test');
 const assert = require('node:assert/strict');
 
 const {
+  handleGetJob,
   validateRequest,
   sendSSE,
   writeErrorResponse,
   MAX_PROMPT_LENGTH
 } = require('../api/generate');
+const { jobStore, STATUS } = require('../lib/job-store');
 const { ApiKeyError, ProviderError } = require('../lib/llm-client');
 const { DSLValidationError } = require('../lib/response-parser');
 const { CapabilityResolutionError } = require('../lib/capability-resolver');
@@ -274,5 +276,75 @@ describe('SSE event format', () => {
     const dataLine = res.body.split('\n').find(l => l.startsWith('data: '));
     const parsed = JSON.parse(dataLine.slice(6));
     assert.deepEqual(parsed.validationErrors, ['missing title']);
+  });
+});
+
+// --- handleGetJob ---
+
+describe('handleGetJob', () => {
+  afterEach(() => {
+    // Clean up jobs between tests
+    for (const [id] of jobStore._jobs) {
+      jobStore.deleteJob(id);
+    }
+  });
+
+  it('returns 404 for unknown job id', () => {
+    const req = { params: { jobId: 'nonexistent' } };
+    const res = createMockRes();
+    handleGetJob(req, res);
+    assert.equal(res.statusCode, 404);
+    const body = JSON.parse(res.body);
+    assert.ok(body.error.includes('not found'));
+  });
+
+  it('returns running status with step', () => {
+    const job = jobStore.createJob('test', 'openai', 'gpt-5-mini');
+    jobStore.updateJob(job.id, { step: 'codegen' });
+    const req = { params: { jobId: job.id } };
+    const res = createMockRes();
+    handleGetJob(req, res);
+    assert.equal(res.statusCode, 200);
+    const body = JSON.parse(res.body);
+    assert.equal(body.status, 'running');
+    assert.equal(body.step, 'codegen');
+  });
+
+  it('returns completed status with result', () => {
+    const job = jobStore.createJob('test', 'openai', 'gpt-5-mini');
+    const result = { html: '<h1>Hi</h1>', css: '', js: '' };
+    jobStore.updateJob(job.id, { status: STATUS.COMPLETED, result });
+    const req = { params: { jobId: job.id } };
+    const res = createMockRes();
+    handleGetJob(req, res);
+    assert.equal(res.statusCode, 200);
+    const body = JSON.parse(res.body);
+    assert.equal(body.status, 'completed');
+    assert.deepEqual(body.result, result);
+  });
+
+  it('returns failed status with error', () => {
+    const job = jobStore.createJob('test', 'openai', 'gpt-5-mini');
+    jobStore.updateJob(job.id, { status: STATUS.FAILED, error: 'LLM error' });
+    const req = { params: { jobId: job.id } };
+    const res = createMockRes();
+    handleGetJob(req, res);
+    assert.equal(res.statusCode, 200);
+    const body = JSON.parse(res.body);
+    assert.equal(body.status, 'failed');
+    assert.equal(body.error, 'LLM error');
+  });
+
+  it('returns clarification status with result', () => {
+    const job = jobStore.createJob('test', 'openai', 'gpt-5-mini');
+    const result = { clarifyingQuestion: 'Which tasks?', options: ['All', 'Mine'] };
+    jobStore.updateJob(job.id, { status: STATUS.CLARIFICATION, result });
+    const req = { params: { jobId: job.id } };
+    const res = createMockRes();
+    handleGetJob(req, res);
+    assert.equal(res.statusCode, 200);
+    const body = JSON.parse(res.body);
+    assert.equal(body.status, 'clarification');
+    assert.deepEqual(body.result, result);
   });
 });

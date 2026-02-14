@@ -733,12 +733,22 @@ function applyChangedFiles(map, changedFiles) {
 }
 
 function enrichCapabilityWithAnalysis(capability, analysisResult) {
-  return {
+  const enriched = {
     ...capability,
     description: analysisResult.description || capability.description,
     entities: (analysisResult.entities || []).map((e) => e.name),
     analysisSource: analysisResult.analysisSource || 'heuristic'
   };
+  if (analysisResult.responseFormat) {
+    enriched.responseFormat = analysisResult.responseFormat;
+  }
+  if (analysisResult.queryParams && analysisResult.queryParams.length > 0) {
+    enriched.queryParams = analysisResult.queryParams;
+  }
+  if (analysisResult.requestBody && analysisResult.requestBody.length > 0) {
+    enriched.requestBody = analysisResult.requestBody;
+  }
+  return enriched;
 }
 
 module.exports = {

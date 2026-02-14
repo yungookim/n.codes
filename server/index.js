@@ -2,7 +2,8 @@ require('dotenv').config();
 
 const express = require('express');
 const cors = require('cors');
-const { handleGenerate, handleStreamGenerate } = require('./api/generate');
+const { handleGenerate, handleGetJob, handleStreamGenerate } = require('./api/generate');
+const { handleProxy } = require('./api/proxy');
 
 const app = express();
 
@@ -18,7 +19,9 @@ app.use(cors({
 app.use(express.json());
 
 app.post('/api/generate', handleGenerate);
+app.get('/api/jobs/:jobId', handleGetJob);
 app.post('/api/generate/stream', handleStreamGenerate);
+app.post('/api/proxy', handleProxy);
 
 const port = Number(process.env.PORT) || 3001;
 app.listen(port, () => {

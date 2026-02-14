@@ -274,7 +274,16 @@
             "additionalProperties": false
           }
         },
-        "query": { "$ref": "#/definitions/query-binding" }
+        "query": { "$ref": "#/definitions/query-binding" },
+        "itemMapping": {
+          "type": "object",
+          "required": ["text"],
+          "properties": {
+            "text": { "type": "string" },
+            "secondary": { "type": "string" }
+          },
+          "additionalProperties": false
+        }
       },
       "additionalProperties": false,
       "if": {

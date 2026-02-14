@@ -84,3 +84,49 @@ test('buildRouteAnalysisResult marks heuristic fallback', () => {
 
   assert.equal(result.analysisSource, 'heuristic');
 });
+
+test('buildRouteAnalysisResult passes through responseFormat, queryParams, requestBody', () => {
+  const llmResult = {
+    fallback: false,
+    description: 'Lists tasks',
+    responseFormat: 'array of Task objects',
+    queryParams: ['status', 'assignee'],
+    requestBody: [],
+    entities: [{ name: 'task', fields: ['id', 'title'], description: 'A task item', source: 'inferred' }]
+  };
+
+  const result = buildRouteAnalysisResult({
+    routeFile: 'routes/tasks.js',
+    capabilityName: 'getTasks',
+    method: 'GET',
+    path: '/tasks',
+    llmResult
+  });
+
+  assert.equal(result.responseFormat, 'array of Task objects');
+  assert.deepEqual(result.queryParams, ['status', 'assignee']);
+  assert.deepEqual(result.requestBody, []);
+  assert.equal(result.entities[0].description, 'A task item');
+  assert.equal(result.entities[0].name, 'Task'); // normalized
+});
+
+test('mergeEntities captures entity descriptions', () => {
+  const routeResults = [
+    {
+      capabilityName: 'getTasks',
+      entities: [
+        { name: 'Task', fields: ['id', 'title', 'status'], description: 'Status is one of: todo, in-progress, done', source: 'inferred' }
+      ]
+    },
+    {
+      capabilityName: 'postTasks',
+      entities: [
+        { name: 'Task', fields: ['id', 'title'], description: '', source: 'inferred' }
+      ]
+    }
+  ];
+
+  const merged = mergeEntities(routeResults);
+  assert.equal(merged.Task.description, 'Status is one of: todo, in-progress, done');
+  assert.deepEqual(merged.Task.fields.sort(), ['id', 'status', 'title']);
+});

@@ -1,13 +1,39 @@
 /**
- * Renders generated UI content into a container element (inline, not overlay).
- * Uses DOMParser to safely parse trusted template HTML from simulation.js.
+ * Renders generated UI content into a container element.
+ *
+ * Two rendering paths:
+ *   1. renderGenerated() — Live mode: renders LLM-generated HTML/CSS/JS in a sandboxed iframe
+ *   2. renderGeneratedUI() — Simulation mode: renders trusted template HTML inline (no sandbox)
  */
 
+const { createSandbox, destroyActiveSandbox } = require('./sandbox');
+
+/**
+ * Render LLM-generated code in a sandboxed iframe.
+ *
+ * @param {HTMLElement} container - Target DOM element
+ * @param {object} content - Server response content
+ * @param {string} content.html - Generated HTML
+ * @param {string} content.css - Generated CSS
+ * @param {string} content.js - Generated JS
+ * @param {Array} content.apiBindings - API binding whitelist
+ * @param {object} [options]
+ * @param {object} [options.appInfo] - App info for the bridge
+ * @param {function} [options.fetchFn] - Custom fetch for testing
+ * @returns {{ iframe, destroy }}
+ */
+function renderGenerated(container, content, options) {
+  clearRenderedUI(container);
+  return createSandbox(container, content, options);
+}
+
+/**
+ * Render trusted template HTML (simulation mode) — inline, no sandbox.
+ * Uses DOMParser to safely parse trusted template HTML from simulation.js.
+ */
 function renderGeneratedUI(container, trustedTemplateHTML) {
-  // Clear any existing content
   clearRenderedUI(container);
 
-  // Parse trusted template HTML using DOMParser (safe — no script execution)
   const parser = new DOMParser();
   const doc = parser.parseFromString(trustedTemplateHTML, 'text/html');
   const nodes = doc.body.childNodes;
@@ -15,14 +41,13 @@ function renderGeneratedUI(container, trustedTemplateHTML) {
     container.appendChild(nodes[0]);
   }
 
-  // Action button handlers
   setupActionHandlers(container);
-
   return container;
 }
 
 function clearRenderedUI(container) {
   if (!container) return;
+  destroyActiveSandbox();
   while (container.firstChild) {
     container.removeChild(container.firstChild);
   }
@@ -97,4 +122,4 @@ function setupActionHandlers(container) {
   }
 }
 
-module.exports = { renderGeneratedUI, clearRenderedUI, setupActionHandlers };
+module.exports = { renderGenerated, renderGeneratedUI, clearRenderedUI, setupActionHandlers };

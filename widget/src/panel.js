@@ -125,6 +125,9 @@ function createPanel(config) {
   statusLine.appendChild(statusIcon);
   statusLine.appendChild(statusText);
   status.appendChild(statusLine);
+  const statusStep = document.createElement('div');
+  statusStep.className = 'status-step';
+  status.appendChild(statusStep);
   promptView.appendChild(status);
 
   // === Result View ===

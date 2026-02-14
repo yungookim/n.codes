@@ -18,7 +18,7 @@ function getHistory() {
   }
 }
 
-function addToHistory({ prompt, templateId, dsl }) {
+function addToHistory({ prompt, templateId, generated }) {
   const history = getHistory();
   const entry = {
     id: String(Date.now()),
@@ -26,9 +26,9 @@ function addToHistory({ prompt, templateId, dsl }) {
     templateId: templateId || null,
     timestamp: Date.now(),
   };
-  // Store DSL for live mode entries (replay without re-calling API)
-  if (dsl) {
-    entry.dsl = dsl;
+  // Store generated content for live mode entries (replay without re-calling API)
+  if (generated) {
+    entry.generated = generated;
   }
   history.unshift(entry);
   if (history.length > MAX_ENTRIES) {

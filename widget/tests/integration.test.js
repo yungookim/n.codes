@@ -1,42 +1,9 @@
 const { describe, it, beforeEach } = require('node:test');
 const assert = require('node:assert/strict');
-const fs = require('node:fs');
-const path = require('node:path');
-const { validateDSL } = require('../../shared/dsl-types');
 
-// Load DSL fixtures from shared examples
-const FIXTURES_DIR = path.join(__dirname, '..', '..', 'shared', 'dsl-examples');
-const TASK_LIST_DSL = JSON.parse(fs.readFileSync(path.join(FIXTURES_DIR, 'task-list.json'), 'utf8'));
-const DASHBOARD_DSL = JSON.parse(fs.readFileSync(path.join(FIXTURES_DIR, 'dashboard.json'), 'utf8'));
-const CREATE_FORM_DSL = JSON.parse(fs.readFileSync(path.join(FIXTURES_DIR, 'create-task-form.json'), 'utf8'));
-const ERROR_DSL = JSON.parse(fs.readFileSync(path.join(FIXTURES_DIR, 'error-not-found.json'), 'utf8'));
-
-describe('integration: API → DSL → render pipeline', () => {
-  describe('DSL fixture validation', () => {
-    it('task-list fixture is valid DSL', () => {
-      const { valid, errors } = validateDSL(TASK_LIST_DSL);
-      assert.equal(valid, true, `Validation errors: ${errors.join(', ')}`);
-    });
-
-    it('dashboard fixture is valid DSL', () => {
-      const { valid, errors } = validateDSL(DASHBOARD_DSL);
-      assert.equal(valid, true, `Validation errors: ${errors.join(', ')}`);
-    });
-
-    it('create-task-form fixture is valid DSL', () => {
-      const { valid, errors } = validateDSL(CREATE_FORM_DSL);
-      assert.equal(valid, true, `Validation errors: ${errors.join(', ')}`);
-    });
-
-    it('error fixture is valid DSL', () => {
-      const { valid, errors } = validateDSL(ERROR_DSL);
-      assert.equal(valid, true, `Validation errors: ${errors.join(', ')}`);
-    });
-  });
-
+describe('integration: API → sandbox render pipeline', () => {
   describe('API request format', () => {
     it('builds correct request body shape', () => {
-      // Simulate what callGenerateAPI sends
       const prompt = 'Show all tasks';
       const config = {
         apiUrl: '/api/generate',
@@ -59,48 +26,50 @@ describe('integration: API → DSL → render pipeline', () => {
   });
 
   describe('API response handling', () => {
-    it('valid response has required fields', () => {
+    it('valid generate response has required fields', () => {
       const response = {
-        dsl: TASK_LIST_DSL,
-        reasoning: 'User asked to see all tasks, rendering a data table.',
-        tokensUsed: 450,
+        html: '<div class="tasks">...</div>',
+        css: '.tasks { display: flex; }',
+        js: 'const tasks = await ncodes.query("listTasks");',
+        reasoning: 'Created a task list view.',
+        apiBindings: [
+          { type: 'query', ref: 'listTasks', resolved: { method: 'GET', path: '/tasks' } },
+        ],
+        iterations: 1,
+        tokensUsed: { prompt: 500, completion: 300 },
       };
 
-      assert.ok(response.dsl);
+      assert.ok(response.html);
+      assert.ok(response.css);
+      assert.ok(response.js);
       assert.equal(typeof response.reasoning, 'string');
-      assert.equal(typeof response.tokensUsed, 'number');
+      assert.ok(Array.isArray(response.apiBindings));
     });
 
-    it('validates DSL from successful response', () => {
-      const response = { dsl: TASK_LIST_DSL, reasoning: '', tokensUsed: 100 };
-      const { valid } = validateDSL(response.dsl);
-      assert.equal(valid, true);
-    });
-
-    it('rejects invalid DSL from response', () => {
-      const response = { dsl: { invalid: true }, reasoning: '', tokensUsed: 100 };
-      const { valid, errors } = validateDSL(response.dsl);
-      assert.equal(valid, false);
-      assert.ok(errors.length > 0);
-    });
-
-    it('rejects DSL with wrong root type', () => {
+    it('clarifying question response has required fields', () => {
       const response = {
-        dsl: { type: 'data-table', columns: [{ key: 'a', label: 'A' }], rows: [] },
-        reasoning: '',
-        tokensUsed: 100,
+        clarifyingQuestion: 'Should the board show all tasks or only yours?',
+        options: ['All tasks', 'My tasks only'],
+        reasoning: 'Ambiguous scope.',
       };
-      const { valid, errors } = validateDSL(response.dsl);
-      assert.equal(valid, false);
-      assert.ok(errors.some((e) => e.includes('Root component must be of type "page"')));
+
+      assert.equal(typeof response.clarifyingQuestion, 'string');
+      assert.ok(Array.isArray(response.options));
+    });
+
+    it('apiBindings have correct shape', () => {
+      const binding = { type: 'query', ref: 'listTasks', resolved: { method: 'GET', path: '/tasks' } };
+      assert.equal(binding.type, 'query');
+      assert.equal(typeof binding.ref, 'string');
+      assert.equal(typeof binding.resolved.method, 'string');
+      assert.equal(typeof binding.resolved.path, 'string');
     });
   });
 
-  describe('history with DSL entries', () => {
+  describe('history with generated entries', () => {
     let localStorage;
 
     beforeEach(() => {
-      // Mock localStorage
       const store = {};
       localStorage = {
         getItem: (key) => store[key] || null,
@@ -110,40 +79,46 @@ describe('integration: API → DSL → render pipeline', () => {
       globalThis.localStorage = localStorage;
     });
 
-    it('stores DSL entry in history', () => {
+    it('stores generated entry in history', () => {
       const { addToHistory, getHistory } = require('../src/history');
-      const entry = addToHistory({ prompt: 'Show tasks', dsl: TASK_LIST_DSL });
+      const generated = {
+        html: '<div>Tasks</div>',
+        css: '.task { color: green; }',
+        js: 'console.log("loaded");',
+        apiBindings: [],
+      };
+      const entry = addToHistory({ prompt: 'Show tasks', generated });
       assert.ok(entry.id);
       assert.equal(entry.prompt, 'Show tasks');
-      assert.deepEqual(entry.dsl, TASK_LIST_DSL);
+      assert.deepEqual(entry.generated, generated);
       assert.equal(entry.templateId, null);
 
       const history = getHistory();
       assert.equal(history.length, 1);
-      assert.deepEqual(history[0].dsl, TASK_LIST_DSL);
+      assert.deepEqual(history[0].generated, generated);
     });
 
-    it('stores simulation entry without DSL', () => {
+    it('stores simulation entry without generated', () => {
       const { addToHistory } = require('../src/history');
       const entry = addToHistory({ prompt: 'Show invoices', templateId: 'invoices' });
       assert.equal(entry.templateId, 'invoices');
-      assert.equal(entry.dsl, undefined);
+      assert.equal(entry.generated, undefined);
     });
 
-    it('can distinguish DSL vs simulation entries', () => {
+    it('can distinguish generated vs simulation entries', () => {
       const { addToHistory, getHistory } = require('../src/history');
       addToHistory({ prompt: 'Sim prompt', templateId: 'invoices' });
-      addToHistory({ prompt: 'Live prompt', dsl: DASHBOARD_DSL });
+      addToHistory({ prompt: 'Live prompt', generated: { html: '<p>test</p>', css: '', js: '', apiBindings: [] } });
 
       const history = getHistory();
       assert.equal(history.length, 2);
 
       const liveEntry = history[0]; // most recent
-      assert.ok(liveEntry.dsl);
+      assert.ok(liveEntry.generated);
       assert.equal(liveEntry.templateId, null);
 
       const simEntry = history[1];
-      assert.equal(simEntry.dsl, undefined);
+      assert.equal(simEntry.generated, undefined);
       assert.equal(simEntry.templateId, 'invoices');
     });
   });
@@ -176,7 +151,6 @@ describe('integration: API → DSL → render pipeline', () => {
     it('simulation mode ignores apiUrl', () => {
       const { mergeConfig } = require('../src/config');
       const config = mergeConfig({ mode: 'simulation' });
-      // apiUrl is present but won't be used in simulation mode
       assert.equal(config.mode, 'simulation');
       assert.equal(config.apiUrl, '/api/generate');
     });
@@ -184,13 +158,6 @@ describe('integration: API → DSL → render pipeline', () => {
     it('live mode uses API regardless of capability map', () => {
       const isLive = 'live' === 'live';
       assert.equal(!!isLive, true);
-    });
-
-    it('DSL validation failure triggers simulation fallback', () => {
-      // Invalid DSL should be caught and simulation path used
-      const badDSL = { type: 'invalid' };
-      const { valid } = validateDSL(badDSL);
-      assert.equal(valid, false);
     });
   });
 });

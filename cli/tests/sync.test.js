@@ -42,7 +42,7 @@ test('runSync writes map and cache', async () => {
   assert.ok(fs.existsSync(path.join(cwd, '.n.codes.cache.json')));
 });
 
-test('runSync enriches routes with analysis metadata', async () => {
+test('runSync uses heuristic fallback when no API key and fallback enabled', async () => {
   const cwd = createTempDir();
   writeFile(cwd, 'pages/api/bookings/index.ts', 'export async function POST() { return {}; }');
   fs.writeFileSync(
@@ -53,14 +53,21 @@ test('runSync enriches routes with analysis metadata', async () => {
   const originalKey = process.env.OPENAI_API_KEY;
   delete process.env.OPENAI_API_KEY;
   const io = createMemoryIO();
-  await assert.rejects(
-    runSync({ cwd, fs, path, io }),
-    { message: /Missing OPENAI_API_KEY/ }
-  );
-  process.env.OPENAI_API_KEY = originalKey;
+  const result = await runSync({ cwd, fs, path, io });
+  // Should succeed with heuristic fallback, not throw
+  assert.ok(fs.existsSync(result.mapPath));
+  // The structural description should be preserved (not overwritten by heuristic)
+  const mapContent = fs.readFileSync(result.mapPath, 'utf8');
+  assert.ok(!mapContent.includes('Processes the request and returns a response'));
+
+  if (originalKey) {
+    process.env.OPENAI_API_KEY = originalKey;
+  } else {
+    delete process.env.OPENAI_API_KEY;
+  }
 });
 
-test('analyzeRoutesWithLLM throws when no API key', async () => {
+test('analyzeRoutesWithLLM falls back when no API key with fallback enabled', async () => {
   const routes = [
     { name: 'postBookings', method: 'POST', path: '/api/bookings', file: 'pages/api/bookings.ts' },
     { name: 'getBooking', method: 'GET', path: '/api/bookings/:id', file: 'pages/api/bookings/[id].ts' }
@@ -71,6 +78,41 @@ test('analyzeRoutesWithLLM throws when no API key', async () => {
   writeFile(cwd, 'pages/api/bookings/[id].ts', 'export function GET() {}');
 
   const config = { provider: 'openai', model: 'gpt-5-mini', allowHeuristicFallback: true };
+
+  const originalKey = process.env.OPENAI_API_KEY;
+  delete process.env.OPENAI_API_KEY;
+
+  const results = await analyzeRoutesWithLLM({
+    routes,
+    cwd,
+    fs,
+    path,
+    config,
+    concurrency: 2,
+    io: { log: () => {}, error: () => {} },
+    cache: {}
+  });
+
+  // Should get heuristic results, not throw
+  assert.equal(results.length, 2);
+  results.forEach((r) => assert.equal(r.analysisSource, 'heuristic'));
+
+  if (originalKey) {
+    process.env.OPENAI_API_KEY = originalKey;
+  } else {
+    delete process.env.OPENAI_API_KEY;
+  }
+});
+
+test('analyzeRoutesWithLLM throws when no API key and fallback disabled', async () => {
+  const routes = [
+    { name: 'postBookings', method: 'POST', path: '/api/bookings', file: 'pages/api/bookings.ts' }
+  ];
+
+  const cwd = createTempDir();
+  writeFile(cwd, 'pages/api/bookings.ts', 'export function POST() {}');
+
+  const config = { provider: 'openai', model: 'gpt-5-mini', allowHeuristicFallback: false };
 
   const originalKey = process.env.OPENAI_API_KEY;
   delete process.env.OPENAI_API_KEY;
@@ -89,7 +131,11 @@ test('analyzeRoutesWithLLM throws when no API key', async () => {
     { message: /Missing OPENAI_API_KEY/ }
   );
 
-  process.env.OPENAI_API_KEY = originalKey;
+  if (originalKey) {
+    process.env.OPENAI_API_KEY = originalKey;
+  } else {
+    delete process.env.OPENAI_API_KEY;
+  }
 });
 
 test('analyzeRoutesWithLLM uses cache when available', async () => {
@@ -107,7 +153,7 @@ test('analyzeRoutesWithLLM uses cache when available', async () => {
 
   const cache = {
     analysis: {
-      'pages/api/test.ts': {
+      'pages/api/test.ts:GET': {
         contentHash,
         result: {
           description: 'Cached description',
@@ -156,7 +202,7 @@ test('analyzeRoutesWithLLM respects force flag to bypass cache', async () => {
 
   const cache = {
     analysis: {
-      'pages/api/test.ts': {
+      'pages/api/test.ts:GET': {
         contentHash,
         result: {
           description: 'Cached description',
@@ -170,22 +216,27 @@ test('analyzeRoutesWithLLM respects force flag to bypass cache', async () => {
   const originalKey = process.env.OPENAI_API_KEY;
   delete process.env.OPENAI_API_KEY;
 
-  await assert.rejects(
-    analyzeRoutesWithLLM({
-      routes,
-      cwd,
-      fs,
-      path,
-      config: { provider: 'openai', model: 'gpt-5-mini', allowHeuristicFallback: true },
-      concurrency: 2,
-      io: { log: () => {}, error: () => {} },
-      cache,
-      force: true  // Force re-analysis
-    }),
-    { message: /Missing OPENAI_API_KEY/ }
-  );
+  // With force + fallback enabled, should get heuristic results
+  const results = await analyzeRoutesWithLLM({
+    routes,
+    cwd,
+    fs,
+    path,
+    config: { provider: 'openai', model: 'gpt-5-mini', allowHeuristicFallback: true },
+    concurrency: 2,
+    io: { log: () => {}, error: () => {} },
+    cache,
+    force: true  // Force re-analysis
+  });
 
-  process.env.OPENAI_API_KEY = originalKey;
+  assert.equal(results.length, 1);
+  assert.equal(results[0].analysisSource, 'heuristic');
+
+  if (originalKey) {
+    process.env.OPENAI_API_KEY = originalKey;
+  } else {
+    delete process.env.OPENAI_API_KEY;
+  }
 });
 
 test('runSync samples routes for LLM analysis', async () => {
@@ -202,10 +253,15 @@ test('runSync samples routes for LLM analysis', async () => {
   delete process.env.OPENAI_API_KEY;
 
   const io = createMemoryIO();
-  await assert.rejects(
-    runSync({ cwd, fs, path, io, sample: 1 }),
-    { message: /Missing OPENAI_API_KEY/ }
-  );
+  // With fallback enabled, should succeed even without API key
+  const result = await runSync({ cwd, fs, path, io, sample: 1 });
+  assert.ok(fs.existsSync(result.mapPath));
+  // Check that sampling message was logged
+  assert.ok(io.getLogs().some((m) => m.includes('Sampling')));
 
-  process.env.OPENAI_API_KEY = originalKey;
+  if (originalKey) {
+    process.env.OPENAI_API_KEY = originalKey;
+  } else {
+    delete process.env.OPENAI_API_KEY;
+  }
 });
