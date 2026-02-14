@@ -45,6 +45,8 @@ function getBridgeScript(appInfo) {
 
       _pending[id] = { resolve: resolve, reject: reject, timeout: timeoutHandle };
 
+      // targetOrigin '*' is required: this iframe has an opaque origin
+      // (sandbox without allow-same-origin), so no specific origin to target.
       window.parent.postMessage({
         type: 'ncodes:api-request',
         id: id,
@@ -77,6 +79,7 @@ function getBridgeScript(appInfo) {
 
   window.addEventListener('error', function(event) {
     console.error('[n.codes:bridge] JS error:', event.message, 'at', event.filename, ':', event.lineno);
+    // targetOrigin '*' required — see note above about opaque origins.
     window.parent.postMessage({
       type: 'ncodes:sandbox-error',
       message: event.message,

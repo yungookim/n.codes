@@ -242,7 +242,10 @@ async function handleStreamGenerate(req, res) {
       prompt,
       provider,
       model,
-      options
+      options,
+      onStep(stepName, stepStatus) {
+        sendSSE(res, 'step', { step: stepName, status: stepStatus });
+      },
     });
 
     if (result.error) {

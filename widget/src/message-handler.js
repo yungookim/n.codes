@@ -124,6 +124,10 @@ function createMessageHandler(iframe, apiBindings, options) {
       id: id,
       data: data,
       error: error,
+    // targetOrigin '*' is required here: srcdoc iframes have an opaque
+    // origin (null), so there is no specific origin we can target.
+    // The sandbox="allow-scripts" (without allow-same-origin) ensures
+    // the iframe cannot access the parent's DOM or storage.
     }, '*');
   }
 
