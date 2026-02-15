@@ -7,6 +7,7 @@ const { buildCodegenPrompt } = require('./codegen-prompt');
 const { buildReviewPrompt, buildReviewUserPrompt } = require('./review-prompt');
 const { parseCodeBlocks, validateParsedCode } = require('./code-parser');
 const { resolveApiBindings } = require('./ref-extractor');
+const { checkFeasibility, buildNotFeasibleResponse } = require('./feasibility-check');
 
 const MAX_ITERATIONS = 3;
 
@@ -262,6 +263,16 @@ async function runAgenticPipeline({ prompt, provider, model, options = {}, capab
       ...clarifyingQuestion,
       tokensUsed: totalTokens
     };
+  }
+
+  // Step 1.5: Feasibility check (no LLM cost)
+  reportStep('feasibility', 'started');
+  const feasibility = checkFeasibility(intent, capabilityMap);
+  reportStep('feasibility', 'completed');
+
+  if (!feasibility.feasible) {
+    const notFeasible = buildNotFeasibleResponse(feasibility, capabilityMap);
+    return { ...notFeasible, tokensUsed: totalTokens };
   }
 
   // Step 2: Generate

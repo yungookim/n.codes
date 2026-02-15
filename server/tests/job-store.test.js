@@ -137,7 +137,7 @@ describe('STATUS constants', () => {
 
 describe('STEPS', () => {
   it('has the expected pipeline steps in order', () => {
-    assert.deepEqual(STEPS, ['intent', 'codegen', 'review', 'iterate', 'resolve']);
+    assert.deepEqual(STEPS, ['intent', 'feasibility', 'codegen', 'review', 'iterate', 'resolve']);
   });
 });
 
