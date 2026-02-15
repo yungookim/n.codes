@@ -11,7 +11,7 @@ const STATUS = {
 };
 
 /** Pipeline step names (ordered) */
-const STEPS = ['intent', 'codegen', 'review', 'iterate', 'resolve'];
+const STEPS = ['intent', 'feasibility', 'codegen', 'review', 'iterate', 'resolve'];
 
 /** Default TTL: 10 minutes */
 const DEFAULT_TTL_MS = 10 * 60 * 1000;

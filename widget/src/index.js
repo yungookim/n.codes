@@ -277,6 +277,7 @@ async function handleGenerate() {
 /** Step-specific status messages shown during polling. */
 const STEP_MESSAGES = {
   intent: 'Understanding your request...',
+  feasibility: 'Checking what this app can do...',
   codegen: 'Writing HTML, CSS & JavaScript...',
   review: 'Reviewing generated code...',
   iterate: 'Fixing issues found by QA...',
