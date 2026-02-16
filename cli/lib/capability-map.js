@@ -338,6 +338,7 @@ function normalizeFileSegment(baseName, style) {
   if (!baseName) return '';
   if (baseName === 'index') return '';
   if (style === 'next-app' && baseName === 'route') return '';
+  if (baseName.startsWith('+')) return '';
   if (baseName.startsWith('_')) {
     return '';
   }

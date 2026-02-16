@@ -1,7 +1,6 @@
 'use strict';
 
-const path = require('path');
-const { validateDSL } = require(path.join(__dirname, '..', '..', 'shared', 'dsl-types'));
+const { validateDSL } = require('../../shared/dsl-types');
 
 /**
  * Extract JSON from LLM response text.

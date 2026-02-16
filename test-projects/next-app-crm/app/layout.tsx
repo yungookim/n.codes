@@ -24,7 +24,11 @@ export default function RootLayout({
         <Script id="ncodes-init" strategy="afterInteractive">{`
           NCodes.init({
             user: { id: '1', name: 'Demo User' },
-            mode: 'simulation',
+            capabilityMapUrl: '/n.codes.capabilities.json',
+            apiUrl: '/api/generate',
+            provider: 'openai',
+            model: 'gpt-5-mini',
+            mode: 'live',
             theme: 'dark',
           });
         `}</Script>
