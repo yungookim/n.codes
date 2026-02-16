@@ -38,6 +38,12 @@ describe('buildReviewPrompt', () => {
     assert.ok(prompt.includes('FAIL'));
     assert.ok(prompt.includes('verdict'));
   });
+
+  it('includes placeholder checks', () => {
+    const prompt = buildReviewPrompt(sampleCapMap);
+    assert.ok(prompt.includes('No Placeholders'));
+    assert.ok(prompt.includes('placeholder'));
+  });
 });
 
 describe('buildReviewUserPrompt', () => {

@@ -80,4 +80,10 @@ describe('buildCodegenPrompt', () => {
     const prompt = buildCodegenPrompt(sampleCapMap, sampleIntent);
     assert.ok(prompt.includes('async IIFE'));
   });
+
+  it('includes no-placeholder UI instructions', () => {
+    const prompt = buildCodegenPrompt(sampleCapMap, sampleIntent);
+    assert.ok(prompt.includes('No Placeholder UI'));
+    assert.ok(prompt.includes('coming soon'));
+  });
 });

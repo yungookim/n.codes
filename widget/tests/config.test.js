@@ -70,7 +70,7 @@ describe('config', () => {
       assert.deepEqual(result.user, { id: '42', name: 'Test' });
       assert.equal(result.theme, 'light');
       assert.equal(result.triggerLabel, 'AI Builder');
-      assert.equal(result.mode, 'simulation');
+      assert.equal(result.mode, 'live');
     });
 
     it('throws for invalid config', () => {
@@ -95,7 +95,7 @@ describe('config', () => {
 
     it('has sensible default values', () => {
       assert.equal(DEFAULTS.user, null);
-      assert.equal(DEFAULTS.mode, 'simulation');
+      assert.equal(DEFAULTS.mode, 'live');
       assert.equal(DEFAULTS.theme, 'dark');
       assert.equal(DEFAULTS.apiUrl, '/api/generate');
       assert.equal(DEFAULTS.provider, 'openai');

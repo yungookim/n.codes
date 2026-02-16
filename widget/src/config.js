@@ -7,7 +7,7 @@ const DEFAULTS = {
   apiUrl: '/api/generate',
   provider: 'openai',
   model: 'gpt-5-mini',
-  mode: 'simulation',
+  mode: 'live',
   theme: 'dark',
   position: 'bottom-center',
   triggerLabel: 'Build with AI',

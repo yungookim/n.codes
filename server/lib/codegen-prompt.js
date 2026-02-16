@@ -130,6 +130,12 @@ You may include brief reasoning text before the code blocks.
 - Render field values EXACTLY as returned by the API. Do NOT transform status strings like "in-progress" into "In Progress" — use the raw values for filtering and comparisons. You may format them for display labels only.
 - When entity schemas list fields, use THOSE exact field names to access properties on response objects.
 
+## CRITICAL: No Placeholder UI
+- Do NOT add UI elements for features you cannot implement with the provided queries/actions.
+- Every primary action button or destructive control MUST call a real \`ncodes.action()\` with a valid ref.
+- Do NOT include disabled or "coming soon" buttons, fake totals, or placeholder rows.
+- If a requested feature cannot be supported, omit it entirely.
+
 ## Rules
 1. Generate ALL three code blocks (HTML, CSS, JS) — even if CSS or JS is minimal
 2. Do NOT include <script> or <style> tags — they will be injected separately

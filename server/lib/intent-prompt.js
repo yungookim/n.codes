@@ -97,7 +97,7 @@ If the request is ambiguous and needs clarification:
 
 ## Rules
 - Only reference queries and actions that exist in the capability map
-- If no queries or actions match, use empty arrays
+- If no queries or actions match the request, return a clarification asking the user to pick from supported capabilities
 - Keep descriptions concise
 - Prefer asking for clarification over guessing when the request is truly ambiguous
 - For common patterns (e.g., "show tasks"), do NOT ask for clarification — just build it`;

@@ -484,22 +484,7 @@ function showErrorState(message, prompt, generateBtn, textarea) {
     handleGenerate();
   });
 
-  const fallbackBtn = document.createElement('button');
-  fallbackBtn.className = 'ncodes-error-fallback';
-  fallbackBtn.textContent = 'Use demo mode';
-  fallbackBtn.addEventListener('click', async () => {
-    showPromptView(_state.panel);
-    resetGenerateUI(generateBtn, textarea);
-    _state.isGenerating = false;
-    // Run simulation path
-    if (textarea) textarea.value = prompt;
-    _state.isGenerating = true;
-    await handleGenerateSimulation(prompt, generateBtn, textarea);
-    _state.isGenerating = false;
-  });
-
   actionsDiv.appendChild(retryBtn);
-  actionsDiv.appendChild(fallbackBtn);
 
   errorDiv.appendChild(iconEl);
   errorDiv.appendChild(msgEl);
