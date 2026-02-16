@@ -1,5 +1,4 @@
 ![CLI Tests](https://github.com/yungookim/n.codes/actions/workflows/coverage.yml/badge.svg)
-[![Coverage](https://codecov.io/gh/yungookim/n.codes/branch/main/graph/badge.svg)](https://codecov.io/gh/yungookim/n.codes)
 ![License](https://img.shields.io/github/license/yungookim/n.codes)
 ![Stars](https://img.shields.io/github/stars/yungookim/n.codes)
 ![Issues](https://img.shields.io/github/issues/yungookim/n.codes)
