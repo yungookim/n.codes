@@ -2,5 +2,8 @@
 
 set -e
 
-echo "Running tests with coverage..."
+echo "Running CLI tests with coverage..."
 npm run coverage
+
+echo "Running widget tests..."
+(cd widget && npm test)
