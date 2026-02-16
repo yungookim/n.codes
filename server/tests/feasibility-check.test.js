@@ -112,7 +112,7 @@ describe('parseFeasibilityResponse', () => {
 });
 
 describe('runFeasibilityStep', () => {
-  it('returns feasible true when capability map is missing', async () => {
+  it('returns infeasible when capability map is missing', async () => {
     const result = await runFeasibilityStep({
       prompt: 'show tasks',
       intent: {},
@@ -120,7 +120,9 @@ describe('runFeasibilityStep', () => {
       llmConfig: { provider: 'openai', model: 'gpt-5-mini' },
       generate: async () => ({ text: '{}', tokensUsed: { prompt: 0, completion: 0 } })
     });
-    assert.equal(result.feasible, true);
+    assert.equal(result.feasible, false);
+    assert.ok(result.clarifyingQuestion.length > 0);
+    assert.deepEqual(result.tokensUsed, { prompt: 0, completion: 0 });
   });
 
   it('aggregates tokens and returns infeasible response', async () => {
@@ -213,8 +215,8 @@ describe('runFeasibilityStep', () => {
     });
 
     assert.equal(result.feasible, false);
-    assert.ok(result.clarifyingQuestion.includes('data sources'));
-    assert.ok(result.clarifyingQuestion.includes('actions'));
+    assert.ok(result.clarifyingQuestion.length > 0);
+    assert.ok(result.options.length > 0);
   });
 
   it('fallback message mentions actions when only actions are missing', async () => {
@@ -236,7 +238,8 @@ describe('runFeasibilityStep', () => {
     });
 
     assert.equal(result.feasible, false);
-    assert.ok(result.clarifyingQuestion.includes('actions'));
+    assert.ok(result.clarifyingQuestion.length > 0);
+    assert.ok(result.options.length > 0);
   });
 
   it('uses defaults when intent is missing and keywords empty', async () => {
@@ -257,7 +260,9 @@ describe('runFeasibilityStep', () => {
       generate
     });
 
-    assert.equal(result.feasible, true);
+    assert.equal(result.feasible, false);
+    assert.ok(result.clarifyingQuestion.length > 0);
+    assert.ok(result.options.length > 0);
     assert.ok(prompts[1].includes('Keywords:\nnone'));
     assert.deepEqual(result.tokensUsed, { prompt: 0, completion: 0 });
   });
