@@ -60,16 +60,32 @@ async function fetchCapabilityMap(url, options = {}) {
 }
 
 /**
- * Validate that the data has the basic capability map structure.
- * Must have `project` (string) and at least one of entities/actions/queries.
+ * Validate that the data has a supported capability map structure.
+ * Supports both legacy maps (project + at least one entity/action/query)
+ * and modern maps (version + generatedAt + core sections).
  */
 function validateCapabilityMap(data) {
   if (!data || typeof data !== 'object') return false;
-  if (typeof data.project !== 'string' || !data.project) return false;
-  const hasEntities = !!(data.entities && typeof data.entities === 'object' && Object.keys(data.entities).length > 0);
-  const hasActions = !!(data.actions && typeof data.actions === 'object' && Object.keys(data.actions).length > 0);
-  const hasQueries = !!(data.queries && typeof data.queries === 'object' && Object.keys(data.queries).length > 0);
-  return hasEntities || hasActions || hasQueries;
+  const isObject = (value) => !!value && typeof value === 'object' && !Array.isArray(value);
+
+  // Legacy schema: project name + at least one populated section.
+  const legacyProjectOk = typeof data.project === 'string' && data.project.trim().length > 0;
+  const legacyHasContent = Object.keys(data.entities || {}).length > 0
+    || Object.keys(data.actions || {}).length > 0
+    || Object.keys(data.queries || {}).length > 0;
+  const hasLegacy = legacyProjectOk && legacyHasContent;
+
+  // Modern schema: version + generatedAt + core sections (can be empty).
+  const modernVersionOk = data.version !== undefined && data.version !== null;
+  const modernGeneratedAtOk = typeof data.generatedAt === 'string' && data.generatedAt.trim().length > 0;
+  const modernEntitiesOk = isObject(data.entities);
+  const modernActionsOk = isObject(data.actions);
+  const modernQueriesOk = isObject(data.queries);
+  const modernComponentsOk = data.components === undefined || isObject(data.components);
+  const hasModern = modernVersionOk && modernGeneratedAtOk
+    && modernEntitiesOk && modernActionsOk && modernQueriesOk && modernComponentsOk;
+
+  return hasLegacy || hasModern;
 }
 
 /** Return entities object or empty {}. */
@@ -114,7 +130,12 @@ function getCapabilities(capMap) {
 function matchCapability(prompt, capMap) {
   if (!prompt || !capMap) return null;
 
-  const lower = prompt.toLowerCase();
+  const toWords = (text) => {
+    const words = (text || '').toLowerCase().match(/[a-z0-9]+/g);
+    return (words || []).filter((word) => word.length > 3);
+  };
+  const promptWords = new Set(toWords(prompt));
+  if (promptWords.size === 0) return null;
   const capabilities = getCapabilities(capMap);
   const entities = getEntities(capMap);
 
@@ -124,17 +145,17 @@ function matchCapability(prompt, capMap) {
 
   for (const cap of capabilities) {
     let score = 0;
-    const nameWords = humanize(cap.name).toLowerCase().split(/\s+/);
-    const descWords = (cap.description || '').toLowerCase().split(/\s+/);
+    const nameWords = toWords(humanize(cap.name));
+    const descWords = toWords(cap.description || '');
 
     // Match on capability name words
     for (const w of nameWords) {
-      if (w.length > 2 && lower.includes(w)) score += 2;
+      if (promptWords.has(w)) score += 2;
     }
 
     // Match on description words
     for (const w of descWords) {
-      if (w.length > 2 && lower.includes(w)) score += 1;
+      if (promptWords.has(w)) score += 1;
     }
 
     if (score > bestScore) {
@@ -145,10 +166,13 @@ function matchCapability(prompt, capMap) {
 
   // Also check entity name matches
   for (const [name, val] of Object.entries(entities)) {
-    const entityLower = name.toLowerCase();
-    if (lower.includes(entityLower)) {
-      // If no capability matched, entity match alone isn't enough
-      if (best) bestScore += 1;
+    const entityWords = toWords(humanize(name));
+    for (const w of entityWords) {
+      if (promptWords.has(w)) {
+        // If no capability matched, entity match alone isn't enough
+        if (best) bestScore += 1;
+        break;
+      }
     }
   }
 
