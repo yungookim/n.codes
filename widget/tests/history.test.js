@@ -29,7 +29,7 @@ describe('history', () => {
     });
 
     it('returns parsed array from localStorage', () => {
-      const data = [{ id: '1', prompt: 'test', templateId: 'invoices', timestamp: 1000 }];
+      const data = [{ id: '1', prompt: 'test', generated: { html: '<div />' }, timestamp: 1000 }];
       store[STORAGE_KEY] = JSON.stringify(data);
       assert.deepEqual(getHistory(), data);
     });
@@ -47,11 +47,11 @@ describe('history', () => {
 
   describe('addToHistory', () => {
     it('prepends entry with id and timestamp', () => {
-      const entry = addToHistory({ prompt: 'Show invoices', templateId: 'invoices' });
+      const entry = addToHistory({ prompt: 'Show invoices', generated: { html: '<div />' } });
       assert.ok(entry.id);
       assert.ok(entry.timestamp);
       assert.equal(entry.prompt, 'Show invoices');
-      assert.equal(entry.templateId, 'invoices');
+      assert.deepEqual(entry.generated, { html: '<div />' });
 
       const history = getHistory();
       assert.equal(history.length, 1);
@@ -59,8 +59,8 @@ describe('history', () => {
     });
 
     it('prepends new entries (most recent first)', () => {
-      addToHistory({ prompt: 'first', templateId: 'invoices' });
-      addToHistory({ prompt: 'second', templateId: 'dashboard' });
+      addToHistory({ prompt: 'first' });
+      addToHistory({ prompt: 'second' });
       const history = getHistory();
       assert.equal(history.length, 2);
       assert.equal(history[0].prompt, 'second');
@@ -69,7 +69,7 @@ describe('history', () => {
 
     it('caps at MAX_ENTRIES', () => {
       for (let i = 0; i < MAX_ENTRIES + 5; i++) {
-        addToHistory({ prompt: `prompt-${i}`, templateId: 'invoices' });
+        addToHistory({ prompt: `prompt-${i}` });
       }
       const history = getHistory();
       assert.equal(history.length, MAX_ENTRIES);
@@ -78,9 +78,9 @@ describe('history', () => {
     });
 
     it('returns the new entry', () => {
-      const entry = addToHistory({ prompt: 'test', templateId: 'archive' });
+      const entry = addToHistory({ prompt: 'test', generated: { html: '<section />' } });
       assert.equal(entry.prompt, 'test');
-      assert.equal(entry.templateId, 'archive');
+      assert.deepEqual(entry.generated, { html: '<section />' });
       assert.equal(typeof entry.id, 'string');
       assert.equal(typeof entry.timestamp, 'number');
     });
@@ -88,14 +88,14 @@ describe('history', () => {
 
   describe('removeFromHistory', () => {
     it('removes entry by id', () => {
-      addToHistory({ prompt: 'first', templateId: 'invoices' });
+      addToHistory({ prompt: 'first' });
       // Read back the history to get the actual stored entry with its id
       const history = getHistory();
       const idToRemove = history[0].id;
       // Manually add a second entry with a different id to avoid same-ms collision
       store[STORAGE_KEY] = JSON.stringify([
-        { id: 'keep-me', prompt: 'to keep', templateId: 'dashboard', timestamp: 2000 },
-        { id: 'remove-me', prompt: 'to remove', templateId: 'invoices', timestamp: 1000 },
+        { id: 'keep-me', prompt: 'to keep', timestamp: 2000 },
+        { id: 'remove-me', prompt: 'to remove', timestamp: 1000 },
       ]);
       const remaining = removeFromHistory('remove-me');
       assert.equal(remaining.length, 1);
@@ -103,7 +103,7 @@ describe('history', () => {
     });
 
     it('returns unchanged array if id not found', () => {
-      addToHistory({ prompt: 'only one', templateId: 'invoices' });
+      addToHistory({ prompt: 'only one' });
       const remaining = removeFromHistory('nonexistent');
       assert.equal(remaining.length, 1);
     });
@@ -111,7 +111,7 @@ describe('history', () => {
 
   describe('clearHistory', () => {
     it('empties storage', () => {
-      addToHistory({ prompt: 'some', templateId: 'invoices' });
+      addToHistory({ prompt: 'some' });
       clearHistory();
       assert.deepEqual(getHistory(), []);
       assert.equal(store[STORAGE_KEY], undefined);

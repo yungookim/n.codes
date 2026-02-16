@@ -8,5 +8,8 @@ if [ "$remote_name" != "origin" ]; then
   exit 0
 fi
 
-echo "Running tests with coverage before pushing to origin..."
+echo "Running CLI tests with coverage before pushing to origin..."
 npm run coverage
+
+echo "Running widget tests..."
+(cd widget && npm test)
