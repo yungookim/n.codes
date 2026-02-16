@@ -11,6 +11,11 @@ const PROVIDER_ENV_VARS = {
 const DEFAULT_MAX_TOKENS = 4096;
 const DEFAULT_TEMPERATURE = 0.7;
 
+function resolveTemperature(provider, model) {
+  if (provider === 'openai' && /^gpt-5/.test(model)) return 1;
+  return DEFAULT_TEMPERATURE;
+}
+
 function getModelConfig(provider, model) {
   if (!SUPPORTED_MODELS[provider]) {
     throw new Error(`Unsupported provider: ${provider}. Supported: ${Object.keys(SUPPORTED_MODELS).join(', ')}`);
@@ -142,7 +147,7 @@ async function generateUI({ prompt, systemPrompt, config }) {
       model,
       system: systemPrompt,
       prompt,
-      temperature: DEFAULT_TEMPERATURE
+      temperature: resolveTemperature(provider, modelName)
     };
 
     // OpenAI uses maxCompletionTokens; Anthropic uses maxTokens
@@ -176,7 +181,7 @@ async function streamGenerateUI({ model, prompt, systemPrompt, provider, maxToke
     model,
     system: systemPrompt,
     prompt,
-    temperature: DEFAULT_TEMPERATURE
+    temperature: resolveTemperature(provider, modelName)
   };
 
   if (provider === 'openai') {
@@ -216,6 +221,7 @@ module.exports = {
   ApiKeyError,
   ProviderError,
   getModelConfig,
+  resolveTemperature,
   assertApiKey,
   sleep,
   withRetry,

@@ -1,41 +1,92 @@
 {
-  "project": "express-tasks",
-  "entities": {
-    "task": {
-      "fields": ["id", "title", "description", "status", "priority", "assignee", "createdAt"],
-      "description": "A task in the task manager. Status is one of: todo, in-progress, done. Priority is one of: low, medium, high."
-    },
-    "user": {
-      "fields": ["id", "name", "email", "role"],
-      "description": "A user who can be assigned tasks"
-    }
-  },
+  "version": 1,
+  "generatedAt": "2026-02-16T00:14:22.683Z",
+  "projectName": null,
+  "entities": {},
   "actions": {
-    "createTask": {
-      "endpoint": "POST /tasks",
-      "description": "Create a new task. Body: { title, description?, status?, priority?, assignee? }"
+    "postAuth": {
+      "endpoint": {
+        "method": "POST",
+        "path": "/auth"
+      },
+      "description": "Creates an auth. Send the auth payload in the request body and receive the created auth in the response."
     },
-    "updateTask": {
-      "endpoint": "PUT /tasks/:id",
-      "description": "Update an existing task. Body: { title?, description?, status?, priority?, assignee? }"
+    "postGenerate": {
+      "endpoint": {
+        "method": "POST",
+        "path": "/generate"
+      },
+      "description": "Creates a generate. Send the generate payload in the request body and receive the created generate in the response."
     },
-    "deleteTask": {
-      "endpoint": "DELETE /tasks/:id",
-      "description": "Delete a task by id"
+    "postTasks": {
+      "endpoint": {
+        "method": "POST",
+        "path": "/tasks"
+      },
+      "description": "Creates a task. Send the task payload in the request body and receive the created task in the response."
+    },
+    "putTasks": {
+      "endpoint": {
+        "method": "PUT",
+        "path": "/tasks"
+      },
+      "description": "Updates a task. Send the fields to update in the request body and receive the updated task."
+    },
+    "deleteTasks": {
+      "endpoint": {
+        "method": "DELETE",
+        "path": "/tasks"
+      },
+      "description": "Deletes a task. Use this endpoint to remove the task and receive a confirmation response."
+    },
+    "postUsers": {
+      "endpoint": {
+        "method": "POST",
+        "path": "/users"
+      },
+      "description": "Creates an user. Send the user payload in the request body and receive the created user in the response."
     }
   },
   "queries": {
-    "listTasks": {
-      "endpoint": "GET /tasks",
-      "description": "List all tasks. Returns an array of task objects. Supports query params: ?status=todo|in-progress|done&assignee=name"
+    "getAuth": {
+      "endpoint": {
+        "method": "GET",
+        "path": "/auth"
+      },
+      "description": "Reads auth for display or reporting. Use this query to fetch auth with optional filters or pagination."
     },
-    "getTask": {
-      "endpoint": "GET /tasks/:id",
-      "description": "Get a single task by id"
+    "getGenerate": {
+      "endpoint": {
+        "method": "GET",
+        "path": "/generate"
+      },
+      "description": "Reads generate for display or reporting. Use this query to fetch generate with optional filters or pagination."
     },
-    "listUsers": {
-      "endpoint": "GET /users",
-      "description": "List all users. Returns an array of user objects."
+    "pages": {
+      "endpoint": {
+        "method": "GET",
+        "path": "/pages"
+      },
+      "description": "Reads pages for display or reporting. Use this query to fetch pages with optional filters or pagination."
+    },
+    "getTasks": {
+      "endpoint": {
+        "method": "GET",
+        "path": "/tasks"
+      },
+      "description": "Reads tasks for display or reporting. Use this query to fetch tasks with optional filters or pagination."
+    },
+    "getUsers": {
+      "endpoint": {
+        "method": "GET",
+        "path": "/users"
+      },
+      "description": "Reads users for display or reporting. Use this query to fetch users with optional filters or pagination."
     }
+  },
+  "components": {},
+  "meta": {
+    "filesAnalyzed": 7,
+    "changedFiles": []
   }
 }
