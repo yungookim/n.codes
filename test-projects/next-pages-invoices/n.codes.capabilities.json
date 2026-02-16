@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "generatedAt": "2026-02-16T16:46:43.529Z",
+  "projectName": null,
+  "entities": {},
+  "actions": {
+    "putId": {
+      "endpoint": {
+        "method": "PUT",
+        "path": "/api/invoices/:id"
+      },
+      "description": "Updates an invoice identified by id. Send the fields to update in the request body and receive the updated invoice. Path parameters: id."
+    },
+    "deleteId": {
+      "endpoint": {
+        "method": "DELETE",
+        "path": "/api/invoices/:id"
+      },
+      "description": "Deletes an invoice identified by id. Use this endpoint to remove the invoice and receive a confirmation response. Path parameters: id."
+    },
+    "postInvoices": {
+      "endpoint": {
+        "method": "POST",
+        "path": "/api/invoices"
+      },
+      "description": "Creates an invoice. Send the invoice payload in the request body and receive the created invoice in the response."
+    }
+  },
+  "queries": {
+    "getCustomers": {
+      "endpoint": {
+        "method": "GET",
+        "path": "/api/customers"
+      },
+      "description": "Reads customers for display or reporting. Use this query to fetch customers with optional filters or pagination."
+    },
+    "getId": {
+      "endpoint": {
+        "method": "GET",
+        "path": "/api/invoices/:id"
+      },
+      "description": "Reads a single invoice identified by id. Use this query to fetch invoice data without side effects. Path parameters: id."
+    },
+    "getInvoices": {
+      "endpoint": {
+        "method": "GET",
+        "path": "/api/invoices"
+      },
+      "description": "Reads invoices for display or reporting. Use this query to fetch invoices with optional filters or pagination."
+    }
+  },
+  "components": {},
+  "meta": {
+    "filesAnalyzed": 21,
+    "changedFiles": []
+  }
+}

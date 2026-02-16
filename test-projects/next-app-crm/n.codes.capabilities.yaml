@@ -1,0 +1,97 @@
+version: 1
+generatedAt: "2026-02-16T16:46:43.485Z"
+projectName: null
+entities: {}
+actions:
+  deleteGenerate:
+    endpoint:
+      method: "DELETE"
+      path: "/api/generate"
+    description: "Deletes a generate. Use this endpoint to remove the generate and receive a confirmation response."
+  deleteJob:
+    endpoint:
+      method: "DELETE"
+      path: "/api/jobs/:jobId"
+    description: "Deletes a job identified by jobId. Use this endpoint to remove the job and receive a confirmation response. Path parameters: jobId."
+  putContact:
+    endpoint:
+      method: "PUT"
+      path: "/api/contacts/:id"
+    description: "Updates a contact identified by id. Send the fields to update in the request body and receive the updated contact. Path parameters: id."
+  deleteContact:
+    endpoint:
+      method: "DELETE"
+      path: "/api/contacts/:id"
+    description: "Deletes a contact identified by id. Use this endpoint to remove the contact and receive a confirmation response. Path parameters: id."
+  postContacts:
+    endpoint:
+      method: "POST"
+      path: "/api/contacts"
+    description: "Creates a contact. Send the contact payload in the request body and receive the created contact in the response."
+  putDeal:
+    endpoint:
+      method: "PUT"
+      path: "/api/deals/:id"
+    description: "Updates a deal identified by id. Send the fields to update in the request body and receive the updated deal. Path parameters: id."
+  postDeals:
+    endpoint:
+      method: "POST"
+      path: "/api/deals"
+    description: "Creates a deal. Send the deal payload in the request body and receive the created deal in the response."
+  postGenerate:
+    endpoint:
+      method: "POST"
+      path: "/api/generate"
+    description: "Creates a generate. Send the generate payload in the request body and receive the created generate in the response."
+  postGenerate2:
+    endpoint:
+      method: "POST"
+      path: "/api/generate/stream"
+    description: "Creates a generate. Send the generate payload in the request body and receive the created generate in the response."
+queries:
+  getDeals:
+    endpoint:
+      method: "GET"
+      path: "/api/deals"
+    description: "Reads deals for display or reporting. Use this query to fetch deals with optional filters or pagination."
+  getGenerate:
+    endpoint:
+      method: "GET"
+      path: "/api/generate"
+    description: "Reads generate for display or reporting. Use this query to fetch generate with optional filters or pagination."
+  getJob:
+    endpoint:
+      method: "GET"
+      path: "/api/jobs/:jobId"
+    description: "Reads a single job identified by jobId. Use this query to fetch job data without side effects. Path parameters: jobId."
+  getContact:
+    endpoint:
+      method: "GET"
+      path: "/api/contacts/:id"
+    description: "Reads a single contact identified by id. Use this query to fetch contact data without side effects. Path parameters: id."
+  getContacts:
+    endpoint:
+      method: "GET"
+      path: "/api/contacts"
+    description: "Reads contacts for display or reporting. Use this query to fetch contacts with optional filters or pagination."
+  getDeal:
+    endpoint:
+      method: "GET"
+      path: "/api/deals/:id"
+    description: "Reads a single deal identified by id. Use this query to fetch deal data without side effects. Path parameters: id."
+  getDeals2:
+    endpoint:
+      method: "GET"
+      path: "/api/deals"
+    description: "Reads deals for display or reporting. Use this query to fetch deals with optional filters or pagination."
+  getJob2:
+    endpoint:
+      method: "GET"
+      path: "/api/jobs/:jobId"
+    description: "Reads a single job identified by jobId. Use this query to fetch job data without side effects. Path parameters: jobId."
+components:
+  sidebar:
+    path: "app/components/Sidebar.tsx"
+meta:
+  filesAnalyzed: 61
+  changedFiles: []

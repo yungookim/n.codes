@@ -1,0 +1,36 @@
+{
+  "fileIndex": {
+    "public/ncodes-widget.js": {
+      "size": 51250,
+      "mtimeMs": 1771258163108.5764
+    },
+    "server/api-middleware.js": {
+      "size": 16304,
+      "mtimeMs": 1771200771172.7083
+    },
+    "src/api/auth.js": {
+      "size": 800,
+      "mtimeMs": 1770945582950.8442
+    },
+    "src/api/members.js": {
+      "size": 769,
+      "mtimeMs": 1770945582951.3152
+    },
+    "src/api/projects.js": {
+      "size": 2212,
+      "mtimeMs": 1770945582951.5852
+    },
+    "src/api/tasks.js": {
+      "size": 3388,
+      "mtimeMs": 1770945582952.3994
+    },
+    "src/main.js": {
+      "size": 132,
+      "mtimeMs": 1770945582953.0315
+    },
+    "vite.config.js": {
+      "size": 308,
+      "mtimeMs": 1771198685031.1333
+    }
+  }
+}

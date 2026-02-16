@@ -9,5 +9,15 @@
   </head>
   <body>
     <div id="app">%sveltekit.body%</div>
+    <script src="/ncodes-widget.js"></script>
+    <script>
+      NCodes.init({
+        user: { id: '1', name: 'Demo User' },
+        capabilityMapUrl: '/n.codes.capabilities.json',
+        apiUrl: '/api/generate',
+        mode: 'live',
+        theme: 'dark',
+      });
+    </script>
   </body>
 </html>

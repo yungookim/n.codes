@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>n.codes — Before vs After</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #0a0a0a;
+      font-family: 'Inter', -apple-system, sans-serif;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .card {
+      width: 1080px;
+      height: 1080px;
+      background: #0a0a0a;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      padding: 72px;
+    }
+
+    /* Subtle grid background */
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+
+    /* Top glow */
+    .card::after {
+      content: '';
+      position: absolute;
+      top: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, rgba(74,222,128,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .headline {
+      font-size: 42px;
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+      margin-bottom: 56px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .headline .accent {
+      color: #4ade80;
+    }
+
+    .columns {
+      display: flex;
+      gap: 32px;
+      flex: 1;
+      position: relative;
+      z-index: 1;
+    }
+
+    .col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .col-label {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .col-label.before { color: #f87171; }
+    .col-label.after { color: #4ade80; }
+
+    .pipeline {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      flex: 1;
+    }
+
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 18px 20px;
+      border-radius: 12px;
+      position: relative;
+    }
+
+    .col.before-col .step {
+      background: rgba(248, 113, 113, 0.06);
+      border: 1px solid rgba(248, 113, 113, 0.12);
+    }
+
+    .col.after-col .step {
+      background: rgba(74, 222, 128, 0.06);
+      border: 1px solid rgba(74, 222, 128, 0.12);
+    }
+
+    .step-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .col.before-col .step-icon {
+      background: rgba(248, 113, 113, 0.15);
+    }
+
+    .col.after-col .step-icon {
+      background: rgba(74, 222, 128, 0.15);
+    }
+
+    .step-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.85);
+    }
+
+    .arrow-connector {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 28px;
+      position: relative;
+    }
+
+    .arrow-connector::before {
+      content: '';
+      width: 1px;
+      height: 100%;
+      position: absolute;
+    }
+
+    .col.before-col .arrow-connector::before {
+      background: rgba(248, 113, 113, 0.2);
+    }
+
+    .col.after-col .arrow-connector::before {
+      background: rgba(74, 222, 128, 0.2);
+    }
+
+    .arrow-connector .arrow {
+      font-size: 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .col.before-col .arrow-connector .arrow { color: rgba(248, 113, 113, 0.4); }
+    .col.after-col .arrow-connector .arrow { color: rgba(74, 222, 128, 0.4); }
+
+    .divider {
+      width: 1px;
+      background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.1) 20%, rgba(255,255,255,0.1) 80%, transparent);
+      align-self: stretch;
+      margin: 0 4px;
+    }
+
+    .result-badge {
+      margin-top: auto;
+      padding: 14px 20px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      text-align: center;
+      letter-spacing: 0.5px;
+    }
+
+    .col.before-col .result-badge {
+      background: rgba(248, 113, 113, 0.1);
+      border: 1px solid rgba(248, 113, 113, 0.2);
+      color: #f87171;
+    }
+
+    .col.after-col .result-badge {
+      background: rgba(74, 222, 128, 0.1);
+      border: 1px solid rgba(74, 222, 128, 0.2);
+      color: #4ade80;
+    }
+
+    .footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 48px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .brand {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: rgba(255,255,255,0.5);
+    }
+
+    .brand span {
+      color: #4ade80;
+    }
+
+    .tagline {
+      font-size: 14px;
+      color: rgba(255,255,255,0.35);
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="headline">
+      Same prompt.<br>
+      <span class="accent">Completely different ceiling.</span>
+    </div>
+
+    <div class="columns">
+      <div class="col before-col">
+        <div class="col-label before">Before</div>
+        <div class="pipeline">
+          <div class="step">
+            <div class="step-icon">💬</div>
+            <div class="step-text">Prompt</div>
+          </div>
+          <div class="arrow-connector"><span class="arrow">▼</span></div>
+          <div class="step">
+            <div class="step-icon">🤖</div>
+            <div class="step-text">LLM → DSL JSON</div>
+          </div>
+          <div class="arrow-connector"><span class="arrow">▼</span></div>
+          <div class="step">
+            <div class="step-icon">📦</div>
+            <div class="step-text">Fixed renderers</div>
+          </div>
+          <div class="arrow-connector"><span class="arrow">▼</span></div>
+          <div class="step">
+            <div class="step-icon">🖥️</div>
+            <div class="step-text">DOM (10 types)</div>
+          </div>
+        </div>
+        <div style="height: 20px;"></div>
+        <div class="result-badge">Limited to 10 component types</div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="col after-col">
+        <div class="col-label after">After</div>
+        <div class="pipeline">
+          <div class="step">
+            <div class="step-icon">💬</div>
+            <div class="step-text">Prompt</div>
+          </div>
+          <div class="arrow-connector"><span class="arrow">▼</span></div>
+          <div class="step">
+            <div class="step-icon">🧠</div>
+            <div class="step-text">Agentic pipeline</div>
+          </div>
+          <div class="arrow-connector"><span class="arrow">▼</span></div>
+          <div class="step">
+            <div class="step-icon">⚡</div>
+            <div class="step-text">HTML / CSS / JS</div>
+          </div>
+          <div class="arrow-connector"><span class="arrow">▼</span></div>
+          <div class="step">
+            <div class="step-icon">🔒</div>
+            <div class="step-text">Sandboxed iframe</div>
+          </div>
+        </div>
+        <div style="height: 20px;"></div>
+        <div class="result-badge">Unlimited — whatever you prompt</div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div class="brand"><span>n</span>.codes</div>
+      <div class="tagline">Agentic UI in your app</div>
+    </div>
+  </div>
+</body>
+</html>

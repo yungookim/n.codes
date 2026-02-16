@@ -1,0 +1,78 @@
+{
+  "version": 1,
+  "generatedAt": "2026-02-16T16:46:43.564Z",
+  "projectName": null,
+  "entities": {},
+  "actions": {
+    "server": {
+      "endpoint": {
+        "method": "POST",
+        "path": "/api/generate"
+      },
+      "description": "Creates a generate. Send the generate payload in the request body and receive the created generate in the response."
+    },
+    "server2": {
+      "endpoint": {
+        "method": "POST",
+        "path": "/api/generate/stream"
+      },
+      "description": "Creates a generate. Send the generate payload in the request body and receive the created generate in the response."
+    },
+    "postServer": {
+      "endpoint": {
+        "method": "POST",
+        "path": "/api/tickets"
+      },
+      "description": "Creates a ticket. Send the ticket payload in the request body and receive the created ticket in the response."
+    },
+    "putServer": {
+      "endpoint": {
+        "method": "PUT",
+        "path": "/api/tickets/:id"
+      },
+      "description": "Updates a ticket identified by id. Send the fields to update in the request body and receive the updated ticket. Path parameters: id."
+    },
+    "postServer2": {
+      "endpoint": {
+        "method": "POST",
+        "path": "/api/tickets/:id/comments"
+      },
+      "description": "Creates a ticket identified by id. Send the ticket payload in the request body and receive the created ticket in the response. Path parameters: id."
+    }
+  },
+  "queries": {
+    "server": {
+      "endpoint": {
+        "method": "GET",
+        "path": "/api/jobs/:jobId"
+      },
+      "description": "Reads a single job identified by jobId. Use this query to fetch job data without side effects. Path parameters: jobId."
+    },
+    "getServer": {
+      "endpoint": {
+        "method": "GET",
+        "path": "/api/tickets"
+      },
+      "description": "Reads tickets for display or reporting. Use this query to fetch tickets with optional filters or pagination."
+    },
+    "getServer2": {
+      "endpoint": {
+        "method": "GET",
+        "path": "/api/tickets/:id"
+      },
+      "description": "Reads a single ticket identified by id. Use this query to fetch ticket data without side effects. Path parameters: id."
+    },
+    "getServer3": {
+      "endpoint": {
+        "method": "GET",
+        "path": "/api/tickets/:id/comments"
+      },
+      "description": "Reads a single ticket identified by id. Use this query to fetch ticket data without side effects. Path parameters: id."
+    }
+  },
+  "components": {},
+  "meta": {
+    "filesAnalyzed": 22,
+    "changedFiles": []
+  }
+}

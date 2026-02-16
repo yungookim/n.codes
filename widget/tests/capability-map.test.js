@@ -215,7 +215,7 @@ describe('capability-map', () => {
       const entities = getEntities(REAL_CAP_MAP);
       assert.ok('task' in entities);
       assert.ok('user' in entities);
-      assert.deepEqual(entities.task.fields, ['id', 'title', 'status', 'assignee', 'dueDate']);
+      assert.deepEqual(entities.task.fields, ['id', 'title', 'description', 'status', 'priority', 'assignee', 'createdAt']);
     });
 
     it('returns empty object for null', () => {
@@ -277,7 +277,7 @@ describe('capability-map', () => {
     it('includes descriptions', () => {
       const caps = getCapabilities(REAL_CAP_MAP);
       const createTask = caps.find((c) => c.name === 'createTask');
-      assert.equal(createTask.description, 'Create a new task');
+      assert.equal(createTask.description, 'Create a new task. Body: { title, description?, status?, priority?, assignee? }');
       assert.equal(createTask.type, 'action');
     });
 

@@ -1,0 +1,311 @@
+{
+  "analysis": {
+    "src/routes/api/generate.ts:POST": {
+      "contentHash": "sha256:8605fe87e733fd0d3adf4a7f914fbafb981e7cc08f47bf402476bf98d7c359cd",
+      "analyzedAt": "2026-02-16T00:14:22.702Z",
+      "result": {
+        "description": "Handles POST requests to /api/generate. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "src/routes/api/generate/stream.ts:POST": {
+      "contentHash": "sha256:a04c6d98a0c24ba92c115c8adebe7dd1e12c18bd3bdb00f11980a27bc60040b7",
+      "analyzedAt": "2026-02-16T00:14:22.702Z",
+      "result": {
+        "description": "Handles POST requests to /api/generate/stream. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "src/routes/api/jobs/[jobId].ts:GET": {
+      "contentHash": "sha256:a3fc31f98a1cfca0cea138da11a6d8c602838ebf2f1a3dbfc71cfc8738695ae4",
+      "analyzedAt": "2026-02-16T00:14:22.702Z",
+      "result": {
+        "description": "Handles GET requests to /api/jobs/:jobId. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "src/routes/api/tickets.ts:GET": {
+      "contentHash": "sha256:3886f1a9bdde44486009c6458ec4944ca9eeb6f8ed5f4aeb4cf21cf0fdda5d5d",
+      "analyzedAt": "2026-02-16T00:14:22.702Z",
+      "result": {
+        "description": "Handles GET requests to /api/tickets. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "src/routes/api/tickets.ts:POST": {
+      "contentHash": "sha256:3886f1a9bdde44486009c6458ec4944ca9eeb6f8ed5f4aeb4cf21cf0fdda5d5d",
+      "analyzedAt": "2026-02-16T00:14:22.702Z",
+      "result": {
+        "description": "Handles POST requests to /api/tickets. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "src/routes/api/tickets/[id].ts:GET": {
+      "contentHash": "sha256:8fc9a3ad2bc055757d61b43d82d60ba3ca44d34a4ed2ee494b56ea0f838706db",
+      "analyzedAt": "2026-02-16T00:14:22.702Z",
+      "result": {
+        "description": "Handles GET requests to /api/tickets/:id. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "src/routes/api/tickets/[id].ts:PUT": {
+      "contentHash": "sha256:8fc9a3ad2bc055757d61b43d82d60ba3ca44d34a4ed2ee494b56ea0f838706db",
+      "analyzedAt": "2026-02-16T00:14:22.702Z",
+      "result": {
+        "description": "Handles PUT requests to /api/tickets/:id. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "src/routes/api/tickets/[id]/comments.ts:GET": {
+      "contentHash": "sha256:110e76239f027ff06ac06e50d03acb40c86ec03e78b6a20b8f9d98e3da3400cd",
+      "analyzedAt": "2026-02-16T00:14:22.702Z",
+      "result": {
+        "description": "Handles GET requests to /api/tickets/:id/comments. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "src/routes/api/tickets/[id]/comments.ts:POST": {
+      "contentHash": "sha256:110e76239f027ff06ac06e50d03acb40c86ec03e78b6a20b8f9d98e3da3400cd",
+      "analyzedAt": "2026-02-16T00:14:22.702Z",
+      "result": {
+        "description": "Handles POST requests to /api/tickets/:id/comments. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "src/routes/api/generate/+server.ts:POST": {
+      "contentHash": "sha256:6ac6377ad6c9c94c5d8a148fa260bc6e65097332ffdd73e5c4fa9e61d08a8c29",
+      "analyzedAt": "2026-02-16T16:46:43.570Z",
+      "result": {
+        "description": "Handles POST requests to /api/generate. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "src/routes/api/generate/stream/+server.ts:POST": {
+      "contentHash": "sha256:230f626cd3e8212a89b2a2f4ae4295a207ed0014e0fde05932f95852b28d37d5",
+      "analyzedAt": "2026-02-16T16:46:43.570Z",
+      "result": {
+        "description": "Handles POST requests to /api/generate/stream. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "src/routes/api/jobs/[jobId]/+server.ts:GET": {
+      "contentHash": "sha256:ef12b0631ded135450fd4c4a6c203650828c2b419f41028f06314f94ac78404c",
+      "analyzedAt": "2026-02-16T16:46:43.570Z",
+      "result": {
+        "description": "Handles GET requests to /api/jobs/:jobId. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "src/routes/api/tickets/+server.ts:GET": {
+      "contentHash": "sha256:3886f1a9bdde44486009c6458ec4944ca9eeb6f8ed5f4aeb4cf21cf0fdda5d5d",
+      "analyzedAt": "2026-02-16T16:46:43.570Z",
+      "result": {
+        "description": "Handles GET requests to /api/tickets. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "src/routes/api/tickets/+server.ts:POST": {
+      "contentHash": "sha256:3886f1a9bdde44486009c6458ec4944ca9eeb6f8ed5f4aeb4cf21cf0fdda5d5d",
+      "analyzedAt": "2026-02-16T16:46:43.570Z",
+      "result": {
+        "description": "Handles POST requests to /api/tickets. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "src/routes/api/tickets/[id]/+server.ts:GET": {
+      "contentHash": "sha256:8fc9a3ad2bc055757d61b43d82d60ba3ca44d34a4ed2ee494b56ea0f838706db",
+      "analyzedAt": "2026-02-16T16:46:43.570Z",
+      "result": {
+        "description": "Handles GET requests to /api/tickets/:id. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "src/routes/api/tickets/[id]/+server.ts:PUT": {
+      "contentHash": "sha256:8fc9a3ad2bc055757d61b43d82d60ba3ca44d34a4ed2ee494b56ea0f838706db",
+      "analyzedAt": "2026-02-16T16:46:43.571Z",
+      "result": {
+        "description": "Handles PUT requests to /api/tickets/:id. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "src/routes/api/tickets/[id]/comments/+server.ts:GET": {
+      "contentHash": "sha256:110e76239f027ff06ac06e50d03acb40c86ec03e78b6a20b8f9d98e3da3400cd",
+      "analyzedAt": "2026-02-16T16:46:43.571Z",
+      "result": {
+        "description": "Handles GET requests to /api/tickets/:id/comments. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "src/routes/api/tickets/[id]/comments/+server.ts:POST": {
+      "contentHash": "sha256:110e76239f027ff06ac06e50d03acb40c86ec03e78b6a20b8f9d98e3da3400cd",
+      "analyzedAt": "2026-02-16T16:46:43.571Z",
+      "result": {
+        "description": "Handles POST requests to /api/tickets/:id/comments. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    }
+  },
+  "entities": {},
+  "fileIndex": {
+    ".n.codes/debug/b9ce862d-b718-4582-bef1-d2c226136251/generated.js": {
+      "size": 22676,
+      "mtimeMs": 1771260003392.8796
+    },
+    ".svelte-kit/ambient.d.ts": {
+      "size": 7467,
+      "mtimeMs": 1771259716982.0352
+    },
+    ".svelte-kit/generated/client/app.js": {
+      "size": 805,
+      "mtimeMs": 1771259716985.8413
+    },
+    ".svelte-kit/generated/client/matchers.js": {
+      "size": 27,
+      "mtimeMs": 1771259716985.8914
+    },
+    ".svelte-kit/generated/client/nodes/0.js": {
+      "size": 77,
+      "mtimeMs": 1771259716985.2776
+    },
+    ".svelte-kit/generated/client/nodes/1.js": {
+      "size": 123,
+      "mtimeMs": 1771259716985.353
+    },
+    ".svelte-kit/generated/client/nodes/2.js": {
+      "size": 75,
+      "mtimeMs": 1771259716985.422
+    },
+    ".svelte-kit/generated/client/nodes/3.js": {
+      "size": 83,
+      "mtimeMs": 1771259716985.5732
+    },
+    ".svelte-kit/generated/client/nodes/4.js": {
+      "size": 88,
+      "mtimeMs": 1771259716985.647
+    },
+    ".svelte-kit/generated/root.js": {
+      "size": 122,
+      "mtimeMs": 1771259716986.5923
+    },
+    ".svelte-kit/generated/server/internal.js": {
+      "size": 3891,
+      "mtimeMs": 1771259716986.353
+    },
+    ".svelte-kit/non-ambient.d.ts": {
+      "size": 1988,
+      "mtimeMs": 1771259716986.9565
+    },
+    "src/lib/mock-generate.ts": {
+      "size": 10584,
+      "mtimeMs": 1771198580903.5872
+    },
+    "src/routes/api/generate/+server.ts": {
+      "size": 489,
+      "mtimeMs": 1771259785132.3735
+    },
+    "src/routes/api/generate/stream/+server.ts": {
+      "size": 500,
+      "mtimeMs": 1771259787446.6753
+    },
+    "src/routes/api/jobs/[jobId]/+server.ts": {
+      "size": 672,
+      "mtimeMs": 1771259790355.9768
+    },
+    "src/routes/api/tickets/+server.ts": {
+      "size": 4543,
+      "mtimeMs": 1770945582947.128
+    },
+    "src/routes/api/tickets/[id]/+server.ts": {
+      "size": 4827,
+      "mtimeMs": 1770945582947.6392
+    },
+    "src/routes/api/tickets/[id]/comments/+server.ts": {
+      "size": 3573,
+      "mtimeMs": 1770945582948.1033
+    },
+    "static/ncodes-widget.js": {
+      "size": 51250,
+      "mtimeMs": 1771258163104.1682
+    },
+    "svelte.config.js": {
+      "size": 173,
+      "mtimeMs": 1770945582948.861
+    },
+    "vite.config.js": {
+      "size": 198,
+      "mtimeMs": 1771200181669.6956
+    }
+  }
+}
