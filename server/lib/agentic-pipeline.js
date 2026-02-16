@@ -7,7 +7,7 @@ const { buildCodegenPrompt } = require('./codegen-prompt');
 const { buildReviewPrompt, buildReviewUserPrompt } = require('./review-prompt');
 const { parseCodeBlocks, validateParsedCode } = require('./code-parser');
 const { resolveApiBindings } = require('./ref-extractor');
-const { checkFeasibility, buildNotFeasibleResponse } = require('./feasibility-check');
+const { runFeasibilityStep } = require('./feasibility-check');
 
 const MAX_ITERATIONS = 3;
 
@@ -265,14 +265,24 @@ async function runAgenticPipeline({ prompt, provider, model, options = {}, capab
     };
   }
 
-  // Step 1.5: Feasibility check (no LLM cost)
+  // Step 1.5: Feasibility check (LLM-powered)
   reportStep('feasibility', 'started');
-  const feasibility = checkFeasibility(intent, capabilityMap);
+  const feasibility = await runFeasibilityStep({ prompt, intent, capabilityMap, llmConfig });
+  totalTokens = addTokens(totalTokens, feasibility.tokensUsed);
   reportStep('feasibility', 'completed');
 
   if (!feasibility.feasible) {
-    const notFeasible = buildNotFeasibleResponse(feasibility, capabilityMap);
-    return { ...notFeasible, tokensUsed: totalTokens };
+    return {
+      clarifyingQuestion: feasibility.clarifyingQuestion || 'This request is not feasible with the available capabilities.',
+      options: feasibility.options || [],
+      reasoning: feasibility.reasoning || '',
+      feasibility: {
+        feasible: false,
+        keywords: feasibility.keywords || [],
+        capabilitySubset: feasibility.capabilitySubset || {},
+      },
+      tokensUsed: totalTokens
+    };
   }
 
   // Step 2: Generate

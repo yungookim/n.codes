@@ -432,12 +432,13 @@
               <div class="entry-pill">Improvement</div>
             </div>
             <div class="entry-title">Feasibility Check Before Codegen</div>
-            <div class="entry-lede">Fast, deterministic validation to avoid dead-end generations.</div>
+            <div class="entry-lede">LLM-guided feasibility checks to avoid dead-end generations.</div>
 
             <div class="entry-body">
               <div>
-                Added a pure-JS feasibility step between intent parsing and code generation. It validates
-                intent refs against the capability map before any expensive LLM work begins.
+                Added an LLM-powered feasibility step between intent parsing and code generation. It
+                uses lightweight keyword extraction to focus on the most relevant capabilities before
+                deciding whether the request can be fulfilled.
               </div>
               <div>
                 When requested data or actions are not supported, the pipeline now returns a clarifying

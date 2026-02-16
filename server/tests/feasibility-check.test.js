@@ -3,12 +3,17 @@
 const { describe, it } = require('node:test');
 const assert = require('node:assert/strict');
 const {
-  checkFeasibility,
-  buildNotFeasibleResponse,
-  humanizeRef
+  runFeasibilityStep,
+  parseKeywordResponse,
+  parseFeasibilityResponse,
+  selectCapabilitySubset,
+  formatCapabilitySubset,
+  humanizeRef,
+  tokenizeText
 } = require('../lib/feasibility-check');
 
 const sampleCapMap = {
+  project: 'Task Manager',
   queries: {
     listTasks: { endpoint: 'GET /api/tasks', description: 'List all tasks' },
     getTask: { endpoint: 'GET /api/tasks/:id', description: 'Get task by ID' },
@@ -20,141 +25,251 @@ const sampleCapMap = {
   },
 };
 
-describe('checkFeasibility', () => {
-  it('returns feasible when capability map is null', () => {
-    const result = checkFeasibility({ queries: ['listTasks'], actions: [] }, null);
-    assert.deepEqual(result, { feasible: true });
+describe('parseKeywordResponse', () => {
+  it('parses keywords from JSON and normalizes', () => {
+    const text = '{"keywords": ["Tasks", "stats", "tasks"]}';
+    const result = parseKeywordResponse(text);
+    assert.deepEqual(result, ['tasks', 'stats']);
   });
 
-  it('returns feasible when intent has no queries/actions', () => {
-    const result = checkFeasibility({ queries: [], actions: [] }, sampleCapMap);
-    assert.deepEqual(result, { feasible: true });
+  it('returns empty array for invalid JSON', () => {
+    const result = parseKeywordResponse('not json');
+    assert.deepEqual(result, []);
   });
 
-  it('returns feasible when intent is not an object', () => {
-    const result = checkFeasibility(null, sampleCapMap);
-    assert.deepEqual(result, { feasible: true });
-  });
-
-  it('returns feasible when all refs exist in the map', () => {
-    const result = checkFeasibility({ queries: ['listTasks'], actions: ['createTask'] }, sampleCapMap);
-    assert.deepEqual(result, { feasible: true });
-  });
-
-  it('returns not feasible with invalid query refs', () => {
-    const result = checkFeasibility({ queries: ['listPayments'], actions: [] }, sampleCapMap);
-    assert.equal(result.feasible, false);
-    assert.deepEqual(result.invalidRefs.queries, ['listPayments']);
-    assert.deepEqual(result.invalidRefs.actions, []);
-  });
-
-  it('returns not feasible with invalid action refs', () => {
-    const result = checkFeasibility({ queries: [], actions: ['refundPayment'] }, sampleCapMap);
-    assert.equal(result.feasible, false);
-    assert.deepEqual(result.invalidRefs.queries, []);
-    assert.deepEqual(result.invalidRefs.actions, ['refundPayment']);
-  });
-
-  it('returns not feasible when mix of valid and invalid refs', () => {
-    const result = checkFeasibility({ queries: ['listTasks', 'listPayments'], actions: ['createTask', 'refundPayment'] }, sampleCapMap);
-    assert.equal(result.feasible, false);
-    assert.deepEqual(result.invalidRefs.queries, ['listPayments']);
-    assert.deepEqual(result.invalidRefs.actions, ['refundPayment']);
-  });
-
-  it('returns available capabilities in suggestion', () => {
-    const result = checkFeasibility({ queries: ['listPayments'], actions: [] }, sampleCapMap);
-    assert.equal(result.feasible, false);
-    assert.ok(result.suggestion.queries.includes('listTasks'));
-    assert.ok(result.suggestion.actions.includes('createTask'));
-  });
-
-  it('handles empty queries/actions objects in capability map', () => {
-    const emptyMap = { queries: {}, actions: {} };
-    const result = checkFeasibility({ queries: ['listTasks'], actions: ['createTask'] }, emptyMap);
-    assert.equal(result.feasible, false);
-    assert.deepEqual(result.suggestion, { queries: [], actions: [] });
+  it('returns empty array for malformed JSON block', () => {
+    const result = parseKeywordResponse('{\"keywords\": [}');
+    assert.deepEqual(result, []);
   });
 });
 
-describe('buildNotFeasibleResponse', () => {
-  it('builds question mentioning invalid data sources', () => {
-    const feasibility = {
-      feasible: false,
-      invalidRefs: { queries: ['listPayments'], actions: [] },
-      suggestion: { queries: ['listTasks'], actions: [] }
-    };
-    const response = buildNotFeasibleResponse(feasibility, sampleCapMap);
-    assert.ok(response.clarifyingQuestion.toLowerCase().includes('data sources'));
+describe('selectCapabilitySubset', () => {
+  it('selects matching capabilities based on keywords', () => {
+    const subset = selectCapabilitySubset(sampleCapMap, { keywords: ['stats'], prompt: 'show stats' });
+    assert.ok(Object.keys(subset.queries).includes('getStats'));
   });
 
-  it('builds question mentioning invalid actions', () => {
-    const feasibility = {
-      feasible: false,
-      invalidRefs: { queries: [], actions: ['refundPayment'] },
-      suggestion: { queries: [], actions: ['createTask'] }
-    };
-    const response = buildNotFeasibleResponse(feasibility, sampleCapMap);
-    assert.ok(response.clarifyingQuestion.toLowerCase().includes('actions'));
+  it('falls back to a default subset when no keywords match', () => {
+    const subset = selectCapabilitySubset(sampleCapMap, { keywords: ['payments'], prompt: 'payments report' });
+    assert.ok(Object.keys(subset.queries).length > 0);
+    assert.ok(Object.keys(subset.actions).length > 0);
   });
 
-  it('limits options to 4 with queries prioritized over actions', () => {
-    const feasibility = {
-      feasible: false,
-      invalidRefs: { queries: ['listPayments'], actions: ['refundPayment'] },
-      suggestion: {
-        queries: ['listTasks', 'getTask', 'getStats'],
-        actions: ['createTask', 'deleteTask', 'archiveTask']
+  it('returns empty subsets when capability map is missing', () => {
+    const subset = selectCapabilitySubset(null, { keywords: ['tasks'], prompt: 'tasks' });
+    assert.deepEqual(subset, { queries: {}, actions: {} });
+  });
+
+  it('handles capability maps with missing sections', () => {
+    const subset = selectCapabilitySubset({ project: 'Empty' }, { keywords: ['tasks'], prompt: 'tasks' });
+    assert.deepEqual(subset, { queries: {}, actions: {} });
+  });
+});
+
+describe('formatCapabilitySubset', () => {
+  it('includes project name and sections', () => {
+    const subset = selectCapabilitySubset(sampleCapMap, { keywords: ['tasks'], prompt: 'tasks' });
+    const formatted = formatCapabilitySubset(subset, sampleCapMap.project);
+    assert.ok(formatted.includes('Application: Task Manager'));
+    assert.ok(formatted.includes('Available Queries'));
+  });
+
+  it('returns fallback text when no entries', () => {
+    const formatted = formatCapabilitySubset({ queries: {}, actions: {} }, null);
+    assert.ok(formatted.includes('No capability map entries'));
+  });
+
+  it('uses endpoint or fallback text when description is missing', () => {
+    const formatted = formatCapabilitySubset({
+      queries: { listFoo: { endpoint: 'GET /foo' } },
+      actions: { doBar: {} }
+    }, null);
+    assert.ok(formatted.includes('listFoo: GET /foo'));
+    assert.ok(formatted.includes('doBar: No description'));
+  });
+});
+
+describe('parseFeasibilityResponse', () => {
+  it('parses feasible response with queries/actions', () => {
+    const text = '{"feasible": true, "reasoning": "ok", "queries": ["listTasks"], "actions": ["createTask"]}';
+    const result = parseFeasibilityResponse(text);
+    assert.equal(result.feasible, true);
+    assert.deepEqual(result.queries, ['listTasks']);
+    assert.deepEqual(result.actions, ['createTask']);
+  });
+
+  it('parses infeasible response and limits options', () => {
+    const text = '{"feasible": false, "reasoning": "no", "clarifyingQuestion": "?", "options": ["a", "b", "c", "d", "e"]}';
+    const result = parseFeasibilityResponse(text);
+    assert.equal(result.feasible, false);
+    assert.equal(result.options.length, 4);
+  });
+
+  it('returns feasible true on invalid JSON', () => {
+    const result = parseFeasibilityResponse('oops');
+    assert.equal(result.feasible, true);
+  });
+});
+
+describe('runFeasibilityStep', () => {
+  it('returns feasible true when capability map is missing', async () => {
+    const result = await runFeasibilityStep({
+      prompt: 'show tasks',
+      intent: {},
+      capabilityMap: null,
+      llmConfig: { provider: 'openai', model: 'gpt-5-mini' },
+      generate: async () => ({ text: '{}', tokensUsed: { prompt: 0, completion: 0 } })
+    });
+    assert.equal(result.feasible, true);
+  });
+
+  it('aggregates tokens and returns infeasible response', async () => {
+    let call = 0;
+    const generate = async () => {
+      call += 1;
+      if (call === 1) {
+        return { text: '{\"keywords\": [\"tasks\"]}', tokensUsed: { prompt: 5, completion: 1 } };
       }
+      return {
+        text: '{\"feasible\": false, \"reasoning\": \"no\", \"clarifyingQuestion\": \"?\", \"options\": [\"Show tasks\"]}',
+        tokensUsed: { prompt: 7, completion: 2 }
+      };
     };
-    const response = buildNotFeasibleResponse(feasibility, sampleCapMap);
-    assert.equal(response.options.length, 4);
-    assert.deepEqual(response.options.slice(0, 3), [
-      humanizeRef('listTasks'),
-      humanizeRef('getTask'),
-      humanizeRef('getStats')
-    ]);
+
+    const result = await runFeasibilityStep({
+      prompt: 'show payments',
+      intent: { queries: ['listPayments'] },
+      capabilityMap: sampleCapMap,
+      llmConfig: { provider: 'openai', model: 'gpt-5-mini' },
+      generate
+    });
+
+    assert.equal(result.feasible, false);
+    assert.equal(result.tokensUsed.prompt, 12);
+    assert.equal(result.tokensUsed.completion, 3);
+    assert.deepEqual(result.options, ['Show tasks']);
+    assert.ok(Array.isArray(result.keywords));
   });
 
-  it('includes feasibility metadata object', () => {
-    const feasibility = {
-      feasible: false,
-      invalidRefs: { queries: ['listPayments'], actions: [] },
-      suggestion: { queries: ['listTasks'], actions: [] }
+  it('falls back when LLM response lacks clarifying question', async () => {
+    let call = 0;
+    const generate = async () => {
+      call += 1;
+      if (call === 1) {
+        return { text: '{\"keywords\": [\"payments\"]}', tokensUsed: { prompt: 2, completion: 1 } };
+      }
+      return { text: '{}', tokensUsed: { prompt: 3, completion: 1 } };
     };
-    const response = buildNotFeasibleResponse(feasibility, sampleCapMap);
-    assert.equal(response.feasibility.feasible, false);
-    assert.deepEqual(response.feasibility.invalidRefs, feasibility.invalidRefs);
+
+    const result = await runFeasibilityStep({
+      prompt: 'show payments',
+      intent: { queries: ['listPayments'] },
+      capabilityMap: sampleCapMap,
+      llmConfig: { provider: 'openai', model: 'gpt-5-mini' },
+      generate
+    });
+
+    assert.equal(result.feasible, false);
+    assert.ok(result.clarifyingQuestion.length > 0);
   });
 
-  it('returns empty options when no capabilities available', () => {
-    const feasibility = {
-      feasible: false,
-      invalidRefs: { queries: ['listPayments'], actions: [] },
-      suggestion: { queries: [], actions: [] }
+  it('fallback returns feasible when refs are valid', async () => {
+    let call = 0;
+    const generate = async () => {
+      call += 1;
+      if (call === 1) {
+        return { text: '{\"keywords\": [\"tasks\"]}', tokensUsed: { prompt: 1, completion: 1 } };
+      }
+      return { text: '{}', tokensUsed: { prompt: 1, completion: 1 } };
     };
-    const response = buildNotFeasibleResponse(feasibility, { queries: {}, actions: {} });
-    assert.deepEqual(response.options, []);
+
+    const result = await runFeasibilityStep({
+      prompt: 'show tasks',
+      intent: { queries: ['listTasks'], actions: ['createTask'] },
+      capabilityMap: sampleCapMap,
+      llmConfig: { provider: 'openai', model: 'gpt-5-mini' },
+      generate
+    });
+
+    assert.equal(result.feasible, true);
   });
 
-  it('falls back to capability map suggestions when suggestion is missing', () => {
-    const feasibility = {
-      feasible: false,
-      invalidRefs: { queries: ['listPayments'], actions: [] }
+  it('fallback message mentions both queries and actions when missing', async () => {
+    let call = 0;
+    const generate = async () => {
+      call += 1;
+      if (call === 1) {
+        return { text: '{\"keywords\": [\"payments\"]}', tokensUsed: { prompt: 1, completion: 1 } };
+      }
+      return { text: '{}', tokensUsed: { prompt: 1, completion: 1 } };
     };
-    const response = buildNotFeasibleResponse(feasibility, null);
-    assert.deepEqual(response.options, []);
-    assert.ok(response.reasoning.includes('Unknown queries'));
+
+    const result = await runFeasibilityStep({
+      prompt: 'show payments',
+      intent: { queries: ['listPayments'], actions: ['refundPayment'] },
+      capabilityMap: sampleCapMap,
+      llmConfig: { provider: 'openai', model: 'gpt-5-mini' },
+      generate
+    });
+
+    assert.equal(result.feasible, false);
+    assert.ok(result.clarifyingQuestion.includes('data sources'));
+    assert.ok(result.clarifyingQuestion.includes('actions'));
   });
 
-  it('handles non-array suggestion lists', () => {
-    const feasibility = {
-      feasible: false,
-      invalidRefs: { queries: ['listPayments'], actions: [] },
-      suggestion: { queries: 'listTasks', actions: null }
+  it('fallback message mentions actions when only actions are missing', async () => {
+    let call = 0;
+    const generate = async () => {
+      call += 1;
+      if (call === 1) {
+        return { text: '{\"keywords\": [\"refund\"]}', tokensUsed: { prompt: 1, completion: 1 } };
+      }
+      return { text: '{}', tokensUsed: { prompt: 1, completion: 1 } };
     };
-    const response = buildNotFeasibleResponse(feasibility, sampleCapMap);
-    assert.deepEqual(response.options, []);
+
+    const result = await runFeasibilityStep({
+      prompt: 'refund payment',
+      intent: { queries: [], actions: ['refundPayment'] },
+      capabilityMap: sampleCapMap,
+      llmConfig: { provider: 'openai', model: 'gpt-5-mini' },
+      generate
+    });
+
+    assert.equal(result.feasible, false);
+    assert.ok(result.clarifyingQuestion.includes('actions'));
+  });
+
+  it('uses defaults when intent is missing and keywords empty', async () => {
+    const prompts = [];
+    const generate = async ({ prompt: promptText }) => {
+      prompts.push(promptText);
+      if (prompts.length === 1) {
+        return { text: '{\"keywords\": []}' };
+      }
+      return { text: '{\"feasible\": true, \"reasoning\": \"ok\"}' };
+    };
+
+    const result = await runFeasibilityStep({
+      prompt: 'show tasks',
+      intent: undefined,
+      capabilityMap: sampleCapMap,
+      llmConfig: { provider: 'openai', model: 'gpt-5-mini' },
+      generate
+    });
+
+    assert.equal(result.feasible, true);
+    assert.ok(prompts[1].includes('Keywords:\nnone'));
+    assert.deepEqual(result.tokensUsed, { prompt: 0, completion: 0 });
+  });
+});
+
+describe('tokenizeText', () => {
+  it('tokenizes text into lowercase tokens', () => {
+    assert.deepEqual(tokenizeText('Show Tasks 123'), ['show', 'tasks', '123']);
+  });
+
+  it('returns empty array for non-string input', () => {
+    assert.deepEqual(tokenizeText(null), []);
   });
 });
 

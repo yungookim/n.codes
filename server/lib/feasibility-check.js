@@ -1,79 +1,232 @@
 'use strict';
 
-const { lookupRef } = require('./capability-resolver');
+const { generateUI } = require('./llm-client');
 
-function normalizeRefs(refs) {
-  if (!Array.isArray(refs)) return [];
-  return refs
-    .filter(ref => typeof ref === 'string')
-    .map(ref => ref.trim())
-    .filter(ref => ref.length > 0);
+const KEYWORD_MAX_TOKENS = 256;
+const DEFAULT_MAX_KEYWORDS = 8;
+const DEFAULT_MAX_QUERIES = 8;
+const DEFAULT_MAX_ACTIONS = 6;
+const DEFAULT_MAX_OPTIONS = 4;
+
+function normalizeList(list) {
+  if (!Array.isArray(list)) return [];
+  const cleaned = list
+    .filter(item => typeof item === 'string')
+    .map(item => item.trim())
+    .filter(Boolean);
+
+  return [...new Set(cleaned)];
 }
 
-function buildSuggestion(capabilityMap) {
+function tokenizeText(text) {
+  if (!text || typeof text !== 'string') return [];
+  const matches = text.toLowerCase().match(/[a-z0-9]+/g);
+  return matches ? matches : [];
+}
+
+function buildKeywordPrompt() {
+  return `You are a search assistant for a capability map.
+
+Return ONLY a JSON object with this shape:
+{
+  "keywords": ["keyword1", "keyword2"]
+}
+
+Rules:
+- 3 to 8 keywords or short phrases (1-3 words each)
+- Focus on domain entities, user intent verbs, and data types
+- Include synonyms if helpful
+- Use lowercase
+- JSON only, no markdown`;
+}
+
+function parseJsonBlock(text) {
+  if (!text || typeof text !== 'string') return null;
+  const trimmed = text.trim();
+  const jsonMatch = trimmed.match(/\{[\s\S]*\}/);
+  if (!jsonMatch) return null;
+  try {
+    return JSON.parse(jsonMatch[0]);
+  } catch {
+    return null;
+  }
+}
+
+function parseKeywordResponse(text) {
+  const parsed = parseJsonBlock(text);
+  const lowered = normalizeList(parsed?.keywords)
+    .map(k => k.toLowerCase());
+  const keywords = [...new Set(lowered)];
+  return keywords.slice(0, DEFAULT_MAX_KEYWORDS);
+}
+
+function scoreCapability(ref, entry, keywords, promptTokens) {
+  const fields = [ref, entry?.description, entry?.endpoint]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase();
+
+  let score = 0;
+  for (const keyword of keywords) {
+    if (keyword && fields.includes(keyword.toLowerCase())) {
+      score += 3;
+    }
+  }
+
+  for (const token of promptTokens) {
+    if (token && fields.includes(token)) {
+      score += 1;
+    }
+  }
+
+  if (fields.startsWith(ref.toLowerCase())) {
+    score += 1;
+  }
+
+  return score;
+}
+
+function pickTopCapabilities(entries, keywords, promptTokens, limit) {
+  const scored = entries.map(([ref, entry]) => ({
+    ref,
+    entry,
+    score: scoreCapability(ref, entry, keywords, promptTokens)
+  }));
+
+  const matched = scored
+    .filter(item => item.score > 0)
+    .sort((a, b) => b.score - a.score || a.ref.localeCompare(b.ref));
+
+  const selected = (matched.length > 0 ? matched : scored)
+    .slice(0, limit)
+    .reduce((acc, item) => {
+      acc[item.ref] = item.entry;
+      return acc;
+    }, {});
+
+  return selected;
+}
+
+function selectCapabilitySubset(capabilityMap, { keywords, prompt } = {}) {
   if (!capabilityMap || typeof capabilityMap !== 'object') {
-    return { queries: [], actions: [] };
+    return { queries: {}, actions: {} };
   }
 
+  const promptTokens = tokenizeText(prompt);
+  const normalizedKeywords = normalizeList(keywords).map(k => k.toLowerCase());
+
+  const queryEntries = Object.entries(capabilityMap.queries || {});
+  const actionEntries = Object.entries(capabilityMap.actions || {});
+
+  const queries = pickTopCapabilities(
+    queryEntries,
+    normalizedKeywords,
+    promptTokens,
+    DEFAULT_MAX_QUERIES
+  );
+
+  const actions = pickTopCapabilities(
+    actionEntries,
+    normalizedKeywords,
+    promptTokens,
+    DEFAULT_MAX_ACTIONS
+  );
+
+  return { queries, actions };
+}
+
+function formatCapabilitySubset(subset, projectName) {
+  const parts = [];
+
+  if (projectName) {
+    parts.push(`Application: ${projectName}`);
+  }
+
+  const queries = Object.entries(subset.queries || {});
+  if (queries.length > 0) {
+    const lines = queries.map(([name, val]) =>
+      `  - ${name}: ${val.description || val.endpoint || 'No description'}`
+    );
+    parts.push(`Available Queries:\n${lines.join('\n')}`);
+  }
+
+  const actions = Object.entries(subset.actions || {});
+  if (actions.length > 0) {
+    const lines = actions.map(([name, val]) =>
+      `  - ${name}: ${val.description || val.endpoint || 'No description'}`
+    );
+    parts.push(`Available Actions:\n${lines.join('\n')}`);
+  }
+
+  if (parts.length === 0) {
+    parts.push('No capability map entries are available.');
+  }
+
+  return parts.join('\n\n');
+}
+
+function buildFeasibilityPrompt(capabilityContext) {
+  return `You are a feasibility checker for a UI generation system.
+
+## Capability Context
+${capabilityContext}
+
+## Task
+Decide whether the user's request can be fulfilled using ONLY the capabilities listed above.
+
+## Output Format
+Return ONLY a JSON object:
+
+If feasible:
+{
+  "feasible": true,
+  "reasoning": "Short explanation",
+  "queries": ["queryRef"],
+  "actions": ["actionRef"]
+}
+
+If NOT feasible:
+{
+  "feasible": false,
+  "reasoning": "Why it cannot be fulfilled",
+  "clarifyingQuestion": "Question to ask the user",
+  "options": ["Option A", "Option B"]
+}
+
+Rules:
+- Base your answer strictly on the capabilities listed above
+- Use short, user-friendly options (1-4) when infeasible
+- JSON only, no markdown`;
+}
+
+function parseFeasibilityResponse(text) {
+  const parsed = parseJsonBlock(text);
+  if (!parsed || typeof parsed !== 'object') {
+    return {
+      feasible: true,
+      reasoning: 'Feasibility response could not be parsed.'
+    };
+  }
+
+  const feasible = Boolean(parsed.feasible);
+  const reasoning = typeof parsed.reasoning === 'string' ? parsed.reasoning : '';
+  const queries = normalizeList(parsed.queries);
+  const actions = normalizeList(parsed.actions);
+  const options = normalizeList(parsed.options).slice(0, DEFAULT_MAX_OPTIONS);
+  const clarifyingQuestion = typeof parsed.clarifyingQuestion === 'string'
+    ? parsed.clarifyingQuestion
+    : '';
+
   return {
-    queries: Object.keys(capabilityMap.queries || {}),
-    actions: Object.keys(capabilityMap.actions || {})
+    feasible,
+    reasoning,
+    queries,
+    actions,
+    clarifyingQuestion,
+    options
   };
 }
 
-/**
- * Validate intent refs against the capability map.
- *
- * @param {object} intent
- * @param {object|null} capabilityMap
- * @returns {{ feasible: boolean, invalidRefs?: { queries: string[], actions: string[] }, suggestion?: { queries: string[], actions: string[] } }}
- */
-function checkFeasibility(intent, capabilityMap) {
-  if (!capabilityMap) return { feasible: true };
-  if (!intent || typeof intent !== 'object') return { feasible: true };
-
-  const queries = normalizeRefs(intent.queries);
-  const actions = normalizeRefs(intent.actions);
-
-  if (queries.length === 0 && actions.length === 0) {
-    return { feasible: true };
-  }
-
-  const invalidQueries = [];
-  const invalidActions = [];
-
-  for (const ref of queries) {
-    if (!lookupRef(ref, 'query', capabilityMap)) {
-      invalidQueries.push(ref);
-    }
-  }
-
-  for (const ref of actions) {
-    if (!lookupRef(ref, 'action', capabilityMap)) {
-      invalidActions.push(ref);
-    }
-  }
-
-  if (invalidQueries.length === 0 && invalidActions.length === 0) {
-    return { feasible: true };
-  }
-
-  return {
-    feasible: false,
-    invalidRefs: {
-      queries: [...new Set(invalidQueries)],
-      actions: [...new Set(invalidActions)]
-    },
-    suggestion: buildSuggestion(capabilityMap)
-  };
-}
-
-/**
- * Convert camelCase ref names into readable text.
- *
- * @param {string} name
- * @returns {string}
- */
 function humanizeRef(name) {
   if (typeof name !== 'string') return '';
 
@@ -88,51 +241,36 @@ function humanizeRef(name) {
   return spaced.toLowerCase();
 }
 
-function buildSuggestionOptions(suggestion) {
-  const options = [];
-  const seen = new Set();
-  const queries = Array.isArray(suggestion.queries) ? suggestion.queries : [];
-  const actions = Array.isArray(suggestion.actions) ? suggestion.actions : [];
+function buildDeterministicFallback(intent, capabilityMap) {
+  const invalidQueries = [];
+  const invalidActions = [];
 
-  const pushOption = (ref) => {
-    if (options.length >= 4) return;
-    const label = humanizeRef(ref) || ref;
-    if (!label || seen.has(label)) return;
-    seen.add(label);
-    options.push(label);
-  };
+  const queries = normalizeList(intent?.queries);
+  const actions = normalizeList(intent?.actions);
+
+  const queryMap = capabilityMap?.queries || {};
+  const actionMap = capabilityMap?.actions || {};
 
   for (const ref of queries) {
-    pushOption(ref);
+    if (!Object.prototype.hasOwnProperty.call(queryMap, ref)) {
+      invalidQueries.push(ref);
+    }
   }
 
   for (const ref of actions) {
-    pushOption(ref);
+    if (!Object.prototype.hasOwnProperty.call(actionMap, ref)) {
+      invalidActions.push(ref);
+    }
   }
 
-  return options;
-}
-
-/**
- * Build a clarifyingQuestion-shaped response for infeasible intents.
- *
- * @param {object} feasibilityResult
- * @param {object|null} capabilityMap
- * @returns {{ clarifyingQuestion: string, options: string[], reasoning: string, feasibility: object }}
- */
-function buildNotFeasibleResponse(feasibilityResult, capabilityMap) {
-  const invalidRefs = feasibilityResult && feasibilityResult.invalidRefs
-    ? feasibilityResult.invalidRefs
-    : { queries: [], actions: [] };
-
-  const invalidQueries = Array.isArray(invalidRefs.queries) ? invalidRefs.queries : [];
-  const invalidActions = Array.isArray(invalidRefs.actions) ? invalidRefs.actions : [];
+  if (invalidQueries.length === 0 && invalidActions.length === 0) {
+    return { feasible: true };
+  }
 
   const humanQueries = invalidQueries.map(humanizeRef).filter(Boolean);
   const humanActions = invalidActions.map(humanizeRef).filter(Boolean);
 
   let message = 'This request references capabilities that are not available in this app.';
-
   if (humanQueries.length > 0 && humanActions.length > 0) {
     message = `I couldn't find data sources (${humanQueries.join(', ')}) or actions (${humanActions.join(', ')}) in this app.`;
   } else if (humanQueries.length > 0) {
@@ -141,37 +279,67 @@ function buildNotFeasibleResponse(feasibilityResult, capabilityMap) {
     message = `I couldn't find actions for ${humanActions.join(', ')} in this app.`;
   }
 
-  const suggestion = feasibilityResult && feasibilityResult.suggestion
-    ? feasibilityResult.suggestion
-    : buildSuggestion(capabilityMap);
+  return {
+    feasible: false,
+    reasoning: 'Fallback validation detected unknown refs.',
+    clarifyingQuestion: message,
+    options: []
+  };
+}
 
-  const options = buildSuggestionOptions(suggestion);
-  if (options.length > 0) {
-    message += ' Here are some things this app can do:';
+async function runFeasibilityStep({ prompt, intent, capabilityMap, llmConfig, generate = generateUI }) {
+  const resolvedMap = capabilityMap || {};
+
+  const keywordSystemPrompt = buildKeywordPrompt();
+  const keywordInput = `User request:\n"${prompt}"\n\nIntent (if available):\n${JSON.stringify(intent || {})}`;
+
+  const keywordResult = await generate({
+    prompt: keywordInput,
+    systemPrompt: keywordSystemPrompt,
+    config: { ...llmConfig, maxTokens: KEYWORD_MAX_TOKENS, stream: false }
+  });
+
+  const keywords = parseKeywordResponse(keywordResult.text);
+  const subset = selectCapabilitySubset(resolvedMap, { keywords, prompt });
+  const capabilityContext = formatCapabilitySubset(subset, resolvedMap.project);
+
+  const feasibilitySystemPrompt = buildFeasibilityPrompt(capabilityContext);
+  const feasibilityInput = `User request:\n"${prompt}"\n\nIntent (if available):\n${JSON.stringify(intent || {})}\n\nKeywords:\n${keywords.join(', ') || 'none'}`;
+
+  const feasibilityResult = await generate({
+    prompt: feasibilityInput,
+    systemPrompt: feasibilitySystemPrompt,
+    config: { ...llmConfig, stream: false }
+  });
+
+  const parsed = parseFeasibilityResponse(feasibilityResult.text);
+
+  let finalResult = parsed;
+  if (parsed.feasible === false && !parsed.clarifyingQuestion) {
+    finalResult = buildDeterministicFallback(intent, resolvedMap);
   }
 
-  const reasoningParts = [];
-  if (invalidQueries.length > 0) {
-    reasoningParts.push(`Unknown queries: ${invalidQueries.join(', ')}`);
-  }
-  if (invalidActions.length > 0) {
-    reasoningParts.push(`Unknown actions: ${invalidActions.join(', ')}`);
-  }
+  const tokensUsed = {
+    prompt: (keywordResult.tokensUsed?.prompt || 0) + (feasibilityResult.tokensUsed?.prompt || 0),
+    completion: (keywordResult.tokensUsed?.completion || 0) + (feasibilityResult.tokensUsed?.completion || 0)
+  };
 
   return {
-    clarifyingQuestion: message,
-    options,
-    reasoning: reasoningParts.join('; ') || 'Requested capabilities are not in the capability map.',
-    feasibility: {
-      feasible: false,
-      invalidRefs,
-      suggestion
-    }
+    ...finalResult,
+    tokensUsed,
+    keywords,
+    capabilitySubset: subset
   };
 }
 
 module.exports = {
-  checkFeasibility,
-  buildNotFeasibleResponse,
-  humanizeRef
+  runFeasibilityStep,
+  buildKeywordPrompt,
+  buildFeasibilityPrompt,
+  parseKeywordResponse,
+  parseFeasibilityResponse,
+  selectCapabilitySubset,
+  formatCapabilitySubset,
+  humanizeRef,
+  tokenizeText
 };
