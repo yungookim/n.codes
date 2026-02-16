@@ -364,9 +364,9 @@ function showClarifyingQuestion(question, options, originalPrompt, generateBtn, 
       btn.addEventListener('click', () => {
         // Re-submit with the answer appended to the prompt
         const newPrompt = originalPrompt + ' — ' + option;
-        if (textarea) textarea.value = newPrompt;
         showPromptView(_state.panel);
         resetGenerateUI(generateBtn, textarea);
+        if (textarea) textarea.value = newPrompt;
         _state.isGenerating = false;
         handleGenerate();
       });
@@ -447,9 +447,9 @@ function showErrorState(message, prompt, generateBtn, textarea) {
   retryBtn.textContent = 'Try again';
   retryBtn.addEventListener('click', () => {
     // Re-populate textarea and re-trigger generation
-    if (textarea) textarea.value = prompt;
     showPromptView(_state.panel);
     resetGenerateUI(generateBtn, textarea);
+    if (textarea) textarea.value = prompt;
     _state.isGenerating = false;
     handleGenerate();
   });

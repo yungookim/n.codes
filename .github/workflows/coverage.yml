@@ -15,10 +15,19 @@ jobs:
         with:
           node-version: 20
           cache: npm
-      - name: Install dependencies
+          cache-dependency-path: |
+            package-lock.json
+            widget/package-lock.json
+      - name: Install root dependencies
         run: npm install
-      - name: Run tests with coverage
+      - name: Run CLI tests with coverage
         run: npm run coverage
+      - name: Install widget dependencies
+        run: npm install
+        working-directory: widget
+      - name: Run widget tests
+        run: npm test
+        working-directory: widget
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         with:

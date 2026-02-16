@@ -12,6 +12,11 @@ const { logger } = require('./logger');
 
 const MAX_ITERATIONS = 3;
 
+function normalizeRefList(list) {
+  if (!Array.isArray(list)) return [];
+  return [...new Set(list.filter(item => typeof item === 'string' && item.trim()))];
+}
+
 /**
  * Run the intent step: parse the user's prompt into a structured intent.
  *
@@ -348,12 +353,31 @@ async function runAgenticPipeline({ prompt, provider, model, options = {}, capab
   reportStep('resolve', 'started');
   let apiBindings = [];
   if (capabilityMap && js) {
-    const { apiBindings: bindings, validation } = resolveApiBindings(js, capabilityMap);
+    const { apiBindings: bindings, validation, refs } = resolveApiBindings(js, capabilityMap);
     apiBindings = bindings;
 
-    // Log unknown refs but don't fail — the review step should have caught these
     if (!validation.valid) {
-      reasoning += `\n\nWarning: Some API refs could not be resolved: ${validation.errors.join('; ')}`;
+      return {
+        error: `Generated code referenced unsupported capabilities: ${validation.errors.join('; ')}`,
+        tokensUsed: totalTokens,
+        iterations
+      };
+    }
+
+    const requiredQueries = normalizeRefList(feasibility?.queries);
+    const requiredActions = normalizeRefList(feasibility?.actions);
+    const missingQueries = requiredQueries.filter(ref => !(refs?.queries || []).includes(ref));
+    const missingActions = requiredActions.filter(ref => !(refs?.actions || []).includes(ref));
+
+    if (missingQueries.length > 0 || missingActions.length > 0) {
+      const parts = [];
+      if (missingQueries.length > 0) parts.push(`queries: ${missingQueries.join(', ')}`);
+      if (missingActions.length > 0) parts.push(`actions: ${missingActions.join(', ')}`);
+      return {
+        error: `Generated code did not implement required capabilities (${parts.join(' | ')}).`,
+        tokensUsed: totalTokens,
+        iterations
+      };
     }
   }
 

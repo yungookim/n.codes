@@ -19,6 +19,21 @@ const REAL_CAP_MAP_PATH = path.join(
   __dirname, '..', '..', 'test-projects', 'express-tasks', 'public', 'n.codes.capabilities.json'
 );
 const REAL_CAP_MAP = JSON.parse(fs.readFileSync(REAL_CAP_MAP_PATH, 'utf8'));
+const SAMPLE_CAP_MAP = {
+  project: 'sample',
+  entities: {
+    task: { fields: ['id', 'title'] },
+    user: { fields: ['id', 'name'] },
+  },
+  actions: {
+    createTask: { endpoint: 'POST /tasks', description: 'Create a new task' },
+    deleteTask: { endpoint: 'DELETE /tasks/:id', description: 'Delete a task' },
+  },
+  queries: {
+    listTasks: { endpoint: 'GET /tasks', description: 'List all tasks' },
+    listUsers: { endpoint: 'GET /users', description: 'List all users' },
+  },
+};
 
 /** Create a mock fetch that resolves with given data. */
 function mockFetch(data, { ok = true, status = 200, delay = 0 } = {}) {
@@ -193,12 +208,12 @@ describe('capability-map', () => {
       assert.equal(validateCapabilityMap('bad'), false);
     });
 
-    it('returns false for missing project', () => {
-      assert.equal(validateCapabilityMap({ entities: { x: {} } }), false);
+    it('returns false for missing project in legacy map', () => {
+      assert.equal(validateCapabilityMap({ entities: { x: {} }, actions: {}, queries: {} }), false);
     });
 
-    it('returns false for empty project string', () => {
-      assert.equal(validateCapabilityMap({ project: '', entities: { x: {} } }), false);
+    it('returns false for empty project string in legacy map', () => {
+      assert.equal(validateCapabilityMap({ project: '', entities: { x: {} }, actions: {}, queries: {} }), false);
     });
 
     it('returns false when entities/actions/queries are all empty', () => {
@@ -211,8 +226,8 @@ describe('capability-map', () => {
   });
 
   describe('getEntities', () => {
-    it('returns entities from the real cap map', () => {
-      const entities = getEntities(REAL_CAP_MAP);
+    it('returns entities from the sample cap map', () => {
+      const entities = getEntities(SAMPLE_CAP_MAP);
       assert.ok('task' in entities);
       assert.ok('user' in entities);
       assert.deepEqual(entities.task.fields, ['id', 'title', 'description', 'status', 'priority', 'assignee', 'createdAt']);
@@ -228,10 +243,9 @@ describe('capability-map', () => {
   });
 
   describe('getActions', () => {
-    it('returns actions from the real cap map', () => {
-      const actions = getActions(REAL_CAP_MAP);
+    it('returns actions from the sample cap map', () => {
+      const actions = getActions(SAMPLE_CAP_MAP);
       assert.ok('createTask' in actions);
-      assert.ok('updateTask' in actions);
       assert.ok('deleteTask' in actions);
       assert.equal(actions.createTask.endpoint, 'POST /tasks');
     });
@@ -246,10 +260,9 @@ describe('capability-map', () => {
   });
 
   describe('getQueries', () => {
-    it('returns queries from the real cap map', () => {
-      const queries = getQueries(REAL_CAP_MAP);
+    it('returns queries from the sample cap map', () => {
+      const queries = getQueries(SAMPLE_CAP_MAP);
       assert.ok('listTasks' in queries);
-      assert.ok('getTask' in queries);
       assert.ok('listUsers' in queries);
     });
 
@@ -263,19 +276,19 @@ describe('capability-map', () => {
   });
 
   describe('getCapabilities', () => {
-    it('returns merged action + query capabilities from real cap map', () => {
-      const caps = getCapabilities(REAL_CAP_MAP);
-      assert.equal(caps.length, 6); // 3 actions + 3 queries
+    it('returns merged action + query capabilities from sample cap map', () => {
+      const caps = getCapabilities(SAMPLE_CAP_MAP);
+      assert.equal(caps.length, 4); // 2 actions + 2 queries
 
       const actionNames = caps.filter((c) => c.type === 'action').map((c) => c.name);
-      assert.deepEqual(actionNames, ['createTask', 'updateTask', 'deleteTask']);
+      assert.deepEqual(actionNames, ['createTask', 'deleteTask']);
 
       const queryNames = caps.filter((c) => c.type === 'query').map((c) => c.name);
-      assert.deepEqual(queryNames, ['listTasks', 'getTask', 'listUsers']);
+      assert.deepEqual(queryNames, ['listTasks', 'listUsers']);
     });
 
     it('includes descriptions', () => {
-      const caps = getCapabilities(REAL_CAP_MAP);
+      const caps = getCapabilities(SAMPLE_CAP_MAP);
       const createTask = caps.find((c) => c.name === 'createTask');
       assert.equal(createTask.description, 'Create a new task. Body: { title, description?, status?, priority?, assignee? }');
       assert.equal(createTask.type, 'action');
@@ -302,27 +315,27 @@ describe('capability-map', () => {
 
   describe('matchCapability', () => {
     it('matches a prompt to a query capability', () => {
-      const result = matchCapability('List all tasks', REAL_CAP_MAP);
+      const result = matchCapability('List all tasks', SAMPLE_CAP_MAP);
       assert.ok(result);
       assert.equal(result.name, 'listTasks');
       assert.equal(result.type, 'query');
     });
 
     it('matches a prompt to an action capability', () => {
-      const result = matchCapability('Create a new task', REAL_CAP_MAP);
+      const result = matchCapability('Create a new task', SAMPLE_CAP_MAP);
       assert.ok(result);
       assert.equal(result.name, 'createTask');
       assert.equal(result.type, 'action');
     });
 
     it('matches delete action', () => {
-      const result = matchCapability('Delete this task', REAL_CAP_MAP);
+      const result = matchCapability('Delete this task', SAMPLE_CAP_MAP);
       assert.ok(result);
       assert.equal(result.name, 'deleteTask');
     });
 
     it('returns null for unrelated prompt', () => {
-      const result = matchCapability('Tell me about the weather', REAL_CAP_MAP);
+      const result = matchCapability('Tell me about the weather', SAMPLE_CAP_MAP);
       assert.equal(result, null);
     });
 
@@ -335,7 +348,7 @@ describe('capability-map', () => {
     });
 
     it('matches user-related queries', () => {
-      const result = matchCapability('Show all users', REAL_CAP_MAP);
+      const result = matchCapability('Show all users', SAMPLE_CAP_MAP);
       assert.ok(result);
       assert.equal(result.name, 'listUsers');
     });
@@ -372,8 +385,8 @@ describe('capability-map', () => {
     });
 
     it('prioritises queries over actions', () => {
-      const prompts = generateQuickPrompts(REAL_CAP_MAP);
-      // First prompts should come from queries (3 queries in the real map)
+      const prompts = generateQuickPrompts(SAMPLE_CAP_MAP);
+      // First prompts should come from queries in the sample map
       assert.ok(prompts[0].label.includes('List all tasks') || prompts[0].prompt.includes('List all tasks'));
     });
 

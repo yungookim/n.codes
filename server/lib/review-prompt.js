@@ -32,6 +32,7 @@ Actions: ${validActions.length > 0 ? validActions.map(a => `"${a}"`).join(', ') 
 6. **CSS Quality**: Is the CSS responsive? Does it use the --ncodes-* custom properties?
 7. **Security**: Are there any XSS vectors (innerHTML with unsanitized data, eval, etc.)?
 8. **Completeness**: Does the generated UI match what was requested?
+9. **No Placeholders**: Are there any placeholder UI elements (disabled buttons, "coming soon", fake rows/totals) or controls that are not wired to real ncodes.action calls?
 
 ## Output Format
 
@@ -61,7 +62,8 @@ If the code has issues:
 - "error" severity means the code will break or is insecure — must be fixed
 - "warning" severity means the code works but could be improved — optional to fix
 - A PASS with minor notes is preferred over a FAIL with only warnings
-- innerHTML usage IS acceptable if the data comes from ncodes.query() responses (trusted API data), but flag it if used with user input`;
+- innerHTML usage IS acceptable if the data comes from ncodes.query() responses (trusted API data), but flag it if used with user input
+- Fail if the UI includes placeholders, fake data, or action buttons without real ncodes.action wiring`;
 }
 
 /**

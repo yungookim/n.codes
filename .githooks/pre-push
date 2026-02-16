@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+
+set -e
+
+remote_name="$1"
+
+if [ "$remote_name" != "origin" ]; then
+  exit 0
+fi
+
+echo "Running CLI tests with coverage before pushing to origin..."
+npm run coverage
+
+echo "Running widget tests..."
+(cd widget && npm test)
