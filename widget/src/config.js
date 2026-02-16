@@ -7,7 +7,6 @@ const DEFAULTS = {
   apiUrl: '/api/generate',
   provider: 'openai',
   model: 'gpt-5-mini',
-  mode: 'simulation',
   theme: 'dark',
   position: 'bottom-center',
   triggerLabel: 'Build with AI',
@@ -16,7 +15,6 @@ const DEFAULTS = {
   quickPrompts: [],
 };
 
-const VALID_MODES = new Set(['simulation', 'live']);
 const VALID_THEMES = new Set(['dark', 'light', 'auto']);
 const VALID_POSITIONS = new Set(['bottom-center', 'bottom-right', 'bottom-left']);
 
@@ -24,8 +22,8 @@ function validateConfig(config) {
   if (!config || typeof config !== 'object') {
     throw new Error('NCodes.init() requires a config object.');
   }
-  if (config.mode && !VALID_MODES.has(config.mode)) {
-    throw new Error(`Invalid mode "${config.mode}". Use: ${Array.from(VALID_MODES).join(', ')}`);
+  if (config.mode && config.mode !== 'live') {
+    throw new Error('Simulation mode is no longer supported. Remove mode or set it to "live".');
   }
   if (config.theme && !VALID_THEMES.has(config.theme)) {
     throw new Error(`Invalid theme "${config.theme}". Use: ${Array.from(VALID_THEMES).join(', ')}`);

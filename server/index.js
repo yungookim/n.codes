@@ -4,6 +4,8 @@ const express = require('express');
 const cors = require('cors');
 const { handleGenerate, handleGetJob, handleStreamGenerate } = require('./api/generate');
 const { handleProxy } = require('./api/proxy');
+const { requestLogger, logger } = require('./lib/logger');
+const { resolveCapabilityMapPath } = require('./lib/capability-map');
 
 const app = express();
 
@@ -16,6 +18,7 @@ app.use(cors({
   origin: allowedOrigins.length ? allowedOrigins : true,
   credentials: true
 }));
+app.use(requestLogger);
 app.use(express.json());
 
 app.post('/api/generate', handleGenerate);
@@ -25,5 +28,7 @@ app.post('/api/proxy', handleProxy);
 
 const port = Number(process.env.PORT) || 3001;
 app.listen(port, () => {
-  console.log(`n.codes server listening on http://localhost:${port}`);
+  logger.info('Server listening', { url: `http://localhost:${port}` });
+  logger.info('CORS origins', { origins: allowedOrigins.length ? allowedOrigins : 'any' });
+  logger.info('Capability map path', { path: resolveCapabilityMapPath() });
 });

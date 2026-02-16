@@ -553,17 +553,6 @@ function getStyles(theme) {
       color: var(--ncodes-text-main);
     }
 
-    .history-badge {
-      font-size: 10px;
-      padding: 2px 8px;
-      background: var(--ncodes-bg-card);
-      border: 1px solid var(--ncodes-border-color);
-      border-radius: 4px;
-      color: var(--ncodes-text-dim);
-      font-family: var(--ncodes-mono);
-      flex-shrink: 0;
-    }
-
     .history-delete {
       width: 22px;
       height: 22px;

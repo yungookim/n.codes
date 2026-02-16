@@ -20,10 +20,9 @@ const {
   getResultContainer,
   updateHistoryList,
 } = require('./panel');
-const { findTemplate, getTemplateHTML, STATUS_MESSAGES } = require('./simulation');
-const { renderGenerated, renderGeneratedUI, clearRenderedUI } = require('./renderer');
+const { renderGenerated, clearRenderedUI } = require('./renderer');
 const { getHistory, addToHistory, removeFromHistory } = require('./history');
-const { callGenerateAPI, pollJobStatus, GenerateError } = require('./api-client');
+const { callGenerateAPI, pollJobStatus } = require('./api-client');
 
 let _state = null;
 
@@ -159,13 +158,6 @@ function wireQuickPromptClicks() {
   });
 }
 
-/**
- * Select a template for the prompt using simulation keyword matching.
- */
-function selectTemplate(prompt) {
-  return findTemplate(prompt);
-}
-
 function handleEscapeKey(e) {
   if (!_state || !_state.mounted) return;
   if (e.key !== 'Escape') return;
@@ -235,10 +227,15 @@ function showHistoryResult(historyId, promptText) {
       apiBindings: entry.generated.apiBindings,
     });
   } else {
-    // Simulation entry — render from template
-    const templateId = entry ? entry.templateId : 'invoices';
-    const html = getTemplateHTML(templateId);
-    renderGeneratedUI(container, html);
+    const generateBtn = _state.panel.querySelector('.generate-btn');
+    const textarea = _state.panel.querySelector('.prompt-input');
+    showErrorState(
+      "This entry can't be replayed anymore. Please regenerate.",
+      promptText,
+      generateBtn,
+      textarea
+    );
+    return;
   }
 
   showResultView(_state.panel, promptText);
@@ -262,14 +259,7 @@ async function handleGenerate() {
     if (btnLoading) btnLoading.style.display = 'flex';
   }
 
-  const { config } = _state;
-  const isLive = config.mode === 'live';
-
-  if (isLive) {
-    await handleGenerateLive(prompt, generateBtn, textarea);
-  } else {
-    await handleGenerateSimulation(prompt, generateBtn, textarea);
-  }
+  await handleGenerateLive(prompt, generateBtn, textarea);
 
   _state.isGenerating = false;
 }
@@ -391,26 +381,6 @@ function showClarifyingQuestion(question, options, originalPrompt, generateBtn, 
   resetGenerateUI(generateBtn, textarea);
 }
 
-/**
- * Simulation mode: keyword match -> local template rendering.
- */
-async function handleGenerateSimulation(prompt, generateBtn, textarea) {
-  await animateStatus();
-
-  const templateId = selectTemplate(prompt);
-  const html = getTemplateHTML(templateId);
-
-  addToHistory({ prompt, templateId });
-  refreshHistoryList();
-
-  const container = getResultContainer(_state.panel);
-  clearRenderedUI(container);
-  renderGeneratedUI(container, html);
-  showResultView(_state.panel, prompt);
-
-  resetGenerateUI(generateBtn, textarea);
-}
-
 function resetGenerateUI(generateBtn, textarea) {
   if (generateBtn) {
     generateBtn.disabled = false;
@@ -484,22 +454,7 @@ function showErrorState(message, prompt, generateBtn, textarea) {
     handleGenerate();
   });
 
-  const fallbackBtn = document.createElement('button');
-  fallbackBtn.className = 'ncodes-error-fallback';
-  fallbackBtn.textContent = 'Use demo mode';
-  fallbackBtn.addEventListener('click', async () => {
-    showPromptView(_state.panel);
-    resetGenerateUI(generateBtn, textarea);
-    _state.isGenerating = false;
-    // Run simulation path
-    if (textarea) textarea.value = prompt;
-    _state.isGenerating = true;
-    await handleGenerateSimulation(prompt, generateBtn, textarea);
-    _state.isGenerating = false;
-  });
-
   actionsDiv.appendChild(retryBtn);
-  actionsDiv.appendChild(fallbackBtn);
 
   errorDiv.appendChild(iconEl);
   errorDiv.appendChild(msgEl);
@@ -508,22 +463,6 @@ function showErrorState(message, prompt, generateBtn, textarea) {
 
   showResultView(_state.panel, prompt);
   resetGenerateUI(generateBtn, textarea);
-}
-
-async function animateStatus() {
-  if (!_state || !_state.mounted) return;
-
-  const statusEl = _state.panel.querySelector('.generation-status');
-  const statusText = _state.panel.querySelector('.status-text');
-  if (!statusEl || !statusText) return;
-
-  statusEl.style.display = 'block';
-
-  for (let i = 0; i < STATUS_MESSAGES.length; i++) {
-    statusText.textContent = STATUS_MESSAGES[i];
-    const delay = i === STATUS_MESSAGES.length - 1 ? 300 : 400 + Math.random() * 300;
-    await sleep(delay);
-  }
 }
 
 function refreshHistoryList() {
@@ -553,10 +492,6 @@ function destroy() {
   }
 
   _state = null;
-}
-
-function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 module.exports = { init, open, close, destroy };

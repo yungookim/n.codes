@@ -42,7 +42,6 @@ useEffect(() => {
     NCodes = mod;
     NCodes.init({
       user,
-      mode: 'simulation',
       theme: 'auto',
     });
   });
@@ -63,4 +62,4 @@ useEffect(() => {
 2. Open the app in a browser
 3. Confirm the "Build with AI" floating button appears
 4. Click it and enter a prompt
-5. Confirm the prompt panel opens and simulation works
+5. Confirm the prompt panel opens and generation works

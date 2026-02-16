@@ -41,7 +41,6 @@ export default {
           if (user) {
             NCodes.init({
               user,
-              mode: 'simulation',
               theme: 'auto',
             });
           }
@@ -81,4 +80,4 @@ app.use(ncodes);
 2. Open the app in a browser
 3. Confirm the "Build with AI" floating button appears
 4. Click it and enter a prompt
-5. Confirm the simulation works
+5. Confirm generation works
