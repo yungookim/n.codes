@@ -1,6 +1,5 @@
 /**
  * Feature history — persists generated features in localStorage.
- * Stores templateId (not full HTML) to keep storage small.
  */
 
 const STORAGE_KEY = 'ncodes:history';
@@ -18,12 +17,11 @@ function getHistory() {
   }
 }
 
-function addToHistory({ prompt, templateId, generated }) {
+function addToHistory({ prompt, generated }) {
   const history = getHistory();
   const entry = {
     id: String(Date.now()),
     prompt,
-    templateId: templateId || null,
     timestamp: Date.now(),
   };
   // Store generated content for live mode entries (replay without re-calling API)

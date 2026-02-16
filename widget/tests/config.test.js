@@ -20,12 +20,11 @@ describe('config', () => {
       assert.throws(() => validateConfig('bad'), /requires a config object/);
     });
 
-    it('throws on invalid mode', () => {
-      assert.throws(() => validateConfig({ mode: 'invalid' }), /Invalid mode/);
+    it('throws on unsupported mode', () => {
+      assert.throws(() => validateConfig({ mode: 'simulation' }), /Simulation mode is no longer supported/);
     });
 
-    it('accepts valid modes', () => {
-      assert.doesNotThrow(() => validateConfig({ mode: 'simulation' }));
+    it('accepts live mode (optional)', () => {
       assert.doesNotThrow(() => validateConfig({ mode: 'live' }));
     });
 
@@ -53,7 +52,6 @@ describe('config', () => {
   describe('mergeConfig', () => {
     it('applies defaults for missing fields', () => {
       const result = mergeConfig({});
-      assert.equal(result.mode, DEFAULTS.mode);
       assert.equal(result.theme, DEFAULTS.theme);
       assert.equal(result.position, DEFAULTS.position);
       assert.equal(result.triggerLabel, DEFAULTS.triggerLabel);
@@ -84,7 +82,6 @@ describe('config', () => {
       assert.ok('apiUrl' in DEFAULTS);
       assert.ok('provider' in DEFAULTS);
       assert.ok('model' in DEFAULTS);
-      assert.ok('mode' in DEFAULTS);
       assert.ok('theme' in DEFAULTS);
       assert.ok('position' in DEFAULTS);
       assert.ok('triggerLabel' in DEFAULTS);

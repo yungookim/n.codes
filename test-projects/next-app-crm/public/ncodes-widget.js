@@ -1,10 +1,4 @@
-var NCodes=(()=>{var l=(e,t)=>()=>(t||e((t={exports:{}}).exports,t),t.exports);var X=l((lt,_)=>{var $={user:null,capabilityMapUrl:"/n.codes.capabilities.json",mode:"simulation",theme:"dark",position:"bottom-center",triggerLabel:"Build with AI",panelTitle:"n.codes",panelIntro:"Describe the UI you need and it will be generated instantly.",quickPrompts:[]},V=new Set(["simulation","live"]),O=new Set(["dark","light","auto"]),G=new Set(["bottom-center","bottom-right","bottom-left"]);function F(e){if(!e||typeof e!="object")throw new Error("NCodes.init() requires a config object.");if(e.mode&&!V.has(e.mode))throw new Error(`Invalid mode "${e.mode}". Use: ${Array.from(V).join(", ")}`);if(e.theme&&!O.has(e.theme))throw new Error(`Invalid theme "${e.theme}". Use: ${Array.from(O).join(", ")}`);if(e.position&&!G.has(e.position))throw new Error(`Invalid position "${e.position}". Use: ${Array.from(G).join(", ")}`);return!0}function Se(e){return F(e),{...$,...e}}_.exports={DEFAULTS:$,validateConfig:F,mergeConfig:Se}});var K=l((pt,J)=>{function Ce(e){return`
-    @property --ncodes-glow-angle {
-      syntax: '<angle>';
-      initial-value: 0deg;
-      inherits: false;
-    }
-
+var NCodes=(()=>{var y=(e,t)=>()=>(t||e((t={exports:{}}).exports,t),t.exports);var Z=y((Rt,K)=>{var W={user:null,apiUrl:"/api/generate",provider:"openai",model:"gpt-5-mini",theme:"dark",position:"bottom-center",triggerLabel:"Build with AI",panelTitle:"n.codes",panelIntro:"Describe the UI you need and it will be generated instantly.",quickPrompts:[]},X=new Set(["dark","light","auto"]),Q=new Set(["bottom-center","bottom-right","bottom-left"]);function Y(e){if(!e||typeof e!="object")throw new Error("NCodes.init() requires a config object.");if(e.mode&&e.mode!=="live")throw new Error('Simulation mode is no longer supported. Remove mode or set it to "live".');if(e.theme&&!X.has(e.theme))throw new Error(`Invalid theme "${e.theme}". Use: ${Array.from(X).join(", ")}`);if(e.position&&!Q.has(e.position))throw new Error(`Invalid position "${e.position}". Use: ${Array.from(Q).join(", ")}`);return!0}function Me(e){return Y(e),{...W,...e}}K.exports={DEFAULTS:W,validateConfig:Y,mergeConfig:Me}});var te=y((jt,ee)=>{function _e(e){return`
     :host {
       ${e!=="light"?`
     --ncodes-bg-body: #050505;
@@ -146,6 +140,22 @@ var NCodes=(()=>{var l=(e,t)=>()=>(t||e((t={exports:{}}).exports,t),t.exports);v
       to { --ncodes-glow-angle: 360deg; }
     }
 
+    @keyframes ncodes-glow-breathe {
+      0%, 100% {
+        box-shadow:
+          0 20px 60px rgba(0, 0, 0, 0.5),
+          0 0 20px rgba(74, 222, 128, 0.1),
+          0 0 40px rgba(74, 222, 128, 0.05);
+      }
+      50% {
+        box-shadow:
+          0 20px 60px rgba(0, 0, 0, 0.5),
+          0 0 40px rgba(74, 222, 128, 0.25),
+          0 0 80px rgba(74, 222, 128, 0.12),
+          0 0 120px rgba(74, 222, 128, 0.06);
+      }
+    }
+
     .ncodes-panel {
       position: fixed;
       bottom: 64px;
@@ -171,7 +181,9 @@ var NCodes=(()=>{var l=(e,t)=>()=>(t||e((t={exports:{}}).exports,t),t.exports);v
       opacity: 1;
       pointer-events: auto;
       --ncodes-glow-angle: 0deg;
-      animation: ncodes-glow-rotate 4s linear infinite;
+      animation:
+        ncodes-glow-rotate 4s linear infinite,
+        ncodes-glow-breathe 3s ease-in-out infinite;
       background:
         linear-gradient(var(--ncodes-bg-panel), var(--ncodes-bg-panel)) padding-box,
         conic-gradient(
@@ -185,10 +197,6 @@ var NCodes=(()=>{var l=(e,t)=>()=>(t||e((t={exports:{}}).exports,t),t.exports);v
           var(--ncodes-accent)
         ) border-box;
       border: 1.5px solid transparent;
-      box-shadow:
-        0 20px 60px rgba(0, 0, 0, 0.5),
-        0 0 30px rgba(74, 222, 128, 0.15),
-        0 0 60px rgba(74, 222, 128, 0.08);
     }
 
     .ncodes-panel.bottom-right {
@@ -419,6 +427,33 @@ var NCodes=(()=>{var l=(e,t)=>()=>(t||e((t={exports:{}}).exports,t),t.exports);v
       to { transform: rotate(360deg); }
     }
 
+    .status-step {
+      display: inline-block;
+      font-size: 11px;
+      color: var(--ncodes-text-dim);
+      font-family: var(--ncodes-mono);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-left: 26px;
+      margin-top: 6px;
+    }
+
+    .status-step:empty {
+      display: none;
+    }
+
+    .status-step::after {
+      content: '';
+      animation: ncodes-dots 1.4s steps(4, end) infinite;
+    }
+
+    @keyframes ncodes-dots {
+      0% { content: ''; }
+      25% { content: '.'; }
+      50% { content: '..'; }
+      75% { content: '...'; }
+    }
+
     /* ===== Panel Expansion (result view) \u2014 centered dialog ===== */
     .ncodes-panel.expanded {
       width: 80vw;
@@ -506,17 +541,6 @@ var NCodes=(()=>{var l=(e,t)=>()=>(t||e((t={exports:{}}).exports,t),t.exports);v
 
     .history-item:hover .history-prompt-text {
       color: var(--ncodes-text-main);
-    }
-
-    .history-badge {
-      font-size: 10px;
-      padding: 2px 8px;
-      background: var(--ncodes-bg-card);
-      border: 1px solid var(--ncodes-border-color);
-      border-radius: 4px;
-      color: var(--ncodes-text-dim);
-      font-family: var(--ncodes-mono);
-      flex-shrink: 0;
     }
 
     .history-delete {
@@ -1061,265 +1085,195 @@ var NCodes=(()=>{var l=(e,t)=>()=>(t||e((t={exports:{}}).exports,t),t.exports);v
         grid-template-columns: 1fr;
       }
     }
-  `}J.exports={getStyles:Ce}});var W=l((ut,Q)=>{function Ee(){let e=document.createElementNS("http://www.w3.org/2000/svg","svg");e.setAttribute("width","18"),e.setAttribute("height","18"),e.setAttribute("viewBox","0 0 24 24"),e.setAttribute("fill","none"),e.setAttribute("stroke","currentColor"),e.setAttribute("stroke-width","2.5");let t=document.createElementNS("http://www.w3.org/2000/svg","path");t.setAttribute("d","M7 4h-3v16h3"),t.setAttribute("stroke-linecap","round"),t.setAttribute("stroke-linejoin","round");let n=document.createElementNS("http://www.w3.org/2000/svg","path");return n.setAttribute("d","M17 4h3v16h-3"),n.setAttribute("stroke-linecap","round"),n.setAttribute("stroke-linejoin","round"),e.appendChild(t),e.appendChild(n),e}function Ae(e,t){let n=document.createElement("button");n.className=`ncodes-trigger ${e.position}`,n.title="Open n.codes",n.appendChild(Ee());let a=document.createElement("span");return a.textContent=e.triggerLabel,n.appendChild(a),n.addEventListener("click",t),n}function Te(e){e.classList.remove("hidden")}function qe(e){e.classList.add("hidden")}Q.exports={createTrigger:Ae,showTrigger:Te,hideTrigger:qe}});var ne=l((mt,te)=>{function Le(e){let t=document.createElement("div");t.className=`ncodes-panel ${e.position}`;let n=document.createElement("div");n.className="panel-header";let a=document.createElement("div");a.className="panel-title";let r=document.createElement("span");r.className="panel-logo",r.textContent="n";let i=document.createElement("span");i.textContent=e.panelTitle,a.appendChild(r),a.appendChild(i);let s=document.createElement("button");s.className="panel-close",s.setAttribute("data-ncodes-panel-close",""),s.textContent="\xD7",n.appendChild(a),n.appendChild(s);let c=document.createElement("div");c.className="panel-body";let d=document.createElement("div");d.className="prompt-view";let p=document.createElement("div");p.className="panel-intro";let B=document.createElement("p");B.textContent=e.panelIntro,p.appendChild(B);let h=document.createElement("div");h.className="history-section",h.style.display="none";let T=document.createElement("div");T.className="history-label",T.textContent="Recent features";let j=document.createElement("div");j.className="history-list",h.appendChild(T),h.appendChild(j);let v=document.createElement("div");v.className="prompt-section";let g=document.createElement("textarea");g.className="prompt-input",g.placeholder="e.g., Show me overdue invoices with a remind button...",g.rows=3;let x=document.createElement("button");x.className="generate-btn";let q=document.createElement("span");q.className="btn-text",q.textContent="Generate";let f=document.createElement("span");f.className="btn-loading",f.style.display="none";for(let u=0;u<3;u++){let m=document.createElement("span");m.className="loading-dot",f.appendChild(m)}if(x.appendChild(q),x.appendChild(f),v.appendChild(g),v.appendChild(x),d.appendChild(p),d.appendChild(h),d.appendChild(v),e.quickPrompts.length>0){let u=document.createElement("div");u.className="quick-prompts";let m=document.createElement("div");m.className="quick-prompts-label",m.textContent="Try these examples:",u.appendChild(m),e.quickPrompts.forEach(U=>{let E=document.createElement("button");E.className="quick-prompt",E.setAttribute("data-prompt",U.prompt),E.textContent=U.label,u.appendChild(E)}),d.appendChild(u)}let y=document.createElement("div");y.className="generation-status",y.style.display="none";let k=document.createElement("div");k.className="status-line";let L=document.createElement("span");L.className="status-icon spinning",L.textContent="\u2699";let N=document.createElement("span");N.className="status-text",N.textContent="Analyzing request...",k.appendChild(L),k.appendChild(N),y.appendChild(k),d.appendChild(y);let w=document.createElement("div");w.className="result-view";let S=document.createElement("div");S.className="result-header";let C=document.createElement("button");C.className="result-back-btn",C.setAttribute("data-ncodes-back",""),C.textContent="\u2190 Back";let D=document.createElement("span");D.className="result-prompt-label",S.appendChild(C),S.appendChild(D);let H=document.createElement("div");return H.className="result-content",w.appendChild(S),w.appendChild(H),c.appendChild(d),c.appendChild(w),t.appendChild(n),t.appendChild(c),t}function Ne(e,t){e.classList.add("open"),t&&t.classList.add("hidden");let n=e.querySelector(".prompt-input");n&&n.focus()}function Ie(e,t){e.classList.remove("open"),t&&t.classList.remove("hidden"),ee(e),Y(e)}function Y(e){let t=e.querySelector(".generation-status"),n=e.querySelector(".generate-btn");if(t&&(t.style.display="none"),n){n.disabled=!1;let a=n.querySelector(".btn-text"),r=n.querySelector(".btn-loading");a&&(a.style.display="inline"),r&&(r.style.display="none")}}function Z(e){for(;e.firstChild;)e.removeChild(e.firstChild)}function ze(e,t){e.classList.add("expanded");let n=e.querySelector(".result-prompt-label");n&&(n.textContent=t||"")}function ee(e){e.classList.remove("expanded");let t=e.querySelector(".result-content");t&&Z(t)}function Me(e){return e.querySelector(".result-content")}function Re(e,t){let n=e.querySelector(".history-section"),a=e.querySelector(".history-list");if(!(!n||!a)){if(Z(a),t.length===0){n.style.display="none";return}n.style.display="block",t.forEach(r=>{let i=document.createElement("div");i.className="history-item",i.setAttribute("data-history-id",r.id),i.setAttribute("data-template-id",r.templateId);let s=document.createElement("span");s.className="history-prompt-text",s.textContent=r.prompt;let c=document.createElement("span");c.className="history-badge",c.textContent=r.templateId;let d=document.createElement("button");d.className="history-delete",d.setAttribute("data-history-delete",r.id),d.textContent="\xD7",i.appendChild(s),i.appendChild(c),i.appendChild(d),a.appendChild(i)})}}te.exports={createPanel:Le,openPanel:Ne,closePanel:Ie,resetPanelState:Y,showResultView:ze,showPromptView:ee,getResultContainer:Me,updateHistoryList:Re}});var re=l((ht,se)=>{var ae={invoice:"invoices",overdue:"invoices",reminder:"invoices",health:"dashboard",dashboard:"dashboard",engagement:"dashboard",churn:"dashboard",archive:"archive",inactive:"archive",bulk:"archive",user:"archive"},Pe=["Analyzing request...","Mapping to capabilities...","Selecting components...","Generating UI...","Applying styles...","Done!"];function Be(e){let t=e.toLowerCase();for(let[n,a]of Object.entries(ae))if(t.includes(n))return a;return"invoices"}function je(e){return e==="invoices"?oe():e==="dashboard"?De():e==="archive"?He():oe()}function oe(){return`
-    <div class="generated-header">
-      <div class="generated-title">
-        <h2>Overdue Invoices Over $500</h2>
-        <span class="generated-badge">n.codes</span>
-      </div>
-      <button class="close-btn" data-ncodes-close>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="18" y1="6" x2="6" y2="18"></line>
-          <line x1="6" y1="6" x2="18" y2="18"></line>
-        </svg>
-        Close
-      </button>
-    </div>
-    <div class="generated-body">
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>Customer</th>
-            <th>Invoice #</th>
-            <th>Amount</th>
-            <th>Days Overdue</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <div class="customer-cell">
-                <span class="avatar">AC</span>
-                <div>
-                  <div class="customer-name">Acme Corp</div>
-                  <div class="customer-email">billing@acme.co</div>
-                </div>
-              </div>
-            </td>
-            <td class="mono">INV-2024-089</td>
-            <td class="amount">$2,450.00</td>
-            <td><span class="overdue-badge severe">45 days</span></td>
-            <td><button class="action-btn remind">Send Reminder</button></td>
-          </tr>
-          <tr>
-            <td>
-              <div class="customer-cell">
-                <span class="avatar">TI</span>
-                <div>
-                  <div class="customer-name">TechStart Inc</div>
-                  <div class="customer-email">accounts@techstart.io</div>
-                </div>
-              </div>
-            </td>
-            <td class="mono">INV-2024-076</td>
-            <td class="amount">$1,890.00</td>
-            <td><span class="overdue-badge moderate">28 days</span></td>
-            <td><button class="action-btn remind">Send Reminder</button></td>
-          </tr>
-          <tr>
-            <td>
-              <div class="customer-cell">
-                <span class="avatar">GS</span>
-                <div>
-                  <div class="customer-name">Global Systems</div>
-                  <div class="customer-email">finance@globalsys.com</div>
-                </div>
-              </div>
-            </td>
-            <td class="mono">INV-2024-092</td>
-            <td class="amount">$3,200.00</td>
-            <td><span class="overdue-badge severe">52 days</span></td>
-            <td><button class="action-btn remind">Send Reminder</button></td>
-          </tr>
-          <tr>
-            <td>
-              <div class="customer-cell">
-                <span class="avatar">NV</span>
-                <div>
-                  <div class="customer-name">Nova Ventures</div>
-                  <div class="customer-email">ap@novaventures.co</div>
-                </div>
-              </div>
-            </td>
-            <td class="mono">INV-2024-081</td>
-            <td class="amount">$875.00</td>
-            <td><span class="overdue-badge mild">14 days</span></td>
-            <td><button class="action-btn remind">Send Reminder</button></td>
-          </tr>
-          <tr>
-            <td>
-              <div class="customer-cell">
-                <span class="avatar">SP</span>
-                <div>
-                  <div class="customer-name">Spark Partners</div>
-                  <div class="customer-email">billing@sparkpartners.io</div>
-                </div>
-              </div>
-            </td>
-            <td class="mono">INV-2024-067</td>
-            <td class="amount">$4,100.00</td>
-            <td><span class="overdue-badge severe">61 days</span></td>
-            <td><button class="action-btn remind">Send Reminder</button></td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="table-footer">
-        <span class="table-info">Showing 5 invoices totaling $12,515.00</span>
-        <button class="action-btn primary">Send All Reminders</button>
-      </div>
-    </div>
-  `}function De(){return`
-    <div class="generated-header">
-      <div class="generated-title">
-        <h2>Customer Health Dashboard</h2>
-        <span class="generated-badge">n.codes</span>
-      </div>
-      <button class="close-btn" data-ncodes-close>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="18" y1="6" x2="6" y2="18"></line>
-          <line x1="6" y1="6" x2="18" y2="18"></line>
-        </svg>
-        Close
-      </button>
-    </div>
-    <div class="generated-body">
-      <div class="health-stats">
-        <div class="health-stat healthy">
-          <div class="health-stat-value">847</div>
-          <div class="health-stat-label">Healthy</div>
-          <div class="health-bar"><div class="health-bar-fill" style="width:66%"></div></div>
-        </div>
-        <div class="health-stat at-risk">
-          <div class="health-stat-value">312</div>
-          <div class="health-stat-label">At Risk</div>
-          <div class="health-bar"><div class="health-bar-fill" style="width:24%"></div></div>
-        </div>
-        <div class="health-stat churning">
-          <div class="health-stat-value">125</div>
-          <div class="health-stat-label">Churning</div>
-          <div class="health-bar"><div class="health-bar-fill" style="width:10%"></div></div>
-        </div>
-      </div>
-      <div class="dashboard-grid">
-        <div class="dashboard-card">
-          <h3>Top At-Risk Customers</h3>
-          <div class="risk-list">
-            <div class="risk-item">
-              <div class="risk-customer"><span class="avatar small">MC</span><span>MegaCorp Ltd</span></div>
-              <div class="risk-score high">23%</div>
-            </div>
-            <div class="risk-item">
-              <div class="risk-customer"><span class="avatar small">DF</span><span>DataFlow Inc</span></div>
-              <div class="risk-score high">31%</div>
-            </div>
-            <div class="risk-item">
-              <div class="risk-customer"><span class="avatar small">QS</span><span>QuickServe</span></div>
-              <div class="risk-score medium">45%</div>
-            </div>
-            <div class="risk-item">
-              <div class="risk-customer"><span class="avatar small">BT</span><span>BlueTech</span></div>
-              <div class="risk-score medium">52%</div>
-            </div>
-          </div>
-        </div>
-        <div class="dashboard-card">
-          <h3>Engagement Trends</h3>
-          <div class="mini-chart">
-            <div class="chart-bar" style="height:40%"></div>
-            <div class="chart-bar" style="height:55%"></div>
-            <div class="chart-bar" style="height:45%"></div>
-            <div class="chart-bar" style="height:70%"></div>
-            <div class="chart-bar" style="height:65%"></div>
-            <div class="chart-bar" style="height:80%"></div>
-            <div class="chart-bar" style="height:75%"></div>
-          </div>
-          <div class="chart-labels">
-            <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
-          </div>
-        </div>
-      </div>
-      <div class="dashboard-actions">
-        <button class="action-btn secondary">Export Report</button>
-        <button class="action-btn primary">Schedule Outreach</button>
-      </div>
-    </div>
-  `}function He(){return`
-    <div class="generated-header">
-      <div class="generated-title">
-        <h2>Bulk Archive Inactive Users</h2>
-        <span class="generated-badge">n.codes</span>
-      </div>
-      <button class="close-btn" data-ncodes-close>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="18" y1="6" x2="6" y2="18"></line>
-          <line x1="6" y1="6" x2="18" y2="18"></line>
-        </svg>
-        Close
-      </button>
-    </div>
-    <div class="generated-body">
-      <div class="archive-info">
-        <span class="archive-stat-value">234</span>
-        <span class="archive-stat-label">users inactive for 90+ days</span>
-      </div>
-      <div class="selection-header">
-        <label class="checkbox-label">
-          <input type="checkbox" checked data-ncodes-select-all>
-          <span>Select All (234)</span>
-        </label>
-        <span class="selection-count">234 selected</span>
-      </div>
-      <table class="data-table selectable">
-        <thead>
-          <tr><th width="40"></th><th>User</th><th>Last Active</th><th>Account Type</th><th>Status</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><input type="checkbox" checked class="row-checkbox"></td>
-            <td><div class="customer-cell"><span class="avatar">JD</span><div><div class="customer-name">John Doe</div><div class="customer-email">john.doe@example.com</div></div></div></td>
-            <td class="muted">Oct 15, 2024</td>
-            <td><span class="type-badge">Free</span></td>
-            <td><span class="status-badge inactive">Inactive</span></td>
-          </tr>
-          <tr>
-            <td><input type="checkbox" checked class="row-checkbox"></td>
-            <td><div class="customer-cell"><span class="avatar">SJ</span><div><div class="customer-name">Sarah Johnson</div><div class="customer-email">sarah.j@company.co</div></div></div></td>
-            <td class="muted">Sep 28, 2024</td>
-            <td><span class="type-badge">Pro</span></td>
-            <td><span class="status-badge inactive">Inactive</span></td>
-          </tr>
-          <tr>
-            <td><input type="checkbox" checked class="row-checkbox"></td>
-            <td><div class="customer-cell"><span class="avatar">MK</span><div><div class="customer-name">Mike Kim</div><div class="customer-email">m.kim@startup.io</div></div></div></td>
-            <td class="muted">Sep 12, 2024</td>
-            <td><span class="type-badge">Free</span></td>
-            <td><span class="status-badge inactive">Inactive</span></td>
-          </tr>
-          <tr>
-            <td><input type="checkbox" checked class="row-checkbox"></td>
-            <td><div class="customer-cell"><span class="avatar">EW</span><div><div class="customer-name">Emma Wilson</div><div class="customer-email">emma@agency.com</div></div></div></td>
-            <td class="muted">Aug 30, 2024</td>
-            <td><span class="type-badge">Team</span></td>
-            <td><span class="status-badge inactive">Inactive</span></td>
-          </tr>
-          <tr>
-            <td><input type="checkbox" checked class="row-checkbox"></td>
-            <td><div class="customer-cell"><span class="avatar">RL</span><div><div class="customer-name">Robert Lee</div><div class="customer-email">rlee@corp.net</div></div></div></td>
-            <td class="muted">Aug 15, 2024</td>
-            <td><span class="type-badge">Free</span></td>
-            <td><span class="status-badge inactive">Inactive</span></td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="table-footer">
-        <span class="table-info">Showing 5 of 234 inactive users</span>
-        <div class="archive-actions">
-          <button class="action-btn secondary">Cancel</button>
-          <button class="action-btn danger">Archive 234 Users</button>
-        </div>
-      </div>
-    </div>
-  `}se.exports={PROMPT_TEMPLATES:ae,STATUS_MESSAGES:Pe,findTemplate:Be,getTemplateHTML:je}});var le=l((bt,ce)=>{function Ue(e,t){de(e);let r=new DOMParser().parseFromString(t,"text/html").body.childNodes;for(;r.length>0;)e.appendChild(r[0]);return ie(e),e}function de(e){if(e)for(;e.firstChild;)e.removeChild(e.firstChild)}function ie(e){let t=e.querySelectorAll(".action-btn.remind");t.forEach(i=>{i.addEventListener("click",function(){let s=this.textContent;this.textContent="Sent!",this.style.background="var(--ncodes-accent)",this.style.color="#000",this.disabled=!0,setTimeout(()=>{this.textContent=s,this.style.background="",this.style.color="",this.disabled=!1},2e3)})});let n=e.querySelector(".action-btn.primary");n&&n.textContent.includes("Send All")&&n.addEventListener("click",function(){let i=this.textContent;this.textContent="All reminders sent!",this.disabled=!0,t.forEach(s=>{s.textContent="Sent!",s.style.background="var(--ncodes-accent)",s.style.color="#000",s.disabled=!0}),setTimeout(()=>{this.textContent=i,this.disabled=!1,t.forEach(s=>{s.textContent="Send Reminder",s.style.background="",s.style.color="",s.disabled=!1})},2e3)});let a=e.querySelector(".action-btn.danger");a&&a.addEventListener("click",function(){this.textContent="Archived!",this.style.background="var(--ncodes-accent)",this.disabled=!0});let r=e.querySelector("[data-ncodes-select-all]");r&&r.addEventListener("change",function(){let i=e.querySelectorAll(".row-checkbox"),s=e.querySelector(".selection-count");i.forEach(c=>{c.checked=this.checked}),s&&(s.textContent=this.checked?"234 selected":"0 selected")})}ce.exports={renderGeneratedUI:Ue,clearRenderedUI:de,setupActionHandlers:ie}});var ue=l((vt,pe)=>{var b="ncodes:history";function I(){try{let e=localStorage.getItem(b);if(!e)return[];let t=JSON.parse(e);return Array.isArray(t)?t:[]}catch{return[]}}function Ve({prompt:e,templateId:t}){let n=I(),a={id:String(Date.now()),prompt:e,templateId:t,timestamp:Date.now()};return n.unshift(a),n.length>20&&(n.length=20),localStorage.setItem(b,JSON.stringify(n)),a}function Oe(e){let t=I().filter(n=>n.id!==e);return localStorage.setItem(b,JSON.stringify(t)),t}function Ge(){localStorage.removeItem(b)}pe.exports={getHistory:I,addToHistory:Ve,removeFromHistory:Oe,clearHistory:Ge,STORAGE_KEY:b,MAX_ENTRIES:20}});var it=l((gt,we)=>{var{mergeConfig:$e}=X(),{getStyles:Fe}=K(),{createTrigger:_e}=W(),{createPanel:Xe,openPanel:he,closePanel:A,showResultView:be,showPromptView:Je,getResultContainer:M,updateHistoryList:Ke}=ne(),{findTemplate:Qe,getTemplateHTML:ve,STATUS_MESSAGES:z}=re(),{renderGeneratedUI:ge,clearRenderedUI:R}=le(),{getHistory:We,addToHistory:Ye,removeFromHistory:Ze}=ue(),o=null;function et(e){o&&ke();let t=$e(e);if(!t.user){o={config:t,mounted:!1};return}let n=document.createElement("div");n.id="ncodes-root";let a=n.attachShadow({mode:"open"}),r=document.createElement("style"),i=t.theme==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light":t.theme;r.textContent=Fe(i),a.appendChild(r);let s=_e(t,()=>{he(c,s)}),c=Xe(t);a.appendChild(s),a.appendChild(c),document.body.appendChild(n),o={config:t,host:n,shadow:a,trigger:s,panel:c,mounted:!0,isGenerating:!1},tt(),P()}function tt(){if(!o||!o.mounted)return;let{panel:e,trigger:t}=o,n=e.querySelector("[data-ncodes-panel-close]");n&&n.addEventListener("click",()=>A(e,t));let a=e.querySelector(".generate-btn");a&&a.addEventListener("click",me);let r=e.querySelector(".prompt-input");r&&r.addEventListener("keydown",d=>{d.key==="Enter"&&!d.shiftKey&&(d.preventDefault(),me())}),e.querySelectorAll(".quick-prompt").forEach(d=>{d.addEventListener("click",()=>{let p=e.querySelector(".prompt-input");p&&(p.value=d.getAttribute("data-prompt"),p.focus())})});let s=e.querySelector(".history-list");s&&s.addEventListener("click",nt);let c=e.querySelector("[data-ncodes-back]");c&&c.addEventListener("click",ye),document.addEventListener("keydown",xe),document.addEventListener("click",fe)}function xe(e){!o||!o.mounted||e.key==="Escape"&&o.panel.classList.contains("open")&&(o.panel.classList.contains("expanded")?ye():A(o.panel,o.trigger))}function fe(e){!o||!o.mounted||o.panel.classList.contains("open")&&!o.host.contains(e.target)&&A(o.panel,o.trigger)}function ye(){if(!o||!o.mounted)return;let e=M(o.panel);R(e),Je(o.panel)}function nt(e){if(!o||!o.mounted)return;let t=e.target.closest("[data-history-delete]");if(t){e.stopPropagation();let a=t.getAttribute("data-history-delete");Ze(a),P();return}let n=e.target.closest(".history-item");if(n){let a=n.getAttribute("data-template-id"),r=n.querySelector(".history-prompt-text"),i=r?r.textContent:"";ot(a,i)}}function ot(e,t){if(!o||!o.mounted)return;let n=ve(e),a=M(o.panel);R(a),ge(a,n),be(o.panel,t)}async function me(){if(!o||!o.mounted||o.isGenerating)return;let e=o.panel.querySelector(".prompt-input"),t=e?e.value.trim():"";if(!t)return;o.isGenerating=!0;let n=o.panel.querySelector(".generate-btn");if(n){n.disabled=!0;let c=n.querySelector(".btn-text"),d=n.querySelector(".btn-loading");c&&(c.style.display="none"),d&&(d.style.display="flex")}await at();let a=Qe(t),r=ve(a);Ye({prompt:t,templateId:a}),P();let i=M(o.panel);if(R(i),ge(i,r),be(o.panel,t),n){n.disabled=!1;let c=n.querySelector(".btn-text"),d=n.querySelector(".btn-loading");c&&(c.style.display="inline"),d&&(d.style.display="none")}let s=o.panel.querySelector(".generation-status");s&&(s.style.display="none"),e&&(e.value=""),o.isGenerating=!1}async function at(){if(!o||!o.mounted)return;let e=o.panel.querySelector(".generation-status"),t=o.panel.querySelector(".status-text");if(!(!e||!t)){e.style.display="block";for(let n=0;n<z.length;n++){t.textContent=z[n];let a=n===z.length-1?300:400+Math.random()*300;await dt(a)}}}function P(){if(!o||!o.mounted)return;let e=We();Ke(o.panel,e)}function st(){!o||!o.mounted||he(o.panel,o.trigger)}function rt(){!o||!o.mounted||A(o.panel,o.trigger)}function ke(){o&&(document.removeEventListener("keydown",xe),document.removeEventListener("click",fe),o.host&&o.host.parentNode&&o.host.parentNode.removeChild(o.host),o=null)}function dt(e){return new Promise(t=>setTimeout(t,e))}we.exports={init:et,open:st,close:rt,destroy:ke}});return it();})();
+
+    /* ===== Error State ===== */
+    .ncodes-error-state {
+      text-align: center;
+      padding: 32px 20px;
+    }
+
+    .ncodes-error-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+
+    .ncodes-error-message {
+      font-size: 14px;
+      color: var(--ncodes-text-muted);
+      line-height: 1.5;
+      margin-bottom: 20px;
+      max-width: 320px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .ncodes-error-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .ncodes-error-retry {
+      padding: 8px 18px;
+      background: var(--ncodes-accent);
+      border: none;
+      border-radius: 8px;
+      color: #000;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: var(--ncodes-font);
+      transition: background 0.15s ease;
+    }
+
+    .ncodes-error-retry:hover {
+      background: var(--ncodes-accent-hover);
+    }
+
+    .ncodes-error-fallback {
+      padding: 8px 18px;
+      background: transparent;
+      border: 1px solid var(--ncodes-border-color);
+      border-radius: 8px;
+      color: var(--ncodes-text-muted);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: var(--ncodes-font);
+      transition: border-color 0.15s ease;
+    }
+
+    .ncodes-error-fallback:hover {
+      border-color: var(--ncodes-text-muted);
+    }
+
+    /* ===== Clarifying Question ===== */
+    .ncodes-clarifying-question {
+      padding: 32px 20px;
+      text-align: center;
+    }
+
+    .ncodes-clarifying-text {
+      font-size: 15px;
+      color: var(--ncodes-text-main);
+      line-height: 1.5;
+      margin-bottom: 20px;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .ncodes-clarifying-options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-width: 320px;
+      margin: 0 auto;
+    }
+
+    .ncodes-clarifying-option {
+      padding: 10px 16px;
+      background: var(--ncodes-bg-body);
+      border: 1px solid var(--ncodes-border-color);
+      border-radius: 8px;
+      color: var(--ncodes-text-muted);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-family: var(--ncodes-font);
+    }
+
+    .ncodes-clarifying-option:hover {
+      border-color: var(--ncodes-accent);
+      color: var(--ncodes-text-main);
+      background: var(--ncodes-accent-dim);
+    }
+
+    /* ===== Sandbox iframe ===== */
+    .result-content iframe {
+      width: 100%;
+      height: 100%;
+      min-height: 400px;
+    }
+  `}ee.exports={getStyles:_e}});var oe=y((Ut,ne)=>{function De(){let e=document.createElementNS("http://www.w3.org/2000/svg","svg");e.setAttribute("width","18"),e.setAttribute("height","18"),e.setAttribute("viewBox","0 0 24 24"),e.setAttribute("fill","none"),e.setAttribute("stroke","currentColor"),e.setAttribute("stroke-width","2.5");let t=document.createElementNS("http://www.w3.org/2000/svg","path");t.setAttribute("d","M7 4h-3v16h3"),t.setAttribute("stroke-linecap","round"),t.setAttribute("stroke-linejoin","round");let n=document.createElementNS("http://www.w3.org/2000/svg","path");return n.setAttribute("d","M17 4h3v16h-3"),n.setAttribute("stroke-linecap","round"),n.setAttribute("stroke-linejoin","round"),e.appendChild(t),e.appendChild(n),e}function Oe(e,t){let n=document.createElement("button");n.className=`ncodes-trigger ${e.position}`,n.title="Open n.codes",n.appendChild(De());let r=document.createElement("span");return r.textContent=e.triggerLabel,n.appendChild(r),n.addEventListener("click",t),n}function Be(e){e.classList.remove("hidden")}function Ge(e){e.classList.add("hidden")}ne.exports={createTrigger:Oe,showTrigger:Be,hideTrigger:Ge}});var de=y((Mt,ie)=>{function He(e){let t=document.createElement("div");t.className=`ncodes-panel ${e.position}`;let n=document.createElement("div");n.className="panel-header";let r=document.createElement("div");r.className="panel-title";let a=document.createElement("span");a.className="panel-logo",a.textContent="n";let s=document.createElement("span");s.textContent=e.panelTitle,r.appendChild(a),r.appendChild(s);let i=document.createElement("button");i.className="panel-close",i.setAttribute("data-ncodes-panel-close",""),i.textContent="\xD7",n.appendChild(r),n.appendChild(i);let c=document.createElement("div");c.className="panel-body";let d=document.createElement("div");d.className="prompt-view";let u=document.createElement("div");u.className="panel-intro";let b=document.createElement("p");b.textContent=e.panelIntro,u.appendChild(b);let l=document.createElement("div");l.className="history-section",l.style.display="none";let p=document.createElement("div");p.className="history-label",p.textContent="Recent features";let m=document.createElement("div");m.className="history-list",l.appendChild(p),l.appendChild(m);let f=document.createElement("div");f.className="prompt-section";let E=document.createElement("textarea");E.className="prompt-input",E.placeholder="e.g., Show me overdue invoices with a remind button...",E.rows=3;let g=document.createElement("button");g.className="generate-btn";let v=document.createElement("span");v.className="btn-text",v.textContent="Generate";let w=document.createElement("span");w.className="btn-loading",w.style.display="none";for(let q=0;q<3;q++){let N=document.createElement("span");N.className="loading-dot",w.appendChild(N)}if(g.appendChild(v),g.appendChild(w),f.appendChild(E),f.appendChild(g),d.appendChild(u),d.appendChild(l),d.appendChild(f),e.quickPrompts.length>0){let q=document.createElement("div");q.className="quick-prompts";let N=document.createElement("div");N.className="quick-prompts-label",N.textContent="Try these examples:",q.appendChild(N),e.quickPrompts.forEach(V=>{let M=document.createElement("button");M.className="quick-prompt",M.setAttribute("data-prompt",V.prompt),M.textContent=V.label,q.appendChild(M)}),d.appendChild(q)}let x=document.createElement("div");x.className="generation-status",x.style.display="none";let A=document.createElement("div");A.className="status-line";let k=document.createElement("span");k.className="status-icon spinning",k.textContent="\u2699";let S=document.createElement("span");S.className="status-text",S.textContent="Analyzing request...",A.appendChild(k),A.appendChild(S),x.appendChild(A);let R=document.createElement("div");R.className="status-step",x.appendChild(R),d.appendChild(x);let C=document.createElement("div");C.className="result-view";let j=document.createElement("div");j.className="result-header";let U=document.createElement("button");U.className="result-back-btn",U.setAttribute("data-ncodes-back",""),U.textContent="\u2190 Back";let $=document.createElement("span");$.className="result-prompt-label",j.appendChild(U),j.appendChild($);let J=document.createElement("div");return J.className="result-content",C.appendChild(j),C.appendChild(J),c.appendChild(d),c.appendChild(C),t.appendChild(n),t.appendChild(c),t}function Fe(e,t){e.classList.add("open"),t&&t.classList.add("hidden");let n=e.querySelector(".prompt-input");n&&n.focus()}function $e(e,t){e.classList.remove("open"),t&&t.classList.remove("hidden"),se(e),re(e)}function re(e){let t=e.querySelector(".generation-status"),n=e.querySelector(".generate-btn");if(t&&(t.style.display="none"),n){n.disabled=!1;let r=n.querySelector(".btn-text"),a=n.querySelector(".btn-loading");r&&(r.style.display="inline"),a&&(a.style.display="none")}}function ae(e){for(;e.firstChild;)e.removeChild(e.firstChild)}function Je(e,t){e.classList.add("expanded");let n=e.querySelector(".result-prompt-label");n&&(n.textContent=t||"")}function se(e){e.classList.remove("expanded");let t=e.querySelector(".result-content");t&&ae(t)}function Ve(e){return e.querySelector(".result-content")}function Xe(e,t){let n=e.querySelector(".history-section"),r=e.querySelector(".history-list");if(!(!n||!r)){if(ae(r),t.length===0){n.style.display="none";return}n.style.display="block",t.forEach(a=>{let s=document.createElement("div");s.className="history-item",s.setAttribute("data-history-id",a.id);let i=document.createElement("span");i.className="history-prompt-text",i.textContent=a.prompt;let c=document.createElement("button");c.className="history-delete",c.setAttribute("data-history-delete",a.id),c.textContent="\xD7",s.appendChild(i),s.appendChild(c),r.appendChild(s)})}}function Qe(e,t){let n=e.querySelector(".prompt-view");if(!n)return;let r=n.querySelector(".quick-prompts");if(r&&r.remove(),!t||t.length===0)return;let a=document.createElement("div");a.className="quick-prompts";let s=document.createElement("div");s.className="quick-prompts-label",s.textContent="Try these examples:",a.appendChild(s),t.forEach(c=>{let d=document.createElement("button");d.className="quick-prompt",d.setAttribute("data-prompt",c.prompt),d.textContent=c.label,a.appendChild(d)});let i=n.querySelector(".generation-status");i?n.insertBefore(a,i):n.appendChild(a)}ie.exports={createPanel:He,openPanel:Fe,closePanel:$e,resetPanelState:re,showResultView:Je,showPromptView:se,getResultContainer:Ve,updateHistoryList:Xe,updateQuickPrompts:Qe}});var le=y((_t,ce)=>{"use strict";function We(e){return`
+(function() {
+  'use strict';
+
+  var REQUEST_TIMEOUT = 30000;
+  var _requestId = 0;
+  var _pending = {};
+
+  function generateId() {
+    return 'ncodes-req-' + (++_requestId) + '-' + Date.now();
+  }
+
+  function sendRequest(method, ref, payload) {
+    return new Promise(function(resolve, reject) {
+      var id = generateId();
+      console.log('[n.codes:bridge] request', method, ref, payload);
+
+      var timeoutHandle = setTimeout(function() {
+        delete _pending[id];
+        console.warn('[n.codes:bridge] timeout', id, ref);
+        reject(new Error('API request timed out after ' + REQUEST_TIMEOUT + 'ms'));
+      }, REQUEST_TIMEOUT);
+
+      _pending[id] = { resolve: resolve, reject: reject, timeout: timeoutHandle };
+
+      // targetOrigin '*' is required: this iframe has an opaque origin
+      // (sandbox without allow-same-origin), so no specific origin to target.
+      window.parent.postMessage({
+        type: 'ncodes:api-request',
+        id: id,
+        method: method,
+        ref: ref,
+        params: method === 'query' ? payload : undefined,
+        data: method === 'action' ? payload : undefined
+      }, '*');
+    });
+  }
+
+  window.addEventListener('message', function(event) {
+    if (!event.data || event.data.type !== 'ncodes:api-response') return;
+
+    var id = event.data.id;
+    var handler = _pending[id];
+    if (!handler) return;
+
+    clearTimeout(handler.timeout);
+    delete _pending[id];
+
+    console.log('[n.codes:bridge] response', id, event.data.error ? 'ERROR' : 'OK', event.data.data);
+
+    if (event.data.error) {
+      handler.reject(new Error(event.data.error));
+    } else {
+      handler.resolve(event.data.data);
+    }
+  });
+
+  window.addEventListener('error', function(event) {
+    console.error('[n.codes:bridge] JS error:', event.message, 'at', event.filename, ':', event.lineno);
+    // targetOrigin '*' required \u2014 see note above about opaque origins.
+    window.parent.postMessage({
+      type: 'ncodes:sandbox-error',
+      message: event.message,
+      lineno: event.lineno,
+      colno: event.colno
+    }, '*');
+  });
+
+  window.ncodes = {
+    query: function(ref, params) {
+      return sendRequest('query', ref, params || {});
+    },
+    action: function(ref, data) {
+      return sendRequest('action', ref, data || {});
+    },
+    app: ${JSON.stringify(e||{name:"",entities:[]})}
+  };
+})();
+`}ce.exports={getBridgeScript:We}});var ue=y((Dt,pe)=>{"use strict";function Ye(e,t,n){let a=(n||{}).fetchFn||globalThis.fetch,s={};if(Array.isArray(t))for(let l of t)s[l.ref]={type:l.type,method:l.resolved.method,path:l.resolved.path};function i(l){if(!l.data||l.data.type!=="ncodes:api-request"){l.data&&l.data.type==="ncodes:sandbox-error"&&console.error("[n.codes:sandbox] Error in generated code:",l.data.message,"line:",l.data.lineno);return}if(e.contentWindow&&l.source!==e.contentWindow)return;let{id:p,method:m,ref:f,params:E,data:g}=l.data;!p||!f||(console.log("[n.codes:handler] request received",{id:p,method:m,ref:f}),c(p,m,f,E,g))}async function c(l,p,m,f,E){try{let g=s[m];if(!g){console.warn("[n.codes:handler] unknown ref",m,"available:",Object.keys(s)),d(l,null,"Unknown API reference: "+m);return}if(console.log("[n.codes:handler] ref resolved",{ref:m,path:g.path,method:g.method}),p==="query"&&g.type!=="query"){d(l,null,'Reference "'+m+'" is not a query');return}if(p==="action"&&g.type!=="action"){d(l,null,'Reference "'+m+'" is not an action');return}let v={credentials:"include"},w=g.path;if(g.method==="GET"){if(f&&Object.keys(f).length>0){let k=new URLSearchParams;for(let[R,C]of Object.entries(f))C!=null&&k.append(R,String(C));let S=w.includes("?")?"&":"?";w=w+S+k.toString()}v.method="GET"}else v.method=g.method,v.headers={"Content-Type":"application/json"},v.body=JSON.stringify(E||f||{});let x=await a(w,v);if(console.log("[n.codes:handler] fetch complete",{id:l,ref:m,status:x.status,ok:x.ok}),!x.ok){let k=await x.json().catch(function(){return{}}),S=k&&k.error||"Request failed ("+x.status+")";d(l,null,S);return}let A=await x.json();d(l,A,null)}catch(g){d(l,null,g.message||"Network error")}}function d(l,p,m){console.log("[n.codes:handler] response sent",{id:l,hasData:!!p,error:m||null}),e.contentWindow&&e.contentWindow.postMessage({type:"ncodes:api-response",id:l,data:p,error:m},"*")}function u(){window.addEventListener("message",i)}function b(){window.removeEventListener("message",i)}return{start:u,stop:b,handler:i}}pe.exports={createMessageHandler:Ye}});var he=y((Ot,fe)=>{"use strict";var{getBridgeScript:Ke}=le(),{createMessageHandler:Ze}=ue(),T=null;function et(e,t,n){ge();let r=n||{},{html:a,css:s,js:i,apiBindings:c}=t,d=document.createElement("iframe");d.setAttribute("sandbox","allow-scripts"),d.style.width="100%",d.style.height="100%",d.style.border="none",d.style.display="block",d.style.backgroundColor="transparent";let u=Ke(r.appInfo),b=me(u,a||"",s||"",i||"");d.setAttribute("srcdoc",b);let l=Ze(d,c||[],{fetchFn:r.fetchFn});l.start(),e.appendChild(d);let p={iframe:d,messageHandler:l,destroy:function(){l.stop(),d.parentNode&&d.parentNode.removeChild(d),T===p&&(T=null)}};return T=p,p}function me(e,t,n,r){return'<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><style>*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #ededed; background: transparent; padding: 16px; }</style>'+(n?"<style>"+n+"</style>":"")+"<script>"+e+"<\/script></head><body>"+t+(r?"<script>"+r+"<\/script>":"")+"</body></html>"}function ge(){T&&(T.destroy(),T=null)}function tt(){return T}fe.exports={createSandbox:et,destroyActiveSandbox:ge,getActiveSandbox:tt,buildSrcdoc:me}});var ye=y((Bt,xe)=>{var{createSandbox:nt,destroyActiveSandbox:ot}=he();function rt(e,t,n){return be(e),nt(e,t,n)}function be(e){if(e)for(ot();e.firstChild;)e.removeChild(e.firstChild)}xe.exports={renderGenerated:rt,clearRenderedUI:be}});var we=y((Gt,ve)=>{var L="ncodes:history";function B(){try{let e=localStorage.getItem(L);if(!e)return[];let t=JSON.parse(e);return Array.isArray(t)?t:[]}catch{return[]}}function at({prompt:e,generated:t}){let n=B(),r={id:String(Date.now()),prompt:e,timestamp:Date.now()};return t&&(r.generated=t),n.unshift(r),n.length>20&&(n.length=20),localStorage.setItem(L,JSON.stringify(n)),r}function st(e){let t=B().filter(n=>n.id!==e);return localStorage.setItem(L,JSON.stringify(t)),t}function it(){localStorage.removeItem(L)}ve.exports={getHistory:B,addToHistory:at,removeFromHistory:st,clearHistory:it,STORAGE_KEY:L,MAX_ENTRIES:20}});var Te=y((Ht,qe)=>{async function dt(e,t,n={}){let{timeout:r=3e4,maxRetries:a=3,fetchFn:s}=n,i=s||globalThis.fetch,c;for(let d=0;d<=a;d++){if(d>0){let u=1e3*Math.pow(2,d-1);await Ce(u)}try{return await ct(i,e,t,r)}catch(u){if(c=u,u instanceof h&&u.status>=400&&u.status<500)throw u}}throw c}async function ct(e,t,n,r){let a=new AbortController,s=setTimeout(()=>a.abort(),r);try{let i=await e(t,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(n),signal:a.signal});if(!i.ok){let c=await i.json().catch(()=>({})),d=ke(i.status,c);throw new h(d,i.status,c)}return i.json()}catch(i){throw i instanceof h?i:i.name==="AbortError"?new h("Request timed out. The AI is taking too long to respond.",0,null):new h("Network error. Please check your connection and try again.",0,null)}finally{clearTimeout(s)}}function ke(e,t){let n=t&&t.error;return e===401?"API key is missing or invalid. Please check your configuration.":e===400?n||"Invalid request. Please try a different prompt.":e===422?"The AI generated an invalid response. Please try again.":e===429?"Rate limit exceeded. Please wait a moment and try again.":e>=500?"Server error. The AI service may be temporarily unavailable.":n||`Unexpected error (${e}).`}var h=class extends Error{constructor(t,n,r){super(t),this.name="GenerateError",this.status=n,this.data=r}},Ee=2e3,Se=5*60*1e3;async function lt(e,t,n={}){let{interval:r=Ee,maxDuration:a=Se,onProgress:s,fetchFn:i}=n,c=i||globalThis.fetch,u=`${e.replace(/\/api\/generate\/?$/,"")}/api/jobs/${t}`,b=Date.now();for(;;){if(Date.now()-b>=a)throw new h("Generation is taking longer than expected. Please try again.",0,null);let p;try{let m=await c(u);if(!m.ok){if(m.status===404)throw new h("Job not found. It may have expired.",404,null);let f=await m.json().catch(()=>({}));throw new h(f.error||`Polling error (${m.status})`,m.status,f)}p=await m.json()}catch(m){throw m instanceof h?m:new h("Network error while checking generation status.",0,null)}if(p.status==="running"){p.step&&typeof s=="function"&&s(p.step),await Ce(r);continue}if(p.status==="completed"||p.status==="clarification")return p.result;throw p.status==="failed"?new h(p.error||"Generation failed. Please try again.",0,null):new h(`Unexpected job status: ${p.status}`,0,null)}}function Ce(e){return new Promise(t=>setTimeout(t,e))}qe.exports={callGenerateAPI:dt,pollJobStatus:lt,GenerateError:h,classifyError:ke,DEFAULT_TIMEOUT:3e4,MAX_RETRIES:3,BASE_DELAY:1e3,DEFAULT_POLL_INTERVAL:Ee,DEFAULT_MAX_POLL_DURATION:Se}});var zt=y((Ft,Ue)=>{var{mergeConfig:pt}=Z(),{getStyles:ut}=te(),{createTrigger:mt}=oe(),{createPanel:gt,openPanel:Ae,closePanel:D,showResultView:O,showPromptView:H,getResultContainer:z,updateHistoryList:ft}=de(),{renderGenerated:Ne,clearRenderedUI:P}=ye(),{getHistory:Le,addToHistory:ht,removeFromHistory:bt}=we(),{callGenerateAPI:xt,pollJobStatus:yt}=Te(),o=null;function vt(e){o&&je();let t=pt(e);if(!t.user){o={config:t,mounted:!1};return}if(typeof CSS<"u"&&CSS.registerProperty)try{CSS.registerProperty({name:"--ncodes-glow-angle",syntax:"<angle>",initialValue:"0deg",inherits:!1})}catch{}let n=document.createElement("div");n.id="ncodes-root";let r=n.attachShadow({mode:"open"}),a=document.createElement("style"),s=t.theme==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light":t.theme;a.textContent=ut(s),r.appendChild(a);let i=mt(t,()=>{Ae(c,i)}),c=gt(t);r.appendChild(i),r.appendChild(c),document.body.appendChild(n),o={config:t,host:n,shadow:r,trigger:i,panel:c,mounted:!0,isGenerating:!1},wt(),F()}function wt(){if(!o||!o.mounted)return;let{panel:e,trigger:t}=o,n=e.querySelector("[data-ncodes-panel-close]");n&&n.addEventListener("click",()=>D(e,t));let r=e.querySelector(".generate-btn");r&&r.addEventListener("click",_);let a=e.querySelector(".prompt-input");a&&a.addEventListener("keydown",c=>{c.key==="Enter"&&!c.shiftKey&&(c.preventDefault(),_())}),kt();let s=e.querySelector(".history-list");s&&s.addEventListener("click",Et);let i=e.querySelector("[data-ncodes-back]");i&&i.addEventListener("click",Pe),document.addEventListener("keydown",Ie),document.addEventListener("click",ze)}function kt(){if(!o||!o.mounted)return;o.panel.querySelectorAll(".quick-prompt").forEach(t=>{t.addEventListener("click",()=>{let n=o.panel.querySelector(".prompt-input");n&&(n.value=t.getAttribute("data-prompt"),n.focus())})})}function Ie(e){!o||!o.mounted||e.key==="Escape"&&o.panel.classList.contains("open")&&(o.panel.classList.contains("expanded")?Pe():D(o.panel,o.trigger))}function ze(e){!o||!o.mounted||o.panel.classList.contains("open")&&!o.host.contains(e.target)&&D(o.panel,o.trigger)}function Pe(){if(!o||!o.mounted)return;let e=z(o.panel);P(e),H(o.panel)}function Et(e){if(!o||!o.mounted)return;let t=e.target.closest("[data-history-delete]");if(t){e.stopPropagation();let r=t.getAttribute("data-history-delete");bt(r),F();return}let n=e.target.closest(".history-item");if(n){let r=n.getAttribute("data-history-id"),a=n.querySelector(".history-prompt-text"),s=a?a.textContent:"";St(r,s)}}function St(e,t){if(!o||!o.mounted)return;let r=Le().find(s=>s.id===e),a=z(o.panel);if(P(a),r&&r.generated)Ne(a,{html:r.generated.html,css:r.generated.css,js:r.generated.js,apiBindings:r.generated.apiBindings});else{let s=o.panel.querySelector(".generate-btn"),i=o.panel.querySelector(".prompt-input");Re("This entry can't be replayed anymore. Please regenerate.",t,s,i);return}O(o.panel,t)}async function _(){if(!o||!o.mounted||o.isGenerating)return;let e=o.panel.querySelector(".prompt-input"),t=e?e.value.trim():"";if(!t)return;o.isGenerating=!0;let n=o.panel.querySelector(".generate-btn");if(n){n.disabled=!0;let r=n.querySelector(".btn-text"),a=n.querySelector(".btn-loading");r&&(r.style.display="none"),a&&(a.style.display="flex")}await qt(t,n,e),o.isGenerating=!1}var Ct={intent:"Understanding your request...",feasibility:"Checking what this app can do...",codegen:"Writing HTML, CSS & JavaScript...",review:"Reviewing generated code...",iterate:"Fixing issues found by QA...",resolve:"Resolving API connections..."};async function qt(e,t,n){At("Generating... this usually takes 1-2 minutes");try{let{config:r}=o,{jobId:a}=await xt(r.apiUrl,{prompt:e,provider:r.provider,model:r.model}),s=await yt(r.apiUrl,a,{onProgress(c){let d=Ct[c]||"Generating...";Nt(c,d)}});if(s.clarifyingQuestion){G(),Tt(s.clarifyingQuestion,s.options,e,t,n);return}ht({prompt:e,generated:{html:s.html,css:s.css,js:s.js,apiBindings:s.apiBindings}}),F(),G();let i=z(o.panel);P(i),Ne(i,{html:s.html,css:s.css,js:s.js,apiBindings:s.apiBindings}),O(o.panel,e),I(t,n)}catch(r){G(),console.warn("[n.codes] Live generation failed:",r.message),Re(r.message,e,t,n)}}function Tt(e,t,n,r,a){if(!o||!o.mounted)return;let s=z(o.panel);P(s);let i=document.createElement("div");i.className="ncodes-clarifying-question";let c=document.createElement("div");if(c.className="ncodes-clarifying-text",c.textContent=e,i.appendChild(c),Array.isArray(t)&&t.length>0){let d=document.createElement("div");d.className="ncodes-clarifying-options",t.forEach(u=>{let b=document.createElement("button");b.className="ncodes-clarifying-option",b.textContent=u,b.addEventListener("click",()=>{let l=n+" \u2014 "+u;a&&(a.value=l),H(o.panel),I(r,a),o.isGenerating=!1,_()}),d.appendChild(b)}),i.appendChild(d)}s.appendChild(i),O(o.panel,n),I(r,a)}function I(e,t){if(e){e.disabled=!1;let r=e.querySelector(".btn-text"),a=e.querySelector(".btn-loading");r&&(r.style.display="inline"),a&&(a.style.display="none")}let n=o.panel.querySelector(".generation-status");n&&(n.style.display="none"),t&&(t.value="")}function At(e){if(!o||!o.mounted)return;let t=o.panel.querySelector(".generation-status"),n=o.panel.querySelector(".status-text"),r=o.panel.querySelector(".status-icon"),a=o.panel.querySelector(".status-step");t&&(t.style.display="block"),n&&(n.textContent=e||"Generating with AI..."),r&&r.classList.add("spinning"),a&&(a.textContent="")}function Nt(e,t){if(!o||!o.mounted)return;let n=o.panel.querySelector(".status-text"),r=o.panel.querySelector(".status-step");n&&(n.textContent=t),r&&(r.textContent=e)}function G(){if(!o||!o.mounted)return;let e=o.panel.querySelector(".generation-status");e&&(e.style.display="none")}function Re(e,t,n,r){if(!o||!o.mounted)return;let a=z(o.panel);P(a);let s=document.createElement("div");s.className="ncodes-error-state";let i=document.createElement("div");i.className="ncodes-error-icon",i.textContent="\u26A0";let c=document.createElement("div");c.className="ncodes-error-message",c.textContent=e;let d=document.createElement("div");d.className="ncodes-error-actions";let u=document.createElement("button");u.className="ncodes-error-retry",u.textContent="Try again",u.addEventListener("click",()=>{r&&(r.value=t),H(o.panel),I(n,r),o.isGenerating=!1,_()}),d.appendChild(u),s.appendChild(i),s.appendChild(c),s.appendChild(d),a.appendChild(s),O(o.panel,t),I(n,r)}function F(){if(!o||!o.mounted)return;let e=Le();ft(o.panel,e)}function Lt(){!o||!o.mounted||Ae(o.panel,o.trigger)}function It(){!o||!o.mounted||D(o.panel,o.trigger)}function je(){o&&(document.removeEventListener("keydown",Ie),document.removeEventListener("click",ze),o.host&&o.host.parentNode&&o.host.parentNode.removeChild(o.host),o=null)}Ue.exports={init:vt,open:Lt,close:It,destroy:je}});return zt();})();
 if(typeof module!=="undefined")module.exports=NCodes;
 //# sourceMappingURL=ncodes-widget.js.map

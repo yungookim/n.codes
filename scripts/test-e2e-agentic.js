@@ -673,16 +673,6 @@ describe('E2E: API Failure and Fallback', () => {
     );
   });
 
-  it('simulation mode is available when live mode fails (isLive logic)', () => {
-    // When capabilityMap is null, isLive should be false → simulation path
-    const isLiveWithMap = ('live' === 'live') && { project: 'test' };
-    const isLiveWithoutMap = ('live' === 'live') && null;
-    const isSimulation = ('simulation' === 'live') && { project: 'test' };
-
-    assert.ok(!!isLiveWithMap, 'live mode with map → isLive true');
-    assert.strictEqual(!!isLiveWithoutMap, false, 'live mode without map → isLive false');
-    assert.strictEqual(!!isSimulation, false, 'simulation mode → isLive false');
-  });
 
   it('client-side DSL validation catches bad responses before rendering', () => {
     // Simulate what handleGenerateLive does when DSL is invalid
@@ -726,7 +716,7 @@ describe('E2E: History Storage and Replay', () => {
     assert.ok(entry.id, 'entry has id');
     assert.strictEqual(entry.prompt, 'Show all tasks');
     assert.deepStrictEqual(entry.dsl, result.dsl);
-    assert.strictEqual(entry.templateId, null, 'no templateId for live entries');
+    assert.strictEqual('templateId' in entry, false, 'no templateId for live entries');
   });
 
   it('replay from history produces same DSL', () => {
@@ -747,24 +737,6 @@ describe('E2E: History Storage and Replay', () => {
     assert.deepStrictEqual(replayedTypes, originalTypes, 'replayed types match original');
   });
 
-  it('can distinguish live vs simulation entries in history', () => {
-    // Add a simulation entry
-    addToHistory({ prompt: 'Show invoices', templateId: 'invoices' });
-
-    const history = getHistory();
-    assert.ok(history.length >= 2, 'at least 2 history entries');
-
-    const simEntry = history.find((e) => e.templateId === 'invoices');
-    const liveEntry = history.find((e) => e.dsl && !e.templateId);
-
-    assert.ok(simEntry, 'found simulation entry');
-    assert.ok(liveEntry, 'found live entry');
-
-    // Live entry has DSL, simulation doesn't
-    assert.ok(liveEntry.dsl, 'live entry has dsl');
-    assert.strictEqual(simEntry.dsl, undefined, 'sim entry has no dsl');
-    assert.strictEqual(simEntry.templateId, 'invoices', 'sim entry has templateId');
-  });
 
   it('history respects max entries limit', () => {
     clearHistory();

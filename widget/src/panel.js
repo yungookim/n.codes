@@ -31,6 +31,7 @@ function createPanel(config) {
   closeBtn.textContent = '\u00D7';
 
   header.appendChild(title);
+
   header.appendChild(closeBtn);
 
   // Body
@@ -214,7 +215,7 @@ function getResultContainer(panel) {
 
 /**
  * Rebuild history list DOM from array.
- * Each item: clickable row with prompt text, template badge, and delete button.
+ * Each item: clickable row with prompt text and delete button.
  */
 function updateHistoryList(panel, history) {
   const section = panel.querySelector('.history-section');
@@ -235,15 +236,10 @@ function updateHistoryList(panel, history) {
     const row = document.createElement('div');
     row.className = 'history-item';
     row.setAttribute('data-history-id', item.id);
-    row.setAttribute('data-template-id', item.templateId);
 
     const text = document.createElement('span');
     text.className = 'history-prompt-text';
     text.textContent = item.prompt;
-
-    const badge = document.createElement('span');
-    badge.className = 'history-badge';
-    badge.textContent = item.templateId;
 
     const deleteBtn = document.createElement('button');
     deleteBtn.className = 'history-delete';
@@ -251,7 +247,6 @@ function updateHistoryList(panel, history) {
     deleteBtn.textContent = '\u00D7';
 
     row.appendChild(text);
-    row.appendChild(badge);
     row.appendChild(deleteBtn);
     list.appendChild(row);
   });

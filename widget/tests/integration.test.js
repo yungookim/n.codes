@@ -91,36 +91,13 @@ describe('integration: API → sandbox render pipeline', () => {
       assert.ok(entry.id);
       assert.equal(entry.prompt, 'Show tasks');
       assert.deepEqual(entry.generated, generated);
-      assert.equal(entry.templateId, null);
+      assert.equal('templateId' in entry, false);
 
       const history = getHistory();
       assert.equal(history.length, 1);
       assert.deepEqual(history[0].generated, generated);
     });
 
-    it('stores simulation entry without generated', () => {
-      const { addToHistory } = require('../src/history');
-      const entry = addToHistory({ prompt: 'Show invoices', templateId: 'invoices' });
-      assert.equal(entry.templateId, 'invoices');
-      assert.equal(entry.generated, undefined);
-    });
-
-    it('can distinguish generated vs simulation entries', () => {
-      const { addToHistory, getHistory } = require('../src/history');
-      addToHistory({ prompt: 'Sim prompt', templateId: 'invoices' });
-      addToHistory({ prompt: 'Live prompt', generated: { html: '<p>test</p>', css: '', js: '', apiBindings: [] } });
-
-      const history = getHistory();
-      assert.equal(history.length, 2);
-
-      const liveEntry = history[0]; // most recent
-      assert.ok(liveEntry.generated);
-      assert.equal(liveEntry.templateId, null);
-
-      const simEntry = history[1];
-      assert.equal(simEntry.generated, undefined);
-      assert.equal(simEntry.templateId, 'invoices');
-    });
   });
 
   describe('config: live mode options', () => {
@@ -135,29 +112,13 @@ describe('integration: API → sandbox render pipeline', () => {
     it('allows overriding live mode options', () => {
       const { mergeConfig } = require('../src/config');
       const config = mergeConfig({
-        mode: 'live',
         apiUrl: 'https://my-api.com/generate',
         provider: 'anthropic',
         model: 'claude-sonnet-4-5',
       });
-      assert.equal(config.mode, 'live');
       assert.equal(config.apiUrl, 'https://my-api.com/generate');
       assert.equal(config.provider, 'anthropic');
       assert.equal(config.model, 'claude-sonnet-4-5');
-    });
-  });
-
-  describe('fallback behavior', () => {
-    it('simulation mode ignores apiUrl', () => {
-      const { mergeConfig } = require('../src/config');
-      const config = mergeConfig({ mode: 'simulation' });
-      assert.equal(config.mode, 'simulation');
-      assert.equal(config.apiUrl, '/api/generate');
-    });
-
-    it('live mode uses API regardless of capability map', () => {
-      const isLive = 'live' === 'live';
-      assert.equal(!!isLive, true);
     });
   });
 });

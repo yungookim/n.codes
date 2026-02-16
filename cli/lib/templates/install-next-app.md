@@ -41,7 +41,6 @@ export default function NCodesWidget({ user }: { user: { id: string; name: strin
       NCodes = mod;
       NCodes.init({
         user,
-        mode: 'simulation',
         theme: 'auto',
       });
     });
