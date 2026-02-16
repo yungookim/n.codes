@@ -17,13 +17,16 @@ function getHistory() {
   }
 }
 
-function addToHistory({ prompt, generated }) {
+function addToHistory({ prompt, templateId, generated }) {
   const history = getHistory();
   const entry = {
     id: String(Date.now()),
     prompt,
     timestamp: Date.now(),
   };
+  if (typeof templateId === 'string' && templateId) {
+    entry.templateId = templateId;
+  }
   // Store generated content for live mode entries (replay without re-calling API)
   if (generated) {
     entry.generated = generated;

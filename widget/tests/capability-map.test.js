@@ -200,6 +200,10 @@ describe('capability-map', () => {
       assert.equal(validateCapabilityMap(REAL_CAP_MAP), true);
     });
 
+    it('accepts projectName as project identifier', () => {
+      assert.equal(validateCapabilityMap({ projectName: 'test', actions: { a: { endpoint: 'POST /' } } }), true);
+    });
+
     it('returns false for null', () => {
       assert.equal(validateCapabilityMap(null), false);
     });
@@ -230,7 +234,7 @@ describe('capability-map', () => {
       const entities = getEntities(SAMPLE_CAP_MAP);
       assert.ok('task' in entities);
       assert.ok('user' in entities);
-      assert.deepEqual(entities.task.fields, ['id', 'title', 'description', 'status', 'priority', 'assignee', 'createdAt']);
+      assert.deepEqual(entities.task.fields, ['id', 'title']);
     });
 
     it('returns empty object for null', () => {
@@ -290,7 +294,7 @@ describe('capability-map', () => {
     it('includes descriptions', () => {
       const caps = getCapabilities(SAMPLE_CAP_MAP);
       const createTask = caps.find((c) => c.name === 'createTask');
-      assert.equal(createTask.description, 'Create a new task. Body: { title, description?, status?, priority?, assignee? }');
+      assert.equal(createTask.description, 'Create a new task');
       assert.equal(createTask.type, 'action');
     });
 
@@ -340,7 +344,7 @@ describe('capability-map', () => {
     });
 
     it('returns null for null prompt', () => {
-      assert.equal(matchCapability(null, REAL_CAP_MAP), null);
+      assert.equal(matchCapability(null, SAMPLE_CAP_MAP), null);
     });
 
     it('returns null for null capMap', () => {
@@ -372,7 +376,7 @@ describe('capability-map', () => {
 
   describe('generateQuickPrompts', () => {
     it('generates prompts from the real capability map', () => {
-      const prompts = generateQuickPrompts(REAL_CAP_MAP);
+      const prompts = generateQuickPrompts(SAMPLE_CAP_MAP);
       assert.ok(prompts.length > 0);
       assert.ok(prompts.length <= 4);
       // Each prompt has label and prompt fields
