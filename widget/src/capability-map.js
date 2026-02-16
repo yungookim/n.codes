@@ -69,7 +69,8 @@ function validateCapabilityMap(data) {
   const isObject = (value) => !!value && typeof value === 'object' && !Array.isArray(value);
 
   // Legacy schema: project name + at least one populated section.
-  const legacyProjectOk = typeof data.project === 'string' && data.project.trim().length > 0;
+  const legacyProject = data.project ?? data.projectName;
+  const legacyProjectOk = typeof legacyProject === 'string' && legacyProject.trim().length > 0;
   const legacyHasContent = Object.keys(data.entities || {}).length > 0
     || Object.keys(data.actions || {}).length > 0
     || Object.keys(data.queries || {}).length > 0;
@@ -123,6 +124,40 @@ function getCapabilities(capMap) {
   return result;
 }
 
+const STOP_WORDS = new Set([
+  'a', 'an', 'and', 'are', 'as', 'at', 'be', 'by', 'for', 'from', 'has', 'have',
+  'in', 'is', 'it', 'of', 'on', 'or', 'that', 'the', 'this', 'to', 'with',
+  'about', 'into', 'over', 'under', 'between', 'while', 'when', 'where', 'who',
+  'whom', 'whose', 'which', 'why', 'how', 'me', 'my', 'our', 'your', 'their',
+]);
+
+const READ_VERBS = new Set([
+  'list', 'show', 'view', 'get', 'fetch', 'find', 'search', 'load', 'see',
+]);
+
+const WRITE_VERBS = new Set([
+  'create', 'add', 'update', 'edit', 'delete', 'remove', 'archive', 'publish',
+  'unpublish', 'approve', 'reject', 'assign', 'set',
+]);
+
+function normalizeToken(token) {
+  if (!token) return '';
+  const lower = token.toLowerCase();
+  if (lower.endsWith('ies')) return `${lower.slice(0, -3)}y`;
+  if (lower.endsWith('sses')) return lower.slice(0, -2);
+  if (lower.endsWith('s') && !lower.endsWith('ss')) return lower.slice(0, -1);
+  return lower;
+}
+
+function tokenize(text) {
+  if (!text) return [];
+  return text
+    .toLowerCase()
+    .split(/[^a-z0-9]+/g)
+    .map((t) => normalizeToken(t))
+    .filter((t) => t && !STOP_WORDS.has(t));
+}
+
 /**
  * Match a user prompt against capabilities and return the best match.
  * Returns { capability, type } or null if no match found.
@@ -130,14 +165,12 @@ function getCapabilities(capMap) {
 function matchCapability(prompt, capMap) {
   if (!prompt || !capMap) return null;
 
-  const toWords = (text) => {
-    const words = (text || '').toLowerCase().match(/[a-z0-9]+/g);
-    return (words || []).filter((word) => word.length > 3);
-  };
-  const promptWords = new Set(toWords(prompt));
-  if (promptWords.size === 0) return null;
+  const promptTokens = tokenize(prompt);
+  if (promptTokens.length === 0) return null;
+  const promptTokenSet = new Set(promptTokens);
+  const hasReadVerb = promptTokens.some((t) => READ_VERBS.has(t));
+  const hasWriteVerb = promptTokens.some((t) => WRITE_VERBS.has(t));
   const capabilities = getCapabilities(capMap);
-  const entities = getEntities(capMap);
 
   // Score each capability by how well the prompt matches it
   let best = null;
@@ -145,34 +178,25 @@ function matchCapability(prompt, capMap) {
 
   for (const cap of capabilities) {
     let score = 0;
-    const nameWords = toWords(humanize(cap.name));
-    const descWords = toWords(cap.description || '');
+    const nameWords = tokenize(humanize(cap.name));
+    const descWords = tokenize(cap.description || '');
 
     // Match on capability name words
     for (const w of nameWords) {
-      if (promptWords.has(w)) score += 2;
+      if (promptTokenSet.has(w)) score += 3;
     }
 
     // Match on description words
     for (const w of descWords) {
-      if (promptWords.has(w)) score += 1;
+      if (promptTokenSet.has(w)) score += 1;
     }
+
+    if (cap.type === 'query' && hasReadVerb) score += 2;
+    if (cap.type === 'action' && hasWriteVerb) score += 2;
 
     if (score > bestScore) {
       bestScore = score;
       best = cap;
-    }
-  }
-
-  // Also check entity name matches
-  for (const [name, val] of Object.entries(entities)) {
-    const entityWords = toWords(humanize(name));
-    for (const w of entityWords) {
-      if (promptWords.has(w)) {
-        // If no capability matched, entity match alone isn't enough
-        if (best) bestScore += 1;
-        break;
-      }
     }
   }
 

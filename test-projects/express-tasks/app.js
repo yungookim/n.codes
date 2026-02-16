@@ -33,10 +33,12 @@ const tasksRouter = require('./routes/tasks');
 const usersRouter = require('./routes/users');
 const pagesRouter = require('./routes/pages');
 const authRouter = require('./routes/auth');
+const generateRouter = require('./routes/generate');
 
 app.use('/tasks', tasksRouter);
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
+app.use('/api', generateRouter);
 app.use('/', pagesRouter);
 
 // 404 handler

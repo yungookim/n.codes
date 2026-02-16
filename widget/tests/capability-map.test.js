@@ -200,6 +200,10 @@ describe('capability-map', () => {
       assert.equal(validateCapabilityMap(REAL_CAP_MAP), true);
     });
 
+    it('accepts projectName as project identifier', () => {
+      assert.equal(validateCapabilityMap({ projectName: 'test', actions: { a: { endpoint: 'POST /' } } }), true);
+    });
+
     it('returns false for null', () => {
       assert.equal(validateCapabilityMap(null), false);
     });
@@ -340,7 +344,7 @@ describe('capability-map', () => {
     });
 
     it('returns null for null prompt', () => {
-      assert.equal(matchCapability(null, REAL_CAP_MAP), null);
+      assert.equal(matchCapability(null, SAMPLE_CAP_MAP), null);
     });
 
     it('returns null for null capMap', () => {
@@ -372,7 +376,7 @@ describe('capability-map', () => {
 
   describe('generateQuickPrompts', () => {
     it('generates prompts from the real capability map', () => {
-      const prompts = generateQuickPrompts(REAL_CAP_MAP);
+      const prompts = generateQuickPrompts(SAMPLE_CAP_MAP);
       assert.ok(prompts.length > 0);
       assert.ok(prompts.length <= 4);
       // Each prompt has label and prompt fields

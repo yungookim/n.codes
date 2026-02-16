@@ -1,0 +1,175 @@
+{
+  "analysis": {
+    ".next/server/pages/api/jobs/[jobId].js:GET": {
+      "contentHash": "sha256:fd96afc008bef31227837b60b8ac4e1e1b7a48c69d4103dfa18fc32e90725a8d",
+      "analyzedAt": "2026-02-16T00:07:11.948Z",
+      "result": {
+        "description": "Handles GET requests to /api/jobs/:jobId. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "pages/api/customers/index.ts:GET": {
+      "contentHash": "sha256:adc67d7e95ea06b948e1592337e9df206e1741740cf841ddaa840b2ace11d683",
+      "analyzedAt": "2026-02-16T00:14:22.698Z",
+      "result": {
+        "description": "Handles GET requests to /api/customers. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "pages/api/invoices/[id].ts:GET": {
+      "contentHash": "sha256:907bfd88126680675cf52854a4c4aca4767aabec6b395ceaf86b5b95772418fe",
+      "analyzedAt": "2026-02-16T00:14:22.698Z",
+      "result": {
+        "description": "Handles GET requests to /api/invoices/:id. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "pages/api/invoices/[id].ts:PUT": {
+      "contentHash": "sha256:907bfd88126680675cf52854a4c4aca4767aabec6b395ceaf86b5b95772418fe",
+      "analyzedAt": "2026-02-16T00:14:22.698Z",
+      "result": {
+        "description": "Handles PUT requests to /api/invoices/:id. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "pages/api/invoices/[id].ts:DELETE": {
+      "contentHash": "sha256:907bfd88126680675cf52854a4c4aca4767aabec6b395ceaf86b5b95772418fe",
+      "analyzedAt": "2026-02-16T00:14:22.699Z",
+      "result": {
+        "description": "Handles DELETE requests to /api/invoices/:id. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "pages/api/invoices/index.ts:GET": {
+      "contentHash": "sha256:6e1104961ce52f6802c173dfb078f1c71064d9ae246ea5ce6ed6c3e4d49689bf",
+      "analyzedAt": "2026-02-16T00:14:22.699Z",
+      "result": {
+        "description": "Handles GET requests to /api/invoices. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "pages/api/invoices/index.ts:POST": {
+      "contentHash": "sha256:6e1104961ce52f6802c173dfb078f1c71064d9ae246ea5ce6ed6c3e4d49689bf",
+      "analyzedAt": "2026-02-16T00:14:22.699Z",
+      "result": {
+        "description": "Handles POST requests to /api/invoices. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    }
+  },
+  "entities": {},
+  "fileIndex": {
+    ".next/server/middleware-build-manifest.js": {
+      "size": 257,
+      "mtimeMs": 1771201168471.1506
+    },
+    ".next/server/middleware-react-loadable-manifest.js": {
+      "size": 35,
+      "mtimeMs": 1771201168471.137
+    },
+    ".next/server/next-font-manifest.js": {
+      "size": 113,
+      "mtimeMs": 1771201168471.2273
+    },
+    ".next/static/chunks/polyfills.js": {
+      "size": 91460,
+      "mtimeMs": 1771201168252.0469
+    },
+    ".next/static/development/_buildManifest.js": {
+      "size": 161,
+      "mtimeMs": 1771201168471.2524
+    },
+    ".next/static/development/_ssgManifest.js": {
+      "size": 76,
+      "mtimeMs": 1771201168471.1826
+    },
+    "components/Layout.tsx": {
+      "size": 1610,
+      "mtimeMs": 1770945582940.4885
+    },
+    "lib/mock-generate.ts": {
+      "size": 10378,
+      "mtimeMs": 1771198542107.4043
+    },
+    "next-env.d.ts": {
+      "size": 201,
+      "mtimeMs": 1771197081868.684
+    },
+    "next.config.js": {
+      "size": 166,
+      "mtimeMs": 1771200145273.366
+    },
+    "pages/_app.tsx": {
+      "size": 617,
+      "mtimeMs": 1771198658580.6973
+    },
+    "pages/api/customers/index.ts": {
+      "size": 1317,
+      "mtimeMs": 1770945582941.7424
+    },
+    "pages/api/generate/index.ts": {
+      "size": 454,
+      "mtimeMs": 1771200018031.1912
+    },
+    "pages/api/generate/stream.ts": {
+      "size": 460,
+      "mtimeMs": 1771200023645.896
+    },
+    "pages/api/invoices/[id].ts": {
+      "size": 856,
+      "mtimeMs": 1770945582942.0017
+    },
+    "pages/api/invoices/index.ts": {
+      "size": 2701,
+      "mtimeMs": 1770945582942.2615
+    },
+    "pages/api/jobs/[jobId].ts": {
+      "size": 696,
+      "mtimeMs": 1771200241355.7378
+    },
+    "pages/customers.tsx": {
+      "size": 2480,
+      "mtimeMs": 1770945582942.905
+    },
+    "pages/index.tsx": {
+      "size": 4050,
+      "mtimeMs": 1770945582943.1406
+    },
+    "pages/invoices.tsx": {
+      "size": 4313,
+      "mtimeMs": 1770945582943.4165
+    },
+    "public/ncodes-widget.js": {
+      "size": 51250,
+      "mtimeMs": 1771258163094.98
+    }
+  }
+}

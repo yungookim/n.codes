@@ -1,0 +1,455 @@
+{
+  "analysis": {
+    "app/api/contacts/[id]/route.ts:GET": {
+      "contentHash": "sha256:b47927e201634fbb19759ded490261fc7fe99fc60e92dd15078b87cf177ee2c6",
+      "analyzedAt": "2026-02-16T00:14:22.694Z",
+      "result": {
+        "description": "Handles GET requests to /api/contacts/:id. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "app/api/contacts/[id]/route.ts:PUT": {
+      "contentHash": "sha256:b47927e201634fbb19759ded490261fc7fe99fc60e92dd15078b87cf177ee2c6",
+      "analyzedAt": "2026-02-16T00:14:22.694Z",
+      "result": {
+        "description": "Handles PUT requests to /api/contacts/:id. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "app/api/contacts/[id]/route.ts:DELETE": {
+      "contentHash": "sha256:b47927e201634fbb19759ded490261fc7fe99fc60e92dd15078b87cf177ee2c6",
+      "analyzedAt": "2026-02-16T00:14:22.694Z",
+      "result": {
+        "description": "Handles DELETE requests to /api/contacts/:id. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "app/api/contacts/route.ts:GET": {
+      "contentHash": "sha256:b84e7ac1ad7973712aa8bd8ee59a13fa0a2991ac7237f8ab6a93a83d133a712f",
+      "analyzedAt": "2026-02-16T00:14:22.695Z",
+      "result": {
+        "description": "Handles GET requests to /api/contacts. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "app/api/contacts/route.ts:POST": {
+      "contentHash": "sha256:b84e7ac1ad7973712aa8bd8ee59a13fa0a2991ac7237f8ab6a93a83d133a712f",
+      "analyzedAt": "2026-02-16T00:14:22.695Z",
+      "result": {
+        "description": "Handles POST requests to /api/contacts. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "app/api/deals/[id]/route.ts:GET": {
+      "contentHash": "sha256:191313bc2935f3decdd3789191b4676b0373ba75b73ae1629cf59b1e6063f5b1",
+      "analyzedAt": "2026-02-16T00:14:22.695Z",
+      "result": {
+        "description": "Handles GET requests to /api/deals/:id. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "app/api/deals/[id]/route.ts:PUT": {
+      "contentHash": "sha256:191313bc2935f3decdd3789191b4676b0373ba75b73ae1629cf59b1e6063f5b1",
+      "analyzedAt": "2026-02-16T00:14:22.695Z",
+      "result": {
+        "description": "Handles PUT requests to /api/deals/:id. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "app/api/deals/route.ts:GET": {
+      "contentHash": "sha256:f7ff38a2d8572d8e4f9be1b595a7556d88086a5bee0a495d48d83045fde4750c",
+      "analyzedAt": "2026-02-16T00:14:22.695Z",
+      "result": {
+        "description": "Handles GET requests to /api/deals. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "app/api/deals/route.ts:POST": {
+      "contentHash": "sha256:f7ff38a2d8572d8e4f9be1b595a7556d88086a5bee0a495d48d83045fde4750c",
+      "analyzedAt": "2026-02-16T00:14:22.695Z",
+      "result": {
+        "description": "Handles POST requests to /api/deals. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "app/api/generate/route.ts:POST": {
+      "contentHash": "sha256:1bab4b4df552ba2200da27a6eeb9b1d26dd3e1a4d3e1670e49f2faf5da0607a7",
+      "analyzedAt": "2026-02-16T16:45:48.798Z",
+      "result": {
+        "description": "Handles POST requests to /api/generate. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "app/api/generate/stream/route.ts:POST": {
+      "contentHash": "sha256:7ae25d428d61535a5169f8fd79348cb757e8b3a0cfad1502b7a97db3f3f713ae",
+      "analyzedAt": "2026-02-16T16:45:48.798Z",
+      "result": {
+        "description": "Handles POST requests to /api/generate/stream. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "app/api/jobs/[jobId]/route.ts:GET": {
+      "contentHash": "sha256:2d1557809efb297c95bdb845c4c94bc734f7487b970adeba1ee13a73262120dd",
+      "analyzedAt": "2026-02-16T16:45:48.798Z",
+      "result": {
+        "description": "Handles GET requests to /api/jobs/:jobId. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    ".next/server/app/api/deals/route.js:GET": {
+      "contentHash": "sha256:4aef397d17aa0b19c874c796e25864982b343bdb400ccafdfd0b7aa165dafb4e",
+      "analyzedAt": "2026-02-16T16:45:48.792Z",
+      "result": {
+        "description": "Handles GET requests to /api/deals. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    ".next/server/app/api/generate/route.js:GET": {
+      "contentHash": "sha256:5075772e70fc2c71d9c14a736ef7624b88826cbd0d2a51372ab1080051076cbb",
+      "analyzedAt": "2026-02-16T16:45:48.792Z",
+      "result": {
+        "description": "Handles GET requests to /api/generate. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    ".next/server/app/api/generate/route.js:DELETE": {
+      "contentHash": "sha256:5075772e70fc2c71d9c14a736ef7624b88826cbd0d2a51372ab1080051076cbb",
+      "analyzedAt": "2026-02-16T16:45:48.792Z",
+      "result": {
+        "description": "Handles DELETE requests to /api/generate. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    ".next/server/app/api/jobs/[jobId]/route.js:GET": {
+      "contentHash": "sha256:bbbc66ffda531382a51376aa632d15f6544342c229f5c9d7d77448400921999b",
+      "analyzedAt": "2026-02-16T16:45:48.797Z",
+      "result": {
+        "description": "Handles GET requests to /api/jobs/:jobId. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    ".next/server/app/api/jobs/[jobId]/route.js:DELETE": {
+      "contentHash": "sha256:bbbc66ffda531382a51376aa632d15f6544342c229f5c9d7d77448400921999b",
+      "analyzedAt": "2026-02-16T16:45:48.797Z",
+      "result": {
+        "description": "Handles DELETE requests to /api/jobs/:jobId. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    }
+  },
+  "entities": {},
+  "fileIndex": {
+    ".n.codes/debug/82db34aa-5472-4096-a092-892406a8eeaa/generated.js": {
+      "size": 30556,
+      "mtimeMs": 1771259064335.1196
+    },
+    ".next/server/app/api/deals/[id]/route.js": {
+      "size": 25699,
+      "mtimeMs": 1771259083623.0005
+    },
+    ".next/server/app/api/deals/route.js": {
+      "size": 26185,
+      "mtimeMs": 1771259066141.6956
+    },
+    ".next/server/app/api/generate/route.js": {
+      "size": 424508,
+      "mtimeMs": 1771258801484.6716
+    },
+    ".next/server/app/api/jobs/[jobId]/route.js": {
+      "size": 426046,
+      "mtimeMs": 1771258801556.6025
+    },
+    ".next/server/app/contacts/page.js": {
+      "size": 93199,
+      "mtimeMs": 1771259119620.4946
+    },
+    ".next/server/app/contacts/page_client-reference-manifest.js": {
+      "size": 6620,
+      "mtimeMs": 1771259122141.436
+    },
+    ".next/server/app/deals/page.js": {
+      "size": 89679,
+      "mtimeMs": 1771259122109.9756
+    },
+    ".next/server/app/deals/page_client-reference-manifest.js": {
+      "size": 6614,
+      "mtimeMs": 1771259122142.0652
+    },
+    ".next/server/app/page.js": {
+      "size": 86196,
+      "mtimeMs": 1771258794813.155
+    },
+    ".next/server/app/page_client-reference-manifest.js": {
+      "size": 6537,
+      "mtimeMs": 1771259122141.3843
+    },
+    ".next/server/interception-route-rewrite-manifest.js": {
+      "size": 47,
+      "mtimeMs": 1771258794670.531
+    },
+    ".next/server/middleware-build-manifest.js": {
+      "size": 474,
+      "mtimeMs": 1771259122141.277
+    },
+    ".next/server/middleware-react-loadable-manifest.js": {
+      "size": 35,
+      "mtimeMs": 1771259122141.2625
+    },
+    ".next/server/next-font-manifest.js": {
+      "size": 113,
+      "mtimeMs": 1771259122141.2917
+    },
+    ".next/server/server-reference-manifest.js": {
+      "size": 140,
+      "mtimeMs": 1771259122109.543
+    },
+    ".next/server/vendor-chunks/@ai-sdk.js": {
+      "size": 565682,
+      "mtimeMs": 1771258801483.459
+    },
+    ".next/server/vendor-chunks/@swc.js": {
+      "size": 13969,
+      "mtimeMs": 1771258794813.1677
+    },
+    ".next/server/vendor-chunks/ai.js": {
+      "size": 651587,
+      "mtimeMs": 1771258801483.648
+    },
+    ".next/server/vendor-chunks/eventsource-parser.js": {
+      "size": 13698,
+      "mtimeMs": 1771258801483.556
+    },
+    ".next/server/vendor-chunks/nanoid.js": {
+      "size": 3137,
+      "mtimeMs": 1771258801483.5833
+    },
+    ".next/server/vendor-chunks/next.js": {
+      "size": 2155837,
+      "mtimeMs": 1771259066141.2314
+    },
+    ".next/server/vendor-chunks/secure-json-parse.js": {
+      "size": 11523,
+      "mtimeMs": 1771258801483.5833
+    },
+    ".next/server/vendor-chunks/zod-to-json-schema.js": {
+      "size": 226712,
+      "mtimeMs": 1771258801483.5796
+    },
+    ".next/server/vendor-chunks/zod.js": {
+      "size": 441079,
+      "mtimeMs": 1771258801483.4458
+    },
+    ".next/server/webpack-runtime.js": {
+      "size": 8800,
+      "mtimeMs": 1771259122109.3887
+    },
+    ".next/static/chunks/app/contacts/page.js": {
+      "size": 1707,
+      "mtimeMs": 1771259119643.5615
+    },
+    ".next/static/chunks/app/deals/page.js": {
+      "size": 1704,
+      "mtimeMs": 1771259122141.5027
+    },
+    ".next/static/chunks/app/layout.js": {
+      "size": 427892,
+      "mtimeMs": 1771258794946.4956
+    },
+    ".next/static/chunks/app/page.js": {
+      "size": 1698,
+      "mtimeMs": 1771258794946.476
+    },
+    ".next/static/chunks/app-pages-internals.js": {
+      "size": 133583,
+      "mtimeMs": 1771258794946.2644
+    },
+    ".next/static/chunks/main-app.js": {
+      "size": 6035473,
+      "mtimeMs": 1771258794946.9573
+    },
+    ".next/static/chunks/polyfills.js": {
+      "size": 112594,
+      "mtimeMs": 1771258794386.6538
+    },
+    ".next/static/chunks/webpack.js": {
+      "size": 56325,
+      "mtimeMs": 1771259122141.2544
+    },
+    ".next/static/development/_buildManifest.js": {
+      "size": 161,
+      "mtimeMs": 1771259122141.2837
+    },
+    ".next/static/development/_ssgManifest.js": {
+      "size": 76,
+      "mtimeMs": 1771259122141.2766
+    },
+    ".next/static/webpack/webpack.3db7fac38c7148aa.hot-update.js": {
+      "size": 858,
+      "mtimeMs": 1771259119643.5867
+    },
+    ".next/static/webpack/webpack.9df45056b0152d67.hot-update.js": {
+      "size": 858,
+      "mtimeMs": 1771259122141.3926
+    },
+    ".next/types/app/api/deals/[id]/route.ts": {
+      "size": 8496,
+      "mtimeMs": 1771259122109.7732
+    },
+    ".next/types/app/api/deals/route.ts": {
+      "size": 8475,
+      "mtimeMs": 1771259122109.7817
+    },
+    ".next/types/app/api/generate/route.ts": {
+      "size": 8484,
+      "mtimeMs": 1771258801556.1929
+    },
+    ".next/types/app/api/jobs/[jobId]/route.ts": {
+      "size": 8502,
+      "mtimeMs": 1771259122109.7507
+    },
+    ".next/types/app/contacts/page.ts": {
+      "size": 3515,
+      "mtimeMs": 1771259122109.9683
+    },
+    ".next/types/app/deals/page.ts": {
+      "size": 3506,
+      "mtimeMs": 1771259122110.1753
+    },
+    ".next/types/app/layout.ts": {
+      "size": 3494,
+      "mtimeMs": 1771259122109.7559
+    },
+    ".next/types/app/page.ts": {
+      "size": 3482,
+      "mtimeMs": 1771259122109.584
+    },
+    "app/api/contacts/[id]/route.ts": {
+      "size": 3306,
+      "mtimeMs": 1770945582934.1763
+    },
+    "app/api/contacts/route.ts": {
+      "size": 3480,
+      "mtimeMs": 1770945582934.4155
+    },
+    "app/api/deals/[id]/route.ts": {
+      "size": 3226,
+      "mtimeMs": 1770945582934.7173
+    },
+    "app/api/deals/route.ts": {
+      "size": 3436,
+      "mtimeMs": 1770945582934.8992
+    },
+    "app/api/generate/route.ts": {
+      "size": 457,
+      "mtimeMs": 1771258010273.4353
+    },
+    "app/api/generate/stream/route.ts": {
+      "size": 468,
+      "mtimeMs": 1771258012536.9446
+    },
+    "app/api/jobs/[jobId]/route.ts": {
+      "size": 786,
+      "mtimeMs": 1771258014973.5273
+    },
+    "app/components/Sidebar.tsx": {
+      "size": 2295,
+      "mtimeMs": 1770945582935.726
+    },
+    "app/contacts/page.tsx": {
+      "size": 3581,
+      "mtimeMs": 1770945582936.7073
+    },
+    "app/deals/page.tsx": {
+      "size": 3814,
+      "mtimeMs": 1770945582936.949
+    },
+    "app/layout.tsx": {
+      "size": 1037,
+      "mtimeMs": 1771258342580.1587
+    },
+    "app/page.tsx": {
+      "size": 2991,
+      "mtimeMs": 1770945582937.778
+    },
+    "next-env.d.ts": {
+      "size": 228,
+      "mtimeMs": 1770945582938.1125
+    },
+    "next.config.js": {
+      "size": 141,
+      "mtimeMs": 1771200141863.7075
+    },
+    "public/ncodes-widget.js": {
+      "size": 51250,
+      "mtimeMs": 1771258345137.94
+    }
+  }
+}

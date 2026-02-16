@@ -1,0 +1,207 @@
+{
+  "analysis": {
+    "routes/auth.js": {
+      "contentHash": "sha256:8b1898698aa9df252ae1798f312fd8486bbf4c0f64b9e3b838b3e5f2fc22e283",
+      "analyzedAt": "2026-02-13T02:00:05.812Z",
+      "result": {
+        "description": "Handles POST requests to /auth. Processes the request and returns a response.",
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "routes/pages.js": {
+      "contentHash": "sha256:231fb2443ded9f568c8ec2412f87652e3cbcdc66e934164bf8e1f7af58346cdb",
+      "analyzedAt": "2026-02-13T02:00:05.812Z",
+      "result": {
+        "description": "Handles GET requests to /pages. Processes the request and returns a response.",
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "routes/tasks.js": {
+      "contentHash": "sha256:35cc1b076e4a160b2132800467309c308d369a2be0c611e4ce86c5c2605cd7e1",
+      "analyzedAt": "2026-02-13T02:00:05.813Z",
+      "result": {
+        "description": "Handles PUT requests to /tasks. Processes the request and returns a response.",
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "routes/users.js": {
+      "contentHash": "sha256:3f0839eeed6011f6b0001206cbf30dcc8dbc0941fc4b19592107bf513caee8b0",
+      "analyzedAt": "2026-02-13T02:00:05.813Z",
+      "result": {
+        "description": "Handles POST requests to /users. Processes the request and returns a response.",
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "routes/auth.js:GET": {
+      "contentHash": "sha256:8b1898698aa9df252ae1798f312fd8486bbf4c0f64b9e3b838b3e5f2fc22e283",
+      "analyzedAt": "2026-02-16T00:14:22.687Z",
+      "result": {
+        "description": "Handles GET requests to /auth. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "routes/auth.js:POST": {
+      "contentHash": "sha256:8b1898698aa9df252ae1798f312fd8486bbf4c0f64b9e3b838b3e5f2fc22e283",
+      "analyzedAt": "2026-02-16T00:14:22.687Z",
+      "result": {
+        "description": "Handles POST requests to /auth. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "routes/pages.js:GET": {
+      "contentHash": "sha256:231fb2443ded9f568c8ec2412f87652e3cbcdc66e934164bf8e1f7af58346cdb",
+      "analyzedAt": "2026-02-16T00:14:22.688Z",
+      "result": {
+        "description": "Handles GET requests to /pages. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "routes/tasks.js:GET": {
+      "contentHash": "sha256:35cc1b076e4a160b2132800467309c308d369a2be0c611e4ce86c5c2605cd7e1",
+      "analyzedAt": "2026-02-16T00:14:22.688Z",
+      "result": {
+        "description": "Handles GET requests to /tasks. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "routes/tasks.js:POST": {
+      "contentHash": "sha256:35cc1b076e4a160b2132800467309c308d369a2be0c611e4ce86c5c2605cd7e1",
+      "analyzedAt": "2026-02-16T00:14:22.688Z",
+      "result": {
+        "description": "Handles POST requests to /tasks. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "routes/tasks.js:PUT": {
+      "contentHash": "sha256:35cc1b076e4a160b2132800467309c308d369a2be0c611e4ce86c5c2605cd7e1",
+      "analyzedAt": "2026-02-16T00:14:22.688Z",
+      "result": {
+        "description": "Handles PUT requests to /tasks. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "routes/tasks.js:DELETE": {
+      "contentHash": "sha256:35cc1b076e4a160b2132800467309c308d369a2be0c611e4ce86c5c2605cd7e1",
+      "analyzedAt": "2026-02-16T00:14:22.688Z",
+      "result": {
+        "description": "Handles DELETE requests to /tasks. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "routes/users.js:GET": {
+      "contentHash": "sha256:3f0839eeed6011f6b0001206cbf30dcc8dbc0941fc4b19592107bf513caee8b0",
+      "analyzedAt": "2026-02-16T00:14:22.689Z",
+      "result": {
+        "description": "Handles GET requests to /users. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "routes/users.js:POST": {
+      "contentHash": "sha256:3f0839eeed6011f6b0001206cbf30dcc8dbc0941fc4b19592107bf513caee8b0",
+      "analyzedAt": "2026-02-16T00:14:22.689Z",
+      "result": {
+        "description": "Handles POST requests to /users. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "routes/generate.js:GET": {
+      "contentHash": "sha256:28765906f44bd612a96b11888a97902ae60739f65a0b6a0c7e448d3153ec8412",
+      "analyzedAt": "2026-02-16T00:14:22.687Z",
+      "result": {
+        "description": "Handles GET requests to /generate. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    },
+    "routes/generate.js:POST": {
+      "contentHash": "sha256:28765906f44bd612a96b11888a97902ae60739f65a0b6a0c7e448d3153ec8412",
+      "analyzedAt": "2026-02-16T00:14:22.688Z",
+      "result": {
+        "description": "Handles POST requests to /generate. Processes the request and returns a response.",
+        "responseFormat": null,
+        "queryParams": [],
+        "requestBody": [],
+        "entities": [],
+        "analysisSource": "heuristic"
+      }
+    }
+  },
+  "entities": {},
+  "fileIndex": {
+    ".n.codes/debug/edbfd55b-be5d-4f22-847b-7aa622674776/generated.js": {
+      "size": 11391,
+      "mtimeMs": 1771257035072.2341
+    },
+    "app.js": {
+      "size": 1399,
+      "mtimeMs": 1771198650091.8193
+    },
+    "public/ncodes-widget.js": {
+      "size": 51250,
+      "mtimeMs": 1771258163090.255
+    },
+    "routes/auth.js": {
+      "size": 1110,
+      "mtimeMs": 1770945582931.568
+    },
+    "routes/generate.js": {
+      "size": 601,
+      "mtimeMs": 1771199735793.9238
+    },
+    "routes/pages.js": {
+      "size": 3058,
+      "mtimeMs": 1770945582931.7776
+    },
+    "routes/tasks.js": {
+      "size": 3375,
+      "mtimeMs": 1770945582932.0771
+    },
+    "routes/users.js": {
+      "size": 1195,
+      "mtimeMs": 1770945582932.302
+    }
+  }
+}
