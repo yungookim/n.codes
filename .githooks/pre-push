@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+set -e
+
+remote_name="$1"
+
+if [ "$remote_name" != "origin" ]; then
+  exit 0
+fi
+
+echo "Running tests with coverage before pushing to origin..."
+npm run coverage
