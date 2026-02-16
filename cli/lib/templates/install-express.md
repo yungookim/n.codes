@@ -54,7 +54,6 @@ For EJS:
 <script>
   NCodes.init({
     user: <%-  JSON.stringify(user || null) %>,
-    mode: 'simulation',
     theme: 'auto',
   });
 </script>
@@ -67,7 +66,6 @@ For static HTML:
   // Replace with your actual auth state
   NCodes.init({
     user: { id: 'demo', name: 'Demo User' },
-    mode: 'simulation',
     theme: 'auto',
   });
 </script>

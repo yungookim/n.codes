@@ -8,6 +8,7 @@ const { buildReviewPrompt, buildReviewUserPrompt } = require('./review-prompt');
 const { parseCodeBlocks, validateParsedCode } = require('./code-parser');
 const { resolveApiBindings } = require('./ref-extractor');
 const { runFeasibilityStep } = require('./feasibility-check');
+const { logger } = require('./logger');
 
 const MAX_ITERATIONS = 3;
 
@@ -358,7 +359,7 @@ async function runAgenticPipeline({ prompt, provider, model, options = {}, capab
 
   reportStep('resolve', 'completed');
 
-  console.log('[n.codes:pipeline] generated', {
+  logger.info('Pipeline generated', {
     htmlLen: html.length,
     cssLen: css.length,
     jsLen: js.length,

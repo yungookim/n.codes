@@ -44,7 +44,6 @@ Copy `ncodes-widget.js` from the n.codes CLI distribution to your web-accessible
 
   NCodes.init({
     user: user,
-    mode: 'simulation',
     theme: 'auto',
   });
 </script>
@@ -59,4 +58,4 @@ Copy `ncodes-widget.js` from the n.codes CLI distribution to your web-accessible
 1. Open or serve the HTML file in a browser
 2. Confirm the "Build with AI" floating button appears
 3. Click it and enter a prompt
-4. Confirm the simulation works
+4. Confirm generation works

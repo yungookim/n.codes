@@ -16,7 +16,7 @@ Runs 150 tests across all CLI modules (capability map, sync, install, detect-fra
 cd widget && npm test
 ```
 
-Runs 28 tests covering config validation, simulation template matching, and status messages.
+Runs tests covering config validation and live generation UI behavior.
 
 ### Integration tests
 
@@ -72,7 +72,6 @@ Then edit `views/layout.ejs` to add the widget script before `</body>`:
   NCodes.init({
     user: { id: 'demo', name: 'Demo User' },
     capabilityMapUrl: '/n.codes.capabilities.json',
-    mode: 'simulation',
     theme: 'auto',
   });
 </script>
@@ -87,7 +86,7 @@ npm run dev
 Open `http://localhost:3000` and confirm:
 - [ ] "Build with AI" floating button appears at bottom center
 - [ ] Clicking it opens the prompt panel
-- [ ] Typing "Show overdue invoices" and clicking Generate triggers the simulation
+- [ ] Typing "Show overdue invoices" and clicking Generate triggers live generation
 - [ ] Status messages animate through (Analyzing... → Done!)
 - [ ] Generated UI appears in the panel
 

@@ -23,9 +23,8 @@ Call `NCodes.init()` with your configuration:
 ```js
 NCodes.init({
   user: { id: '1', name: 'Demo User' },
-  mode: 'simulation',
   theme: 'dark',        // 'dark' | 'light' | 'auto'
-  position: 'center',   // 'center' | 'bottom-right' | 'bottom-left'
+  position: 'bottom-center',   // 'bottom-center' | 'bottom-right' | 'bottom-left'
 });
 ```
 
@@ -57,7 +56,6 @@ export default function RootLayout({ children }) {
         <Script id="ncodes-init" strategy="afterInteractive">{`
           NCodes.init({
             user: { id: '1', name: 'Demo User' },
-            mode: 'simulation',
             theme: 'dark',
           });
         `}</Script>
@@ -79,7 +77,6 @@ export default function RootLayout({ children }) {
   <script>
     NCodes.init({
       user: { id: '<%= user.id %>', name: '<%= user.name %>' },
-      mode: 'simulation',
       theme: 'dark',
     });
   </script>
@@ -99,7 +96,7 @@ document.body
               ├── <style>...</style>         ← Encapsulated CSS
               ├── .ncodes-trigger            ← Floating button
               └── .ncodes-panel              ← Panel with prompt/history/results
-                   └── (generated UI)        ← Rendered from trusted templates
+                   └── (generated UI)        ← Rendered in a sandboxed iframe
 ```
 
 This provides three layers of isolation:
@@ -120,10 +117,10 @@ Events inside the shadow DOM don't propagate to the host app in ways that expose
 
 | Boundary | Protection |
 |----------|-----------|
-| **No external network calls** | In simulation mode, everything is local. Templates are bundled. No data leaves the browser. |
+| **Network access is scoped** | Live generation calls the configured API endpoint; the sandboxed iframe can only reach whitelisted endpoints via API bindings. |
 | **No host app state access** | The widget only receives what's explicitly passed via `NCodes.init({ user })`. It does not read cookies, session tokens, or the host app's DOM. |
 | **Namespaced localStorage** | History is stored under the `ncodes:history` key, avoiding collisions with the host app's storage. |
-| **Template-based rendering** | Generated UI uses `DOMParser` to parse pre-built HTML templates, not arbitrary user-supplied HTML. Templates are authored by n.codes, eliminating XSS risk. |
+| **Sandboxed rendering** | Generated UI runs inside an iframe with `sandbox="allow-scripts"`, preventing DOM access to the host app. |
 
 ### Auth Gate
 
@@ -163,13 +160,18 @@ Storage format:
   {
     "id": "1707350400000",
     "prompt": "Show overdue invoices over $500",
-    "templateId": "invoices",
-    "timestamp": 1707350400000
+    "timestamp": 1707350400000,
+    "generated": {
+      "html": "<div>...</div>",
+      "css": ".card { ... }",
+      "js": "console.log('loaded')",
+      "apiBindings": []
+    }
   }
 ]
 ```
 
-History is capped at 20 entries (FIFO). Only the `templateId` is stored, not the full HTML, keeping storage small.
+History is capped at 20 entries (FIFO).
 
 ### Inline Result Rendering
 

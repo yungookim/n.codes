@@ -1,4 +1,4 @@
-const { generateUI, streamGenerateUI, ApiKeyError, ProviderError, assertApiKey, getModelConfig, createModel, DEFAULT_MAX_TOKENS, DEFAULT_TEMPERATURE } = require('../lib/llm-client');
+const { generateUI, streamGenerateUI, ApiKeyError, ProviderError, assertApiKey, getModelConfig, createModel, DEFAULT_MAX_TOKENS, DEFAULT_TEMPERATURE, resolveTemperature } = require('../lib/llm-client');
 const { loadCapabilityMap } = require('../lib/capability-map');
 const { buildSystemPrompt } = require('../lib/prompt-builder');
 const { parseDSLResponse, DSLValidationError } = require('../lib/response-parser');
@@ -6,6 +6,7 @@ const { resolveCapabilityRefs, CapabilityResolutionError } = require('../lib/cap
 const { runAgenticPipeline } = require('../lib/agentic-pipeline');
 const { jobStore, STATUS } = require('../lib/job-store');
 const { writeDebugArtifacts } = require('../lib/debug-logger');
+const { logger, createLogger, summarizeText, errorMeta } = require('../lib/logger');
 
 const MAX_PROMPT_LENGTH = 2000;
 
@@ -13,16 +14,31 @@ const MAX_PROMPT_LENGTH = 2000;
  * Validate request body common to both batch and stream paths.
  * Returns { prompt, provider, model, options } or writes error response.
  */
-function validateRequest(req, res) {
-  const { prompt, provider, model, options = {} } = req.body;
+function validateRequest(req, res, log) {
+  const { prompt, provider, model, options = {} } = req.body || {};
+  const missing = [];
 
-  if (!prompt || !provider || !model) {
+  if (!prompt) missing.push('prompt');
+  if (!provider) missing.push('provider');
+  if (!model) missing.push('model');
+
+  if (missing.length) {
+    if (log) {
+      log.warn('Invalid request', { reason: 'missing_fields', missing: missing.join(',') });
+    }
     res.writeHead(400, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ error: 'Missing required fields: prompt, provider, model' }));
     return null;
   }
 
   if (prompt.length > MAX_PROMPT_LENGTH) {
+    if (log) {
+      log.warn('Invalid request', {
+        reason: 'prompt_too_long',
+        promptLen: prompt.length,
+        maxLen: MAX_PROMPT_LENGTH
+      });
+    }
     res.writeHead(400, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ error: `Prompt exceeds maximum length of ${MAX_PROMPT_LENGTH} characters` }));
     return null;
@@ -54,11 +70,23 @@ function sendSSE(res, event, data) {
  * Set options.mode = 'dsl' to use the legacy DSL pipeline (synchronous).
  */
 async function handleGenerate(req, res) {
+  const log = req.log || logger;
+
   try {
-    const params = validateRequest(req, res);
+    const params = validateRequest(req, res, log);
     if (!params) return;
 
     const { prompt, provider, model, options } = params;
+    const mode = options.mode || 'agentic';
+
+    log.info('Generate request', {
+      provider,
+      model,
+      mode,
+      maxTokens: options.maxTokens || DEFAULT_MAX_TOKENS,
+      promptLen: prompt.length,
+      promptPreview: summarizeText(prompt, 140)
+    });
 
     // Legacy DSL mode behind a flag (remains synchronous)
     if (options.mode === 'dsl') {
@@ -71,7 +99,8 @@ async function handleGenerate(req, res) {
 
     // Create job and return immediately
     const job = jobStore.createJob(prompt, provider, model);
-    console.log('[n.codes] Job created:', job.id, '| store size:', jobStore.size);
+    const jobLogger = createLogger({ requestId: req.requestId, jobId: job.id });
+    jobLogger.info('Job created', { provider, model, storeSize: jobStore.size });
 
     res.writeHead(202, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ jobId: job.id, status: job.status }));
@@ -86,26 +115,31 @@ async function handleGenerate(req, res) {
         if (stepStatus === 'started') {
           jobStore.updateJob(job.id, { step: stepName });
         }
+        jobLogger.info('Pipeline step', { step: stepName, status: stepStatus });
       },
     }).then((result) => {
+      const durationMs = Date.now() - job.createdAt;
       if (result.clarifyingQuestion) {
-        console.log('[n.codes] Job clarification:', job.id);
+        jobLogger.info('Pipeline clarification', { durationMs });
         jobStore.updateJob(job.id, {
           status: STATUS.CLARIFICATION,
           result,
         });
       } else if (result.error) {
-        console.log('[n.codes] Job failed:', job.id, result.error);
+        jobLogger.error('Pipeline failed', { durationMs, error: result.error });
         jobStore.updateJob(job.id, {
           status: STATUS.FAILED,
           error: result.error,
         });
       } else {
-        console.log('[n.codes] Job completed:', job.id, {
+        jobLogger.info('Pipeline completed', {
+          durationMs,
           htmlLen: result.html?.length,
           cssLen: result.css?.length,
           jsLen: result.js?.length,
-          bindings: result.apiBindings?.length
+          bindings: result.apiBindings?.length,
+          iterations: result.iterations,
+          tokensUsed: result.tokensUsed
         });
         jobStore.updateJob(job.id, {
           status: STATUS.COMPLETED,
@@ -117,13 +151,15 @@ async function handleGenerate(req, res) {
         writeDebugArtifacts(job.id, prompt, provider, model, result).catch(() => {});
       }
     }).catch((err) => {
-      console.log('[n.codes] Job error:', job.id, err.message);
+      const jobLogger = createLogger({ requestId: req.requestId, jobId: job.id });
+      jobLogger.error('Pipeline error', { durationMs: Date.now() - job.createdAt, ...errorMeta(err) });
       jobStore.updateJob(job.id, {
         status: STATUS.FAILED,
         error: err.message,
       });
     });
   } catch (error) {
+    log.error('Generate request failed', errorMeta(error));
     writeErrorResponse(res, error);
   }
 }
@@ -144,11 +180,19 @@ async function handleGenerate(req, res) {
  *   { status: "clarification", result: { clarifyingQuestion, options, ... } }
  */
 function handleGetJob(req, res) {
+  const log = req.log || logger;
   const { jobId } = req.params;
   const job = jobStore.getJob(jobId);
-  console.log('[n.codes] Poll job:', jobId, '| found:', !!job, '| store size:', jobStore.size);
+  log.debug('Job poll', {
+    jobId,
+    found: !!job,
+    status: job?.status,
+    step: job?.step,
+    storeSize: jobStore.size
+  });
 
   if (!job) {
+    log.warn('Job not found', { jobId, storeSize: jobStore.size });
     res.writeHead(404, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ error: 'Job not found' }));
     return;
@@ -172,9 +216,19 @@ function handleGetJob(req, res) {
  * Legacy DSL generation (kept for backward compatibility).
  */
 async function handleLegacyGenerate(req, res, params) {
+  const log = req.log || logger;
   const { prompt, provider, model, options } = params;
   const capabilityMap = loadCapabilityMap();
   const systemPrompt = buildSystemPrompt(capabilityMap || null);
+
+  log.info('Legacy DSL generate', {
+    provider,
+    model,
+    maxTokens: options.maxTokens || DEFAULT_MAX_TOKENS,
+    promptLen: prompt.length,
+    promptPreview: summarizeText(prompt, 140),
+    capabilityMap: !!capabilityMap
+  });
 
   const { text, tokensUsed } = await generateUI({
     prompt,
@@ -192,6 +246,8 @@ async function handleLegacyGenerate(req, res, params) {
   if (capabilityMap) {
     dsl = resolveCapabilityRefs(dsl, capabilityMap);
   }
+
+  log.info('Legacy DSL completed', { tokensUsed });
 
   res.writeHead(200, { 'Content-Type': 'application/json' });
   res.end(JSON.stringify({ dsl, reasoning, tokensUsed }));
@@ -211,13 +267,25 @@ async function handleLegacyGenerate(req, res, params) {
  * Set options.mode = 'dsl' for legacy DSL streaming.
  */
 async function handleStreamGenerate(req, res) {
+  const log = req.log || logger;
+  const startedAt = Date.now();
   let sseStarted = false;
 
   try {
-    const params = validateRequest(req, res);
+    const params = validateRequest(req, res, log);
     if (!params) return;
 
     const { prompt, provider, model, options } = params;
+    const mode = options.mode || 'agentic';
+
+    log.info('Stream generate request', {
+      provider,
+      model,
+      mode,
+      maxTokens: options.maxTokens || DEFAULT_MAX_TOKENS,
+      promptLen: prompt.length,
+      promptPreview: summarizeText(prompt, 140)
+    });
 
     // Legacy DSL streaming
     if (options.mode === 'dsl') {
@@ -236,6 +304,7 @@ async function handleStreamGenerate(req, res) {
     });
     sseStarted = true;
 
+    log.info('SSE stream opened');
     sendSSE(res, 'step', { step: 'pipeline', status: 'started' });
 
     const result = await runAgenticPipeline({
@@ -245,10 +314,12 @@ async function handleStreamGenerate(req, res) {
       options,
       onStep(stepName, stepStatus) {
         sendSSE(res, 'step', { step: stepName, status: stepStatus });
+        log.debug('Pipeline step', { step: stepName, status: stepStatus });
       },
     });
 
     if (result.error) {
+      log.error('Stream pipeline failed', { durationMs: Date.now() - startedAt, error: result.error });
       sendSSE(res, 'error', { error: result.error });
       res.end();
       return;
@@ -256,7 +327,17 @@ async function handleStreamGenerate(req, res) {
 
     sendSSE(res, 'done', result);
     res.end();
+    log.info('Stream pipeline completed', {
+      durationMs: Date.now() - startedAt,
+      htmlLen: result.html?.length,
+      cssLen: result.css?.length,
+      jsLen: result.js?.length,
+      bindings: result.apiBindings?.length,
+      iterations: result.iterations,
+      tokensUsed: result.tokensUsed
+    });
   } catch (error) {
+    log.error('Stream generate error', { durationMs: Date.now() - startedAt, ...errorMeta(error) });
     if (sseStarted) {
       const payload = { error: error.message };
       if (error instanceof DSLValidationError) {
@@ -276,8 +357,17 @@ async function handleStreamGenerate(req, res) {
  * Legacy DSL streaming handler.
  */
 async function handleLegacyStreamGenerate(req, res, params) {
+  const log = req.log || logger;
   const { prompt, provider, model, options } = params;
   const maxTokens = options.maxTokens || DEFAULT_MAX_TOKENS;
+
+  log.info('Legacy DSL stream request', {
+    provider,
+    model,
+    maxTokens,
+    promptLen: prompt.length,
+    promptPreview: summarizeText(prompt, 140)
+  });
 
   assertApiKey(provider);
   getModelConfig(provider, model);
@@ -298,7 +388,7 @@ async function handleLegacyStreamGenerate(req, res, params) {
     model: llmModel,
     system: systemPrompt,
     prompt,
-    temperature: DEFAULT_TEMPERATURE
+    temperature: resolveTemperature(provider, model)
   };
 
   if (provider === 'openai') {
@@ -329,6 +419,7 @@ async function handleLegacyStreamGenerate(req, res, params) {
 
   sendSSE(res, 'done', { dsl, reasoning, tokensUsed });
   res.end();
+  log.info('Legacy DSL stream completed', { tokensUsed });
 }
 
 /**

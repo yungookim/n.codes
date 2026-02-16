@@ -2,6 +2,7 @@
 
 const { loadCapabilityMap } = require('../lib/capability-map');
 const { parseEndpoint, lookupRef } = require('../lib/capability-resolver');
+const { logger, errorMeta } = require('../lib/logger');
 
 /**
  * POST /api/proxy
@@ -16,16 +17,28 @@ const { parseEndpoint, lookupRef } = require('../lib/capability-resolver');
  *   The proxied response data from the host app.
  */
 async function handleProxy(req, res) {
+  const log = req.log || logger;
+  const startedAt = Date.now();
+
   try {
     const { ref, type, params, data } = req.body;
 
+    log.info('Proxy request', {
+      ref,
+      type,
+      params: params ? Object.keys(params) : [],
+      dataKeys: data ? Object.keys(data) : []
+    });
+
     if (!ref || !type) {
+      log.warn('Proxy invalid request', { reason: 'missing_fields', ref: !!ref, type: !!type });
       res.writeHead(400, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ error: 'Missing required fields: ref, type' }));
       return;
     }
 
     if (type !== 'query' && type !== 'action') {
+      log.warn('Proxy invalid request', { reason: 'invalid_type', type });
       res.writeHead(400, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ error: 'type must be "query" or "action"' }));
       return;
@@ -33,6 +46,7 @@ async function handleProxy(req, res) {
 
     const appOrigin = process.env.APP_ORIGIN;
     if (!appOrigin) {
+      log.error('Proxy misconfigured', { reason: 'missing_app_origin' });
       res.writeHead(500, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ error: 'APP_ORIGIN not configured' }));
       return;
@@ -40,6 +54,7 @@ async function handleProxy(req, res) {
 
     const capabilityMap = loadCapabilityMap();
     if (!capabilityMap) {
+      log.error('Proxy misconfigured', { reason: 'capability_map_missing' });
       res.writeHead(500, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ error: 'Capability map not available' }));
       return;
@@ -48,6 +63,7 @@ async function handleProxy(req, res) {
     // Look up ref in capability map
     const entry = lookupRef(ref, type, capabilityMap);
     if (!entry) {
+      log.warn('Proxy ref not found', { ref, type });
       res.writeHead(404, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ error: `Unknown ${type} ref "${ref}"` }));
       return;
@@ -56,6 +72,7 @@ async function handleProxy(req, res) {
     // Parse endpoint to get method and path
     const resolved = parseEndpoint(entry.endpoint);
     if (!resolved) {
+      log.error('Proxy could not resolve endpoint', { ref, endpoint: entry.endpoint });
       res.writeHead(500, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ error: `Could not resolve endpoint for "${ref}"` }));
       return;
@@ -102,6 +119,7 @@ async function handleProxy(req, res) {
       fetchOptions.body = JSON.stringify(data);
     }
 
+    log.info('Proxying request', { method: resolved.method, targetUrl });
     const response = await fetch(targetUrl, fetchOptions);
 
     // Parse response
@@ -116,7 +134,9 @@ async function handleProxy(req, res) {
     // Return only the data (security boundary — no headers, no cookies)
     res.writeHead(response.status, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ data: responseData }));
+    log.info('Proxy response', { status: response.status, durationMs: Date.now() - startedAt });
   } catch (error) {
+    log.error('Proxy error', { durationMs: Date.now() - startedAt, ...errorMeta(error) });
     res.writeHead(502, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ error: `Proxy error: ${error.message}` }));
   }
