@@ -1,0 +1,26 @@
+name: Security Review
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      # fetch-depth: 2 is required for the security review action to compute the PR diff.
+      # The ref expression below is used in a GitHub Actions `with:` context (not a shell),
+      # so it is not vulnerable to injection.
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 2
+
+      - uses: anthropics/claude-code-security-review@main
+        with:
+          comment-pr: true
+          claude-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
+          exclude-directories: node_modules,samples,test-projects,videos

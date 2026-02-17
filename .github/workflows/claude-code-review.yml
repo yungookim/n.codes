@@ -1,0 +1,37 @@
+name: Claude Code Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  review:
+    # Run on PRs, or on issue comments that mention @claude
+    # Note: the contains() check below is in a GitHub Actions expression context,
+    # not a shell command, so it is not vulnerable to injection.
+    if: >
+      github.event_name == 'pull_request' ||
+      (github.event_name == 'issue_comment' &&
+       contains(github.event.comment.body, '@claude'))
+    runs-on: ubuntu-latest
+    steps:
+      - uses: anthropics/claude-code-action@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            Review this pull request for:
+            - Code quality and adherence to project conventions (vanilla JS, 2-space indent, kebab-case CSS, const/let with semicolons)
+            - Correctness and potential bugs
+            - Performance issues
+            - Test coverage gaps (project requires 80% coverage threshold)
+            - Ensure no pre-defined UI templates or component types are introduced (the project uses agentic UI generation)
+
+            Be concise and actionable. Focus on issues that matter, not style nitpicks already covered by conventions.
